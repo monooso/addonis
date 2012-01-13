@@ -2,19 +2,20 @@
 
 <h1>Package Builder</h1>
 
-<form>
+<?php echo $form_tag; ?>
+
   <!-- Package Information -->
   <fieldset>
     <legend>Package Information</legend>
 
     <div class="clearfix">
-      <label for="pkg_name">Name</label>
-      <div class="input"><input id="pkg_name" name="pkg_name" type="text" /></div>
+      <label for="pkg_title">Title</label>
+      <div class="input"><input id="pkg_title" name="pkg_title" type="text" /></div>
     </div>
 
     <div class="clearfix">
-      <label for="pkg_short_name">Short Name</label>
-      <div class="input"><input id="pkg_short_name" name="pkg_short_name" type="text" /></div>
+      <label for="pkg_name">Short Name</label>
+      <div class="input"><input id="pkg_name" name="pkg_name" type="text" /></div>
     </div>
 
     <div class="clearfix">
@@ -24,7 +25,7 @@
 
     <div class="clearfix">
       <label for="pkg_version">Version</label>
-      <div class="input"><input id="pkg_version" name="pkg_version" type="text" /></div>
+      <div class="input"><input id="pkg_version" name="pkg_version" type="text" value="0.1.0" /></div>
     </div>
 
     <div class="clearfix">
@@ -39,9 +40,9 @@
     </div>
 
     <div class="clearfix">
-      <label for="acc_include">Include Accessory?</label>
+      <label for="pkg_include_acc">Include Accessory?</label>
       <div class="input">
-        <select id="acc_include" name="acc_include">
+        <select id="pkg_include_acc" name="pkg_include_acc">
           <option value="y">Yes</option>
           <option selected="selected" value="n">No</option>
         </select>
@@ -49,9 +50,9 @@
     </div>
 
     <div class="clearfix">
-      <label for="ext_include">Include Extension?</label>
+      <label for="pkg_include_ext">Include Extension?</label>
       <div class="input">
-        <select id="ext_include" name="ext_include">
+        <select id="pkg_include_ext" name="pkg_include_ext">
           <option value="y">Yes</option>
           <option selected="selected" value="n">No</option>
         </select>
@@ -59,9 +60,9 @@
     </div>
 
     <div class="clearfix">
-      <label for="ft_include">Include Fieldtype?</label>
+      <label for="pkg_include_ft">Include Fieldtype?</label>
       <div class="input">
-        <select id="ft_include" name="ft_include">
+        <select id="pkg_include_ft" name="pkg_include_ft">
           <option value="y">Yes</option>
           <option selected="selected" value="n">No</option>
         </select>
@@ -69,9 +70,9 @@
     </div>
 
     <div class="clearfix">
-      <label for="mod_include">Include Module?</label>
+      <label for="pkg_include_mod">Include Module?</label>
       <div class="input">
-        <select id="mod_include" name="mod_include">
+        <select id="pkg_include_mod" name="pkg_include_mod">
           <option value="y">Yes</option>
           <option selected="selected" value="n">No</option>
         </select>
@@ -79,9 +80,9 @@
     </div>
 
     <div class="clearfix">
-      <label for="pi_include">Include Plugin?</label>
+      <label for="pkg_include_pi">Include Plugin?</label>
       <div class="input">
-        <select id="pi_include" name="pi_include">
+        <select id="pkg_include_pi" name="pkg_include_pi">
           <option value="y">Yes</option>
           <option selected="selected" value="n">No</option>
         </select>
@@ -117,9 +118,9 @@
     <legend>Module Information</legend>
 
     <div class="clearfix">
-      <label for="mod_cp">Module has Control Panel?</label>
+      <label for="mod_has_cp">Has Control Panel?</label>
       <div class="input">
-        <select id="mod_cp" name="mod_cp">
+        <select id="mod_has_cp" name="mod_has_cp">
           <option selected="selected" value="y">Yes</option>
           <option value="n">No</option>
         </select>
@@ -134,17 +135,20 @@
         <table class="bordered-table condensed zebra-striped">
           <thead>
             <tr>
-            <th scope="col">&nbsp;</th>
-            <th scope="col">Method</th>
-            <th scope="col">Description</th>
+              <th scope="col">&nbsp;</th>
+              <th scope="col">Method</th>
+              <th scope="col">Description</th>
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-            <td>+ / -</td>
-            <td><input name="mod_actions[0]['method']" type="text" /></td>
-            <td><input name="mod_actions[0]['description']" type="text" /></td>
+          <tbody class="roland">
+            <tr class="roland_row">
+              <td>
+                <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+                <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+              </td>
+              <td><input name="mod_actions[0][method]" type="text" /></td>
+              <td><input name="mod_actions[0][description]" type="text" /></td>
             </tr>
           </tbody>
         </table>
@@ -165,11 +169,14 @@
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-            <td>+ / -</td>
-            <td><input name="mod_tags[0]['name']" type="text" /></td>
-            <td><input name="mod_tags[0]['description']" type="text" /></td>
+          <tbody class="roland">
+            <tr class="roland_row">
+              <td>
+                <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+                <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+              </td>
+              <td><input name="mod_tags[0][name]" type="text" /></td>
+              <td><input name="mod_tags[0][description]" type="text" /></td>
             </tr>
           </tbody>
         </table>
@@ -192,15 +199,15 @@
 
     <!-- Extras : Datatypes -->
     <div class="clearfix">
-      <label for="extras_datatypes">Datatypes</label>
+      <label for="datatypes">Datatypes</label>
       <div class="input">
         <ul class="inputs-list">
           <li>
-            <label><input name="extras_datatypes" type="checkbox" value="ee_member" />
+            <label><input name="datatypes" type="checkbox" value="ee_member" />
               <span>EE Member</span></label>
           </li>
           <li>
-            <label><input name="extras_datatypes" type="checkbox" value="ee_member_group" />
+            <label><input name="datatypes" type="checkbox" value="ee_member_group" />
               <span>EE Member Group</span></label>
           </li>
         </ul>
@@ -209,12 +216,12 @@
 
     <!-- Extras : Helpers -->
     <div class="clearfix">
-      <label for="extras_helpers">Helpers</label>
+      <label for="helpers">Helpers</label>
       <div class="input">
         <ul class="inputs-list">
           <li>
-            <label><input name="extras_helpers" type="checkbox" value="number" />
-              <span>Number</span></label>
+            <label><input name="helpers[]" type="checkbox" value="EI_number_helper" />
+              <span>EI Number Helper</span></label>
           </li>
         </ul>
       </div>
@@ -222,11 +229,11 @@
 
     <!-- Extras : Libraries -->
     <div class="clearfix">
-      <label for="extras_libs">Libraries</label>
+      <label for="libraries">Libraries</label>
       <div class="input">
         <ul class="inputs-list">
           <li>
-            <label><input name="extras_libs" type="checkbox" value="salesforce" />
+            <label><input name="libraries" type="checkbox" value="salesforce" />
               <span>SalesForce</span></label>
           </li>
         </ul>
