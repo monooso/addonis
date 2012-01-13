@@ -90,10 +90,8 @@
     </div>
   </fieldset>
 
-  <hr />
-
   <!-- Accessory -->
-  <fieldset>
+  <fieldset class="addon_type" id="acc_details">
     <legend>Accessory Information</legend>
 
     <!-- Accessory : Sections -->
@@ -125,24 +123,18 @@
     </div>
   </fieldset>
 
-  <hr />
-
   <!-- Extension -->
-  <fieldset>
+  <fieldset class="addon_type" id="ext_details">
     <legend>Extension Information</legend>
   </fieldset>
 
-  <hr />
-
   <!-- Fieldtype -->
-  <fieldset>
+  <fieldset class="addon_type" id="ft_details">
     <legend>Fieldtype Information</legend>
   </fieldset>
 
-  <hr />
-
   <!-- Module -->
-  <fieldset>
+  <fieldset class="addon_type" id="mod_details">
     <legend>Module Information</legend>
 
     <div class="clearfix">
@@ -212,10 +204,8 @@
     </div>
   </fieldset>
 
-  <hr />
-
   <!-- Plugin -->
-  <fieldset>
+  <fieldset class="addon_type" id="pi_details">
     <legend>Plugin Information</legend>
 
     <!-- Plugin : Template Tags -->
@@ -246,8 +236,6 @@
       </div>
     </div>
   </fieldset>
-
-  <hr />
 
   <!-- Extras -->
   <fieldset>
