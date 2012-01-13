@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
- * {pkg_title} 'Module' model.
+ * {pkg_title} module model.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet

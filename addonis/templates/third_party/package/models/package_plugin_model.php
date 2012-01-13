@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
- * {pkg_title} 'Plugin' model.
+ * {pkg_title} plugin model.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
