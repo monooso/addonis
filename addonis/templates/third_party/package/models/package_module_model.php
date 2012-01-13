@@ -146,5 +146,5 @@ class {pkg_name}_module_model extends CI_Model {
 }
 
 
-/* End of file      : {pkg_name_lc}_model.php */
+/* End of file      : {pkg_name_lc}_module_model.php */
 /* File location    : third_party/{pkg_name_lc}/models/{pkg_name_lc}_module_model.php */
