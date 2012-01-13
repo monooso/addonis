@@ -45,6 +45,8 @@ class {pkg_name}_acc {
     $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
 
     // Basic accessory information.
+    $this->EE->lang->loadfile('{pkg_name_lc}');
+
     $this->description 
       = $this->EE->lang->line('{pkg_name_lc}_accessory_description');
 
