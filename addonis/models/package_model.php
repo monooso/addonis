@@ -3,7 +3,8 @@
 /**
  * Package model.
  *
- * @author        Stephen Lewis
+ * @author        Stephen Lewis (http://github.com/experience/)
+ * @copyright     Experience Internet
  * @package       Addonis
  */
 
@@ -211,10 +212,30 @@ class Package_model extends CI_Model {
       }
     }
 
+    // Module CP pages.
+    $has_cp     = ($this->input->post('mod_has_cp', TRUE) == 'y');
+    $mod_pages  = array();
+    $post_pages = $this->input->post('mod_cp_pages', TRUE);
+
+    if ($has_cp && is_array($post_pages))
+    {
+      foreach ($post_pages AS $page)
+      {
+        $page_name = strtolower($page['name']);
+
+        $mod_pages[] = array(
+          'mod_cp_page_name'    => ucfirst($page_name),
+          'mod_cp_page_name_lc' => $page_name,
+          'mod_cp_page_title'   => $page['title']
+        );
+      }
+    }
+
     // Build the return array.
     return array(
       'mod_actions'   => $mod_actions,
-      'mod_has_cp'    => ($this->input->post('mod_has_cp', TRUE) == 'y'),
+      'mod_cp_pages'  => $mod_pages,
+      'mod_has_cp'    => $has_cp,
       'mod_tags'      => $mod_tags
     );
   }
@@ -228,7 +249,7 @@ class Package_model extends CI_Model {
    */
   public function get_module_files()
   {
-    return array(
+    $files = array(
       array(
         'input' => 'third_party/package/mcp.package.php',
         'output' => 'third_party/package/mcp.package.php'
@@ -263,8 +284,25 @@ class Package_model extends CI_Model {
       )
     );
 
-    // @TODO : CP view files.
+    $has_cp     = ($this->input->post('mod_has_cp', TRUE) == 'y');
+    $post_pages = $this->input->post('mod_cp_pages', TRUE);
+
+    if ($has_cp && is_array($post_pages))
+    {
+      foreach ($post_pages AS $page)
+      {
+        $page_name = strtolower($page['name']);
+
+        $files[] = array(
+          'input' => 'third_party/package/views/mod_cp.php',
+          'output' => 'third_party/package/views/mod_' .$page_name .'.php'
+        );
+      }
+    }
+
     // @TODO : Publish Tab files.
+
+    return $files;
   }
 
 

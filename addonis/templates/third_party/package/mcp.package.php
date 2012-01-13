@@ -50,10 +50,6 @@ class {pkg_name}_mcp {
     $this->EE->load->helper('form');
     $this->EE->load->library('table');
 
-    $this->EE->cp->set_breadcrumb(
-      $this->_base_url,
-      $this->EE->lang->line('{pkg_name_lc}_module_name'));
-
     $this->EE->cp->add_to_foot('<script type="text/javascript" src="'
       .$this->_theme_url .'js/cp.js"></script>');
 
@@ -62,25 +58,52 @@ class {pkg_name}_mcp {
     $this->EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="'
       .$this->_theme_url .'css/cp.css" />');
 
-    $nav_array = array(
-      'nav_settings' => $this->_base_url .AMP .'method=settings'
-    );
+    // Set the base breadcrumb.
+    $this->EE->cp->set_breadcrumb(
+      $this->_base_url,
+      $this->EE->lang->line('{pkg_name_lc}_module_name'));
+
+    // Set the in-module navigation.
+    $nav_array = array();
+    {mod_cp_pages}
+    $nav_array['mod_nav_{mod_cp_page_name_lc}'] =
+      $this->_base_url .AMP .'method={mod_cp_page_name_lc}';
+    {/mod_cp_pages}
 
     $this->EE->cp->set_right_nav($nav_array);
   }
 
 
   /**
-   * Module index page.
+   * The module control panel 'home' page. Loads the preferred default CP page.
    *
    * @access  public
    * @return  string
    */
   public function index()
   {
-    return $this->settings();
+    // @TODO : call the 'preferred' CP page method.
   }
 
+  {mod_cp_pages}
+  /**
+   * {mod_cp_page_title} control panel page.
+   *
+   * @access  public
+   * @return  string
+   */
+  public function {mod_cp_page_name_lc}()
+  {
+    // Set the page title.
+    $this->EE->cp->set_variable('cp_page_title',
+      $this->EE->lang->line('mod_nav_{mod_cp_page_name_lc}'));
+
+    $vars = array();
+
+    return $this->EE->load->view('mod_{mod_cp_page_name_lc}', $vars, TRUE);
+  }
+
+  {/mod_cp_pages}
 
   /**
    * Saves the settings.
@@ -101,24 +124,7 @@ class {pkg_name}_mcp {
           'message_failure',
           $lang->line('flashdata__settings_not_saved'));
 
-    $this->EE->functions->redirect($this->_base_url .AMP .'method=settings');
-  }
-
-
-  /**
-   * Settings.
-   *
-   * @access  public
-   * @return  string
-   */
-  public function settings()
-  {
-    $vars = array(
-      'form_action'   => $this->_base_qs .AMP .'method=save_settings',
-      'cp_page_title' => $this->EE->lang->line('hd_settings')
-    );
-
-    return $this->EE->load->view('settings', $vars, TRUE);
+    $this->EE->functions->redirect($this->_base_url);
   }
 
 

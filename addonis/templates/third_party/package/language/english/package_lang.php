@@ -22,6 +22,8 @@ $lang = array(
    * ------------------------------------------------------------ */
   '{pkg_name_lc}_module_name' => '{pkg_title}',
   '{pkg_name_lc}_module_description' => '{pkg_description}',
+  {mod_cp_pages}
+  'mod_nav_{mod_cp_page_name_lc}' => '{mod_cp_page_title}',{/mod_cp_pages}
 
 
   // All done.

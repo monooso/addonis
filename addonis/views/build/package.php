@@ -102,20 +102,20 @@
         <table class="bordered-table condensed zebra-striped">
           <thead>
             <tr>
-            <th scope="col">&nbsp;</th>
             <th scope="col">Title</th>
             <th scope="col">Short Name</th>
+            <th class="roland_actions" scope="col">&nbsp;</th>
             </tr>
           </thead>
 
           <tbody class="roland">
             <tr class="roland_row">
+              <td><input name="acc_sections[0][title]" type="text" /></td>
+              <td><input name="acc_sections[0][name]" type="text" /></td>
               <td>
                 <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
                 <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
               </td>
-              <td><input name="acc_sections[0][title]" type="text" /></td>
-              <td><input name="acc_sections[0][name]" type="text" /></td>
             </tr>
           </tbody>
         </table>
@@ -155,20 +155,20 @@
         <table class="bordered-table condensed zebra-striped">
           <thead>
             <tr>
-              <th scope="col">&nbsp;</th>
               <th scope="col">Method</th>
               <th scope="col">Description</th>
+              <th class="roland_actions" scope="col">&nbsp;</th>
             </tr>
           </thead>
 
           <tbody class="roland">
             <tr class="roland_row">
+              <td><input name="mod_actions[0][method]" type="text" /></td>
+              <td><input name="mod_actions[0][description]" type="text" /></td>
               <td>
                 <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
                 <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
               </td>
-              <td><input name="mod_actions[0][method]" type="text" /></td>
-              <td><input name="mod_actions[0][description]" type="text" /></td>
             </tr>
           </tbody>
         </table>
@@ -183,20 +183,48 @@
         <table class="bordered-table condensed zebra-striped">
           <thead>
             <tr>
-            <th scope="col">&nbsp;</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
+            <th class="roland_actions" scope="col">&nbsp;</th>
             </tr>
           </thead>
 
           <tbody class="roland">
             <tr class="roland_row">
+              <td><input name="mod_tags[0][name]" type="text" /></td>
+              <td><input name="mod_tags[0][description]" type="text" /></td>
               <td>
                 <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
                 <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
               </td>
-              <td><input name="mod_tags[0][name]" type="text" /></td>
-              <td><input name="mod_tags[0][description]" type="text" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Module : CP Pages -->
+    <div class="clearfix">
+      <label>Control Panel Pages</label>
+
+      <div class="input">
+        <table class="bordered-table condensed zebra-striped">
+          <thead>
+            <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Short Name</th>
+            <th class="roland_actions" scope="col">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody class="roland">
+            <tr class="roland_row">
+              <td><input name="mod_cp_pages[0][title]" type="text" /></td>
+              <td><input name="mod_cp_pages[0][name]" type="text" /></td>
+              <td>
+                <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+                <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -216,20 +244,20 @@
         <table class="bordered-table condensed zebra-striped">
           <thead>
             <tr>
-            <th scope="col">&nbsp;</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
+            <th class="roland_actions" scope="col">&nbsp;</th>
             </tr>
           </thead>
 
           <tbody class="roland">
             <tr class="roland_row">
+              <td><input name="pi_tags[0][name]" type="text" /></td>
+              <td><input name="pi_tags[0][description]" type="text" /></td>
               <td>
                 <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
                 <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
               </td>
-              <td><input name="pi_tags[0][name]" type="text" /></td>
-              <td><input name="pi_tags[0][description]" type="text" /></td>
             </tr>
           </tbody>
         </table>
