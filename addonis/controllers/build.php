@@ -81,6 +81,9 @@ class Build extends CI_Controller {
     {
       $template_data = array_merge($template_data,
         $this->package_model->get_accessory_data());
+
+      $template_files = array_merge($template_files,
+        $this->package_model->get_accessory_files());
     }
 
     // Retrieve the Extension data.

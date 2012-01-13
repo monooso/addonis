@@ -29,7 +29,54 @@ class Package_model extends CI_Model {
    */
   public function get_accessory_data()
   {
-    return array();
+    $return = array('acc_sections' => array());
+    $post_sections = $this->input->post('acc_sections', TRUE);
+
+    if (is_array($post_sections))
+    {
+      foreach ($post_sections AS $section)
+      {
+        $section_name = strtolower($section['name']);
+
+        $return['acc_sections'][] = array(
+          'acc_section_name'    => ucfirst($section_name),
+          'acc_section_name_lc' => $section_name,
+          'acc_section_title'   => $section['title']
+        );
+      }
+    }
+
+    return $return;
+  }
+
+
+  /**
+   * Returns an array of template files required by an Accessory.
+   *
+   * @access  public
+   * @return  array
+   */
+  public function get_accessory_files()
+  {
+    $files = array(
+      'third_party/package/acc.package.php',
+      'third_party/package/models/package_accessory_model.php',
+      'third_party/package/tests/test.acc_package.php',
+      'third_party/package/tests/test.package_accessory_model.php'
+    );
+
+    $post_sections = $this->input->post('acc_sections', TRUE);
+
+    if (is_array($post_sections))
+    {
+      foreach ($post_sections AS $section)
+      {
+        $files[] = 'third_party/package/views/acc_'
+          .strtolower($section['name']) .'.php';
+      }
+    }
+
+    return $files;
   }
 
 

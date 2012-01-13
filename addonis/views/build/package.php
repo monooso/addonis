@@ -95,6 +95,34 @@
   <!-- Accessory -->
   <fieldset>
     <legend>Accessory Information</legend>
+
+    <!-- Accessory : Sections -->
+    <div class="clearfix">
+      <label>Sections</label>
+
+      <div class="input">
+        <table class="bordered-table condensed zebra-striped">
+          <thead>
+            <tr>
+            <th scope="col">&nbsp;</th>
+            <th scope="col">Title</th>
+            <th scope="col">Short Name</th>
+            </tr>
+          </thead>
+
+          <tbody class="roland">
+            <tr class="roland_row">
+              <td>
+                <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+                <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+              </td>
+              <td><input name="acc_sections[0][title]" type="text" /></td>
+              <td><input name="acc_sections[0][name]" type="text" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </fieldset>
 
   <hr />
