@@ -59,10 +59,22 @@ class Package_model extends CI_Model {
   public function get_accessory_files()
   {
     $files = array(
-      'third_party/package/acc.package.php',
-      'third_party/package/models/package_accessory_model.php',
-      'third_party/package/tests/test.acc_package.php',
-      'third_party/package/tests/test.package_accessory_model.php'
+      array(
+        'input' => 'third_party/package/acc.package.php',
+        'output' => 'third_party/package/acc.package.php'
+      ),
+      array(
+        'input' => 'third_party/package/models/package_accessory_model.php',
+        'output' => 'third_party/package/models/package_accessory_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.acc_package.php',
+        'output' => 'third_party/package/tests/test.acc_package.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.package_accessory_model.php',
+        'output' => 'third_party/package/tests/test.package_accessory_model.php'
+      )
     );
 
     $post_sections = $this->input->post('acc_sections', TRUE);
@@ -71,8 +83,13 @@ class Package_model extends CI_Model {
     {
       foreach ($post_sections AS $section)
       {
-        $files[] = 'third_party/package/views/acc_'
+        $output = 'third_party/package/views/acc_'
           .strtolower($section['name']) .'.php';
+
+        $files[] = array(
+          'input' => 'third_party/package/views/acc_section.php',
+          'output' => $output
+        );
       }
     }
 
@@ -134,7 +151,10 @@ class Package_model extends CI_Model {
 
     foreach ($post_helpers AS $post_helper)
     {
-      $helpers[] = 'third_party/package/helpers/' .$post_helper .'.php';
+      $helpers[] = array(
+        'input' => 'third_party/package/helpers/' .$post_helper .'.php',
+        'output' => 'third_party/package/helpers/' .$post_helper .'.php'
+      );
     }
 
     return $helpers;
@@ -209,17 +229,42 @@ class Package_model extends CI_Model {
   public function get_module_files()
   {
     return array(
-      'third_party/package/mcp.package.php',
-      'third_party/package/mod.package.php',
-      'third_party/package/upd.package.php',
-      'third_party/package/models/package_module_model.php',
-      'third_party/package/tests/test.mcp_package.php',
-      'third_party/package/tests/test.mod_package.php',
-      'third_party/package/tests/test.package_module_model.php',
-      'third_party/package/tests/test.upd_package.php'
-
-      /* @TODO : CP view files */
+      array(
+        'input' => 'third_party/package/mcp.package.php',
+        'output' => 'third_party/package/mcp.package.php'
+      ),
+      array(
+        'input' => 'third_party/package/mod.package.php',
+        'output' => 'third_party/package/mod.package.php'
+      ),
+      array(
+        'input' => 'third_party/package/upd.package.php',
+        'output' => 'third_party/package/upd.package.php'
+      ),
+      array(
+        'input' => 'third_party/package/models/package_module_model.php',
+        'output' => 'third_party/package/models/package_module_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.mcp_package.php',
+        'output' => 'third_party/package/tests/test.mcp_package.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.mod_package.php',
+        'output' => 'third_party/package/tests/test.mod_package.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.package_module_model.php',
+        'output' => 'third_party/package/tests/test.package_module_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.upd_package.php',
+        'output' => 'third_party/package/tests/test.upd_package.php'
+      )
     );
+
+    // @TODO : CP view files.
+    // @TODO : Publish Tab files.
   }
 
 
@@ -254,10 +299,22 @@ class Package_model extends CI_Model {
   public function get_package_files()
   {
     $files = array(
-      'README.md',
-      'third_party/package/language/english/package_lang.php',
-      'third_party/package/models/package_model.php',
-      'third_party/package/tests/test.package_model.php'
+      array(
+        'input' => 'README.md',
+        'output' => 'README.md'
+      ),
+      array(
+        'input' => 'third_party/package/language/english/package_lang.php',
+        'output' => 'third_party/package/language/english/package_lang.php'
+      ),
+      array(
+        'input' => 'third_party/package/models/package_model.php',
+        'output' => 'third_party/package/models/package_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.package_model.php',
+        'output' => 'third_party/package/tests/test.package_model.php'
+      )
     );
 
     /**
@@ -270,7 +327,10 @@ class Package_model extends CI_Model {
 
     if (in_array($post_license, array('client', 'commercial', 'free')))
     {
-      $files[] = 'LICENSE_' .strtoupper($post_license) .'.txt';
+      $files[] = array(
+        'input' => 'LICENSE_' .strtoupper($post_license) .'.txt',
+        'output' => 'LICENSE.txt'
+      );
     }
 
     return $files;
@@ -313,12 +373,22 @@ class Package_model extends CI_Model {
   public function get_plugin_files()
   {
     return array(
-      'third_party/package/pi.package.php',
-      'third_party/package/models/package_plugin_model.php',
-      'third_party/package/tests/test.package_plugin_model.php',
-      'third_party/package/tests/test.pi_package.php'
-
-      /* @TODO : CP view files */
+      array(
+        'input' => 'third_party/package/pi.package.php',
+        'output' => 'third_party/package/pi.package.php'
+      ),
+      array(
+        'input' => 'third_party/package/models/package_plugin_model.php',
+        'output' => 'third_party/package/models/package_plugin_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.package_plugin_model.php',
+        'output' => 'third_party/package/tests/test.package_plugin_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.pi_package.php',
+        'output' => 'third_party/package/tests/test.pi_package.php'
+      )
     );
   }
 

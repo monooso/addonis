@@ -150,12 +150,15 @@ class Build extends CI_Controller {
 
     foreach ($template_files AS $template_file)
     {
-      if ( ! $source = @file_get_contents($template_base_path .$template_file))
+      $input = $template_file['input'];
+      $output = $template_file['output'];
+
+      if ( ! $source = @file_get_contents($template_base_path .$input))
       {
         continue;
       }
 
-      $filename = str_replace('package', $package_name, $template_file);
+      $filename = str_replace('package', $package_name, $output);
       $source   = $this->parser->parse_string($source, $template_data, TRUE);
 
       $this->zip->add_data($filename, $source);
