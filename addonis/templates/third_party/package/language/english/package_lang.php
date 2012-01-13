@@ -10,6 +10,16 @@
 
 $lang = array(
 
+  /* --------------------------------------------------------------
+   * ACCESSORY
+   * ------------------------------------------------------------ */
+  '{pkg_name_lc}_accessory_name' => '{pkg_title}',
+  '{pkg_name_lc}_accessory_description' => '{pkg_description}',
+
+
+  /* --------------------------------------------------------------
+   * MODULE
+   * ------------------------------------------------------------ */
   '{pkg_name_lc}_module_name' => '{pkg_title}',
   '{pkg_name_lc}_module_description' => '{pkg_description}',
 
