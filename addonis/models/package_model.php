@@ -238,7 +238,41 @@ class Package_model extends CI_Model {
    */
   public function get_plugin_data()
   {
-    return array();
+    // Plugin template tags.
+    $return     = array('pi_tags' => array());
+    $post_tags  = $this->input->post('pi_tags', TRUE);
+
+    if (is_array($post_tags))
+    {
+      foreach ($post_tags AS $tag)
+      {
+        $return['pi_tags'][] = array(
+          'pi_tag_description'  => $tag['description'],
+          'pi_tag_name'         => $tag['name']
+        );
+      }
+    }
+
+    return $return;
+  }
+
+
+  /**
+   * Returns an array of template files required by a Plugin.
+   *
+   * @access  public
+   * @return  array
+   */
+  public function get_plugin_files()
+  {
+    return array(
+      'third_party/package/pi.package.php',
+      'third_party/package/models/package_plugin_model.php',
+      'third_party/package/tests/test.package_plugin_model.php',
+      'third_party/package/tests/test.pi_package.php'
+
+      /* @TODO : CP view files */
+    );
   }
 
 
