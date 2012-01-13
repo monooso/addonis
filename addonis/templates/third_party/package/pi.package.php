@@ -51,9 +51,10 @@ class {pkg_name} {
    * Constructor.
    *
    * @access  public
+   * @param   string    $content    Field content if used for field formatting.
    * @return  void
    */
-  public function __construct()
+  public function __construct($content = '')
   {
     $this->EE =& get_instance();
 
