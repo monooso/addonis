@@ -189,6 +189,34 @@
   <!-- Plugin -->
   <fieldset>
     <legend>Plugin Information</legend>
+
+    <!-- Plugin : Template Tags -->
+    <div class="clearfix">
+      <label>Template Tags</label>
+
+      <div class="input">
+        <table class="bordered-table condensed zebra-striped">
+          <thead>
+            <tr>
+            <th scope="col">&nbsp;</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            </tr>
+          </thead>
+
+          <tbody class="roland">
+            <tr class="roland_row">
+              <td>
+                <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+                <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+              </td>
+              <td><input name="pi_tags[0][name]" type="text" /></td>
+              <td><input name="pi_tags[0][description]" type="text" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </fieldset>
 
   <hr />
