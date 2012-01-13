@@ -53,7 +53,31 @@ class Test_{pkg_name_lc}_mcp extends Testee_unit_test_case {
     $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
     $this->_subject   = new {pkg_name}_mcp();
   }
+
+  {mod_cp_pages}
+  public function test__{mod_cp_page_name_lc}__sets_page_title_and_loads_correct_view()
+  {
+    $page_title = 'Example Page Title';
+    $view_string = '<p>Look at the parking lot, Larry.</p>';
+
+    $this->EE->lang->expect('line', array('mod_nav_{mod_cp_page_name_lc}'));
+    $this->EE->lang->setReturnValue('line', $page_title,
+      array('mod_nav_{mod_cp_page_name_lc}'));
+
+    $this->EE->cp->expectOnce('set_variable',
+      array('cp_page_title', $page_title));
+
+    $this->EE->load->expectOnce('view',
+      array('mod_{mod_cp_page_name_lc}', '*', TRUE));
+
+    $this->EE->load->setReturnValue('view', $view_string,
+      array('mod_{mod_cp_page_name_lc}', '*', TRUE));
   
+    $this->assertIdentical($view_string,
+      $this->_subject->{mod_cp_page_name_lc}());
+  }
+
+  {/mod_cp_pages}
 
 }
 
