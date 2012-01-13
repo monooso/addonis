@@ -1,4 +1,4 @@
-<?php if ( ! defined('EXT')) exit('Invalid file request.');
+<?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
  * {pkg_title} 'Module' model.
