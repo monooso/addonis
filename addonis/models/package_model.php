@@ -65,6 +65,10 @@ class Package_model extends CI_Model {
         'output' => 'third_party/package/acc.package.php'
       ),
       array(
+        'input' => 'third_party/package/language/english/package_acc_lang.php',
+        'output' => 'third_party/package/language/english/package_acc_lang.php'
+      ),
+      array(
         'input' => 'third_party/package/models/package_accessory_model.php',
         'output' => 'third_party/package/models/package_accessory_model.php'
       ),
@@ -124,15 +128,15 @@ class Package_model extends CI_Model {
     {
       foreach ($post_hooks AS $hook)
       {
+        // Single array element for now, but will grow over time.
         $data['ext_hooks'][] = array(
-          'ext_hook_description'  => $hook['description'],
-          'ext_hook_hook'         => strtolower($hook['hook'])
+          'ext_hook_hook' => strtolower($hook['hook'])
         );
       }
     }
 
     // Alphabetise by hook name.
-    usort($data, function($a, $b) {
+    usort($data['ext_hooks'], function($a, $b) {
       return $a['ext_hook_hook'] <= $b['ext_hook_hook'] ? -1 : 1;});
 
     return $data;
@@ -151,6 +155,10 @@ class Package_model extends CI_Model {
       array(
         'input' => 'third_party/package/ext.package.php',
         'output' => 'third_party/package/ext.package.php'
+      ),
+      array(
+        'input' => 'third_party/package/language/english/package_ext_lang.php',
+        'output' => 'third_party/package/language/english/package_ext_lang.php'
       ),
       array(
         'input' => 'third_party/package/models/package_extension_model.php',
@@ -546,7 +554,7 @@ class Package_model extends CI_Model {
     }
 
     // Alphabetise by tag name.
-    usort($return['pi_tags'], function($a, $b) {
+    usort($data['pi_tags'], function($a, $b) {
       return $a['pi_tag_name'] <= $b['pi_tag_name'] ? -1 : 1;});
 
     return $data;
