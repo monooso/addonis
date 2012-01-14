@@ -31,16 +31,21 @@ class MY_Parser extends CI_Parser {
     $output = $source;
     $total_matches = count($matches[0]);
 
+    // For each match, loop through all of the data.
     for ($match_count = 0; $match_count < $total_matches; $match_count++)
     {
+      $data_count = 0;
       $match_output = '';
+      $total_results = count($data);
 
-      // For each match, loop through all of the data.
+      // Process each data row.
       foreach ($data AS $data_row)
       {
         $data_source = $matches[1][$match_count];
 
-        // Process each data row.
+        $data_row = array_merge($data_row,
+          array('count' => $data_count++, 'total_results' => $total_results));
+
         foreach ($data_row AS $item_key => $item_val)
         {
           $data_source = is_array($item_val)
