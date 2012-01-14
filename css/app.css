@@ -1,0 +1,36 @@
+/* Foundation v2.1.4 http://foundation.zurb.com */
+/* Artfully masterminded by ZURB  */
+
+/* -------------------------------------------------- 
+   Table of Contents
+-----------------------------------------------------
+:: Shared Styles
+:: Page Name 1
+:: Page Name 2
+*/
+
+body {
+  padding-top : 60px;     /* Accommodate the topbar */
+}
+
+fieldset {
+  border-bottom : 1px solid rgb(238, 238, 238);
+  padding-top : 19px;
+}
+
+/* =roland
+ * ------------------------------------------------------------ */
+.roland_actions {
+  width : 41px;
+}
+
+.add_row,
+.remove_row {
+  cursor : pointer;
+  display : inline-block;
+  padding-top : 5px;
+}
+
+.add_row {
+  margin-right : 5px;
+}
