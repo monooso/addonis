@@ -38,6 +38,9 @@ class {pkg_name}_acc {
     $this->EE->load->add_package_path(
       PATH_THIRD .'{pkg_name_lc}/');
 
+    // Still need to specify the package...
+    $this->EE->lang->loadfile('{pkg_name_lc}_acc', '{pkg_name_lc}');
+
     $this->EE->load->model('{pkg_name_lc}_accessory_model');
     $this->EE->load->model('{pkg_name_lc}_model');
 
@@ -45,8 +48,6 @@ class {pkg_name}_acc {
     $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
 
     // Basic accessory information.
-    $this->EE->lang->loadfile('{pkg_name_lc}');
-
     $this->description 
       = $this->EE->lang->line('{pkg_name_lc}_accessory_description');
 
