@@ -169,7 +169,8 @@ class Build extends CI_Controller {
     }
 
     // Download the ZIP.
-    $this->zip->download($package_name .'.zip');
+    $this->zip->download($package_name .'-'
+      .$template_data['pkg_version'] .'.zip');
   }
 
 
