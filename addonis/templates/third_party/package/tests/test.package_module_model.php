@@ -47,9 +47,8 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
 
     $this->EE->db->expectAt(0, 'insert', array('modules', $module_data));
 
-    // Register the actions.
     {mod_actions}
-    $this->EE->db->expectAt(1, 'insert', array('actions', array(
+    $this->EE->db->expectAt({count} + 1, 'insert', array('actions', array(
       'class'   => ucfirst($package_name),
       'method'  => '{mod_action_method}'
     )));

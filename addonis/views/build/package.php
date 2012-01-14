@@ -136,7 +136,6 @@
           <thead>
             <tr>
             <th scope="col">Hook</th>
-            <th scope="col">Method Description</th>
             <th class="roland_actions" scope="col">&nbsp;</th>
             </tr>
           </thead>
@@ -150,7 +149,6 @@
                 <?php endforeach; ?>
                 </select>
               </td>
-              <td><input name="ext_hooks[0][description]" type="text" /></td>
               <td>
                 <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
                 <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>

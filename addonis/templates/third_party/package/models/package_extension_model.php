@@ -1,7 +1,7 @@
 <?php if ( ! defined('EXT')) exit('Invalid file request.');
 
 /**
- * {pkg_title} 'Extension' model.
+ * {pkg_title} extension model.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
@@ -10,6 +10,7 @@
 
 class {pkg_name}_extension_model extends CI_Model {
 
+  private $EE;
 
   /* --------------------------------------------------------------
   * PUBLIC METHODS
@@ -24,6 +25,7 @@ class {pkg_name}_extension_model extends CI_Model {
   public function __construct()
   {
     parent::__construct();
+    $this->EE =& get_instance();
   }
 
 
@@ -31,36 +33,39 @@ class {pkg_name}_extension_model extends CI_Model {
    * Installs the extension.
    *
    * @access  public
-   * @param   array        $hooks        The extension hooks.
-   * @return  bool
+   * @param   string    $class      The extension class.
+   * @param   string    $version    The extension version.
+   * @param   array     $hooks      The extension hooks.
+   * @return  void
    */
-  public function install_extension(Array $hooks = array())
+  public function install($class, $version, Array $hooks)
   {
-    if ( ! $hooks)
+    // Guard against nonsense.
+    if ( ! is_string($class) OR $class == ''
+      OR ! is_string($version) OR $version == ''
+      OR ! $hooks
+    )
     {
       return;
     }
 
-    foreach ($hooks AS $hook)
-    {
-      if ( ! is_string($hook))
-      {
-        return;
-      }
-    }
-
     $default_hook_data = array(
-      'class'     => $this->_extension_class,
+      'class'     => $class,
       'enabled'   => 'y',
       'hook'      => '',
       'method'    => '',
       'priority'  => '5',
       'settings'  => '',
-      'version'   => $this->get_package_version()
+      'version'   => $version
     );
 
     foreach ($hooks AS $hook)
     {
+      if ( ! is_string($hook) OR $hook == '')
+      {
+        continue;
+      }
+
       $this->EE->db->insert('extensions', array_merge(
         $default_hook_data,
         array('hook' => $hook, 'method' => 'on_' .$hook)
@@ -73,12 +78,17 @@ class {pkg_name}_extension_model extends CI_Model {
    * Uninstalls the extension.
    *
    * @access    public
+   * @param     string    $class    The extension class.
    * @return    void
    */
-  public function uninstall_extension()
+  public function uninstall($class)
   {
-    $this->EE->db->delete('extensions',
-      array('class' => $this->_extension_class));
+    if ( ! is_string($class) OR $class == '')
+    {
+      return;
+    }
+
+    $this->EE->db->delete('extensions', array('class' => $class));
   }
 
 
@@ -86,26 +96,33 @@ class {pkg_name}_extension_model extends CI_Model {
    * Updates the extension.
    *
    * @access  public
-   * @param   string    $installed_version    The installed version.
-   * @param   string    $package_version      The package version.
+   * @param   string    $class        The extension class.
+   * @param   string    $installed    The installed version.
+   * @param   string    $package      The package version.
    * @return  bool
    */
-  public function update_extension($installed_version = '',
-    $package_version = ''
-  )
+  public function update($class, $installed, $package)
   {
-    if ( ! $installed_version
-      OR version_compare($installed_version, $package_version, '>=')
+    // Can't do anything without valid data.
+    if ( ! is_string($class) OR $class == ''
+      OR ! is_string($installed) OR $installed == ''
+      OR ! is_string($package) OR $package == ''
     )
     {
       return FALSE;
     }
 
-    $this->EE->db->update(
-      'extensions',
-      array('version' => $package_version),
-      array('class'   => $this->_extension_class)
-    );
+    // Up to date?
+    if (version_compare($installed, $package, '>='))
+    {
+      return FALSE;
+    }
+
+    // Update the version number in the database.
+    $this->EE->db->update('extensions',
+      array('version' => $package), array('class' => $class));
+
+    return TRUE;
   }
 
 
