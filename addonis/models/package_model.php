@@ -118,7 +118,53 @@ class Package_model extends CI_Model {
    */
   public function get_extension_data()
   {
-    return array();
+    $data = array('ext_hooks' => array());
+
+    if (is_array(($post_hooks = $this->input->post('ext_hooks', TRUE))))
+    {
+      foreach ($post_hooks AS $hook)
+      {
+        $data['ext_hooks'][] = array(
+          'ext_hook_description'  => $hook['description'],
+          'ext_hook_hook'         => strtolower($hook['hook'])
+        );
+      }
+    }
+
+    // Alphabetise by hook name.
+    usort($data, function($a, $b) {
+      return $a['ext_hook_hook'] <= $b['ext_hook_hook'] ? -1 : 1;});
+
+    return $data;
+  }
+
+
+  /**
+   * Returns an array of template files required by an Extension.
+   *
+   * @access  public
+   * @return  array
+   */
+  public function get_extension_files()
+  {
+    return array(
+      array(
+        'input' => 'third_party/package/ext.package.php',
+        'output' => 'third_party/package/ext.package.php'
+      ),
+      array(
+        'input' => 'third_party/package/models/package_extension_model.php',
+        'output' => 'third_party/package/models/package_extension_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.package_extension_model.php',
+        'output' => 'third_party/package/tests/test.package_extension_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.ext_package.php',
+        'output' => 'third_party/package/tests/test.ext_package.php'
+      )
+    );
   }
 
 
@@ -271,10 +317,9 @@ class Package_model extends CI_Model {
   public function get_module_data()
   {
     // Module actions.
-    $mod_actions  = array();
-    $post_actions = $this->input->post('mod_actions', TRUE);
+    $mod_actions = array();
 
-    if (is_array($post_actions))
+    if (is_array(($post_actions = $this->input->post('mod_actions', TRUE))))
     {
       foreach ($post_actions AS $action)
       {
@@ -285,11 +330,15 @@ class Package_model extends CI_Model {
       }
     }
 
-    // Module template tags.
-    $mod_tags   = array();
-    $post_tags  = $this->input->post('mod_tags', TRUE);
+    // Alphabetise by action method.
+    usort($mod_actions, function($a, $b) {
+      return $a['mod_action_method'] <= $b['mod_action_method'] ? -1 : 1;});
 
-    if (is_array($post_tags))
+
+    // Module template tags.
+    $mod_tags = array();
+
+    if (is_array(($post_tags = $this->input->post('mod_tags', TRUE))))
     {
       foreach ($post_tags AS $tag)
       {
@@ -300,12 +349,18 @@ class Package_model extends CI_Model {
       }
     }
 
+    // Alphabetise by tag name.
+    usort($mod_tags, function($a, $b) {
+      return $a['mod_tag_name'] <= $b['mod_tag_name'] ? -1 : 1;});
+
+
     // Module CP pages.
     $has_cp     = ($this->input->post('mod_has_cp', TRUE) == 'y');
     $mod_pages  = array();
-    $post_pages = $this->input->post('mod_cp_pages', TRUE);
 
-    if ($has_cp && is_array($post_pages))
+    if ($has_cp
+      && is_array(($post_pages = $this->input->post('mod_cp_pages', TRUE)))
+    )
     {
       foreach ($post_pages AS $page)
       {
@@ -318,6 +373,11 @@ class Package_model extends CI_Model {
         );
       }
     }
+
+    // Alphabetise by page name.
+    usort($mod_pages, function($a, $b) {
+      return $a['mod_cp_page_name'] <= $b['mod_cp_page_name'] ? -1 : 1;});
+
 
     // Build the return array.
     return array(
@@ -472,21 +532,24 @@ class Package_model extends CI_Model {
   public function get_plugin_data()
   {
     // Plugin template tags.
-    $return     = array('pi_tags' => array());
-    $post_tags  = $this->input->post('pi_tags', TRUE);
+    $data = array('pi_tags' => array());
 
-    if (is_array($post_tags))
+    if (is_array(($post_tags = $this->input->post('pi_tags', TRUE))))
     {
       foreach ($post_tags AS $tag)
       {
-        $return['pi_tags'][] = array(
+        $data['pi_tags'][] = array(
           'pi_tag_description'  => $tag['description'],
-          'pi_tag_name'         => $tag['name']
+          'pi_tag_name'         => strtolower($tag['name'])
         );
       }
     }
 
-    return $return;
+    // Alphabetise by tag name.
+    usort($return['pi_tags'], function($a, $b) {
+      return $a['pi_tag_name'] <= $b['pi_tag_name'] ? -1 : 1;});
+
+    return $data;
   }
 
 
