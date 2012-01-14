@@ -126,6 +126,40 @@
   <!-- Extension -->
   <fieldset class="addon_type" id="ext_details">
     <legend>Extension Information</legend>
+
+    <!-- Extension : Hooks -->
+    <div class="clearfix">
+      <label>Hooks</label>
+
+      <div class="input">
+        <table class="bordered-table condensed zebra-striped">
+          <thead>
+            <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">Method Description</th>
+            <th class="roland_actions" scope="col">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody class="roland">
+            <tr class="roland_row">
+              <td>
+                <select name="ext_hooks[0][hook]">
+                <?php foreach ($hooks AS $hook): ?>
+                  <option value="<?php echo $hook; ?>"><?php echo $hook; ?></option>
+                <?php endforeach; ?>
+                </select>
+              </td>
+              <td><input name="ext_hooks[0][description]" type="text" /></td>
+              <td>
+                <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+                <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </fieldset>
 
   <!-- Fieldtype -->

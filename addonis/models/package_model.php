@@ -123,6 +123,94 @@ class Package_model extends CI_Model {
 
 
   /**
+   * Returns an array of all the available extension hooks.
+   *
+   * @access  public
+   * @return  array
+   */
+  public function get_extension_hooks()
+  {
+    return array(
+      'channel_entries_query_result',
+      'channel_entries_row',
+      'channel_entries_tagdata',
+      'channel_entries_tagdata_end',
+      'channel_module_calendar_start',
+      'channel_module_categories_start',
+      'channel_module_category_heading_start',
+      'comment_entries_comment_format',
+      'comment_entries_tagdata',
+      'comment_form_end',
+      'comment_form_hidden_fields',
+      'comment_form_tagdata',
+      'comment_preview_comment_format',
+      'comment_preview_tagdata',
+      'cp_css_end',
+      'cp_js_end',
+      'cp_member_login',
+      'cp_member_logout',
+      'cp_members_member_create',
+      'cp_members_member_create',
+      'cp_members_member_create_start',
+      'cp_members_member_create_start',
+      'cp_members_member_delete_end',
+      'cp_members_validate_members',
+      'cp_menu_array',
+      'create_captcha_start',
+      'delete_comment_additional',
+      'delete_entries_end',
+      'delete_entries_loop',
+      'delete_entries_start',
+      'edit_template_start',
+      'email_module_send_email_end',
+      'email_module_tellafriend_override',
+      'entry_submission_absolute_end',
+      'entry_submission_end',
+      'entry_submission_ready',
+      'entry_submission_redirect',
+      'entry_submission_start',
+      'files_after_delete',
+      'foreign_character_conversion_array',
+      'foreign_character_conversion_array',
+      'foreign_character_conversion_array',
+      'foreign_character_conversion_array',
+      'form_declaration_modify_data',
+      'form_declaration_return',
+      'insert_comment_end',
+      'insert_comment_insert_array',
+      'insert_comment_preferences_sql',
+      'insert_comment_start',
+      'login_authenticate_start',
+      'member_edit_preferences',
+      'member_member_login_multi',
+      'member_member_login_single',
+      'member_member_login_start',
+      'member_member_logout',
+      'member_member_register',
+      'member_member_register',
+      'member_member_register_start',
+      'member_member_register_start',
+      'member_register_validate_members',
+      'member_update_preferences',
+      'publish_form_channel_preferences',
+      'publish_form_entry_data',
+      'safecracker_entry_form_absolute_start',
+      'safecracker_entry_form_tagdata_end',
+      'safecracker_entry_form_tagdata_start',
+      'safecracker_submit_entry_end',
+      'safecracker_submit_entry_start',
+      'submit_new_entry_start',
+      'typography_parse_type_end',
+      'typography_parse_type_start',
+      'update_comment_additional',
+      'update_multi_entries_loop',
+      'update_multi_entries_start',
+      'update_template_end'
+    );
+  }
+
+
+  /**
    * Retrieves the Fieldtype POST data.
    *
    * @access  public

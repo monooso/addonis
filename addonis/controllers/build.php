@@ -51,6 +51,7 @@ class Build extends CI_Controller {
 
     $view_data = array(
       'form_tag'    => form_open('package', '', array('build_package' => 'y')),
+      'hooks'       => $this->package_model->get_extension_hooks(),
       'meta_title'  => ucfirst($view)
     );
 
