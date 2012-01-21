@@ -12,7 +12,6 @@ class {pkg_name}_upd {
 
   private $EE;
   private $_mod_model;
-  private $_pkg_model;
 
   public $version;
 
@@ -34,13 +33,10 @@ class {pkg_name}_upd {
     $this->EE->load->add_package_path(
       PATH_THIRD .'{pkg_name_lc}/');
 
-    $this->EE->load->model('{pkg_name_lc}_model');
     $this->EE->load->model('{pkg_name_lc}_module_model');
-
-    $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
     $this->_mod_model = $this->EE->{pkg_name_lc}_module_model;
 
-    $this->version = $this->_pkg_model->get_package_version();
+    $this->version = $this->_mod_model->get_package_version();
   }
 
 
@@ -52,7 +48,7 @@ class {pkg_name}_upd {
    */
   public function install()
   {
-    return $this->_mod_model->install($this->_pkg_model->get_package_name(),
+    return $this->_mod_model->install($this->_mod_model->get_package_name(),
       $this->version);
   }
 
@@ -65,7 +61,7 @@ class {pkg_name}_upd {
    */
   public function uninstall()
   {
-    return $this->_mod_model->uninstall($this->_pkg_model->get_package_name());
+    return $this->_mod_model->uninstall($this->_mod_model->get_package_name());
   }
 
 
