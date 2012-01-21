@@ -47,12 +47,18 @@ class {pkg_name}_mcp {
     $this->EE->load->library('table');
 
     $this->EE->cp->add_to_foot('<script type="text/javascript" src="'
-      .$this->_theme_url .'js/cp.js"></script>');
+      .$this->_theme_url .'js/common.js"></script>');
+
+    $this->EE->cp->add_to_foot('<script type="text/javascript" src="'
+      .$this->_theme_url .'js/mod.js"></script>');
 
     $this->EE->javascript->compile();
 
     $this->EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="'
-      .$this->_theme_url .'css/cp.css" />');
+      .$this->_theme_url .'css/common.css" />');
+
+    $this->EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="'
+      .$this->_theme_url .'css/mod.css" />');
 
     // Set the base breadcrumb.
     $this->EE->cp->set_breadcrumb(
