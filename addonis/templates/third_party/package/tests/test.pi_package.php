@@ -9,13 +9,11 @@
  */
 
 require_once PATH_THIRD .'{pkg_name_lc}/pi.{pkg_name_lc}.php';
-require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_model.php';
 require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_plugin_model.php';
 
 class Test_{pkg_name_lc} extends Testee_unit_test_case {
 
   private $_pi_model;
-  private $_pkg_model;
   private $_subject;
 
 
@@ -33,10 +31,7 @@ class Test_{pkg_name_lc} extends Testee_unit_test_case {
   {
     parent::setUp();
 
-    // Generate the mock models.
-    Mock::generate('{pkg_name}_model',
-      get_class($this) .'_mock_model');
-
+    // Generate the mock model.
     Mock::generate('{pkg_name}_plugin_model',
       get_class($this) .'_mock_plugin_model');
     
@@ -46,11 +41,9 @@ class Test_{pkg_name_lc} extends Testee_unit_test_case {
      * can just assign the mock models here.
      */
 
-    $this->EE->{pkg_name_lc}_model = $this->_get_mock('model');
     $this->EE->{pkg_name_lc}_plugin_model = $this->_get_mock('plugin_model');
 
     $this->_pi_model  = $this->EE->{pkg_name_lc}_plugin_model;
-    $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
     $this->_subject   = new {pkg_name}();
   }
 
