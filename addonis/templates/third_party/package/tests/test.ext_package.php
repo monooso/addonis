@@ -10,12 +10,10 @@
 
 require_once PATH_THIRD .'{pkg_name_lc}/ext.{pkg_name_lc}.php';
 require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_extension_model.php';
-require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_model.php';
 
 class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
 
   private $_ext_model;
-  private $_pkg_model;
   private $_pkg_version;
   private $_subject;
 
@@ -34,12 +32,9 @@ class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
   {
     parent::setUp();
 
-    // Generate the mock models.
+    // Generate the mock model.
     Mock::generate('{pkg_name}_extension_model',
       get_class($this) .'_mock_ext_model');
-    
-    Mock::generate('{pkg_name}_model',
-      get_class($this) .'_mock_model');
 
     /**
      * The subject loads the models using $this->EE->load->model().
@@ -47,15 +42,12 @@ class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
      * can just assign the mock models here.
      */
 
-    $this->EE->{pkg_name_lc}_model = $this->_get_mock('model');
     $this->EE->{pkg_name_lc}_extension_model = $this->_get_mock('ext_model');
-
     $this->_ext_model = $this->EE->{pkg_name_lc}_extension_model;
-    $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
 
     // Called in the constructor.
     $this->_pkg_version = '2.3.4';
-    $this->_pkg_model->setReturnValue('get_package_version',
+    $this->_ext_model->setReturnValue('get_package_version',
       $this->_pkg_version);
 
     $this->_subject = new {pkg_name}_ext();
