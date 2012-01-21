@@ -11,11 +11,11 @@
 
 class {pkg_name}_model extends CI_Model {
 
-  private $EE;
-  private $_namespace;
-  private $_package_name;
-  private $_package_version;
-  private $_site_id;
+  protected $EE;
+  protected $_namespace;
+  protected $_package_name;
+  protected $_package_version;
+  protected $_site_id;
 
 
   /* --------------------------------------------------------------
@@ -29,7 +29,7 @@ class {pkg_name}_model extends CI_Model {
    * @access  private
    * @return  array
    */
-  private function &_get_package_cache()
+  protected function &_get_package_cache()
   {
     return $this->EE->session->cache[$this->_namespace][$this->_package_name];
   }

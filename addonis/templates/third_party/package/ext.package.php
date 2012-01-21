@@ -97,6 +97,11 @@ class {pkg_name}_ext {
    */
   public function on_{ext_hook_hook}()
   {
+    if (($last_call = $this->EE->extensions->last_call) === FALSE)
+    {
+      // No last call data.
+    }
+
     error_log('Handling the {ext_hook_hook} extension hook.');
   }
 

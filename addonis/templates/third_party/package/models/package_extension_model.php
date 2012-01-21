@@ -8,9 +8,9 @@
  * @package         {pkg_name}
  */
 
-class {pkg_name}_extension_model extends CI_Model {
+require_once dirname(__FILE__) .'/{pkg_name_lc}_model.php';
 
-  private $EE;
+class {pkg_name}_extension_model extends {pkg_name}_model {
 
   /* --------------------------------------------------------------
   * PUBLIC METHODS
@@ -25,7 +25,6 @@ class {pkg_name}_extension_model extends CI_Model {
   public function __construct()
   {
     parent::__construct();
-    $this->EE =& get_instance();
   }
 
 

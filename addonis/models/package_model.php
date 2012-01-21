@@ -61,6 +61,14 @@ class Package_model extends CI_Model {
   {
     $files = array(
       array(
+        'input' => 'themes/third_party/package/css/acc.css',
+        'output' => 'themes/third_party/package/css/acc.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/acc.js',
+        'output' => 'themes/third_party/package/js/acc.js'
+      ),
+      array(
         'input' => 'third_party/package/acc.package.php',
         'output' => 'third_party/package/acc.package.php'
       ),
@@ -152,6 +160,14 @@ class Package_model extends CI_Model {
   public function get_extension_files()
   {
     return array(
+      array(
+        'input' => 'themes/third_party/package/css/ext.css',
+        'output' => 'themes/third_party/package/css/ext.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/ext.js',
+        'output' => 'themes/third_party/package/js/ext.js'
+      ),
       array(
         'input' => 'third_party/package/ext.package.php',
         'output' => 'third_party/package/ext.package.php'
@@ -253,6 +269,9 @@ class Package_model extends CI_Model {
       'safecracker_entry_form_tagdata_start',
       'safecracker_submit_entry_end',
       'safecracker_submit_entry_start',
+      'simple_commerce_evaluate_ipn_response',
+      'simple_commerce_evaluate_perform_actions_end',
+      'simple_commerce_evaluate_perform_actions_start',
       'submit_new_entry_start',
       'typography_parse_type_end',
       'typography_parse_type_start',
@@ -407,6 +426,14 @@ class Package_model extends CI_Model {
   {
     $files = array(
       array(
+        'input' => 'themes/third_party/package/css/mod.css',
+        'output' => 'themes/third_party/package/css/mod.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/mod.js',
+        'output' => 'themes/third_party/package/js/mod.js'
+      ),
+      array(
         'input' => 'third_party/package/mcp.package.php',
         'output' => 'third_party/package/mcp.package.php'
       ),
@@ -496,6 +523,14 @@ class Package_model extends CI_Model {
       array(
         'input' => 'README.md',
         'output' => 'README.md'
+      ),
+      array(
+        'input' => 'themes/third_party/package/css/common.css',
+        'output' => 'themes/third_party/package/css/common.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/common.js',
+        'output' => 'themes/third_party/package/js/common.js'
       ),
       array(
         'input' => 'third_party/package/language/english/package_lang.php',
