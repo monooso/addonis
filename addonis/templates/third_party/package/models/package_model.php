@@ -176,7 +176,7 @@ class {pkg_name}_model extends CI_Model {
       }
 
       $omnilog_entry = new Omnilog_entry(array(
-        'addon_name'    => '{package_short_name}',
+        'addon_name'    => '{pkg_name}',
         'date'          => time(),
         'message'       => $message,
         'notify_admin'  => $notify,
