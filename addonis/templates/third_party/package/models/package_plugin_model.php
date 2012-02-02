@@ -20,11 +20,16 @@ class {pkg_name}_plugin_model extends {pkg_name}_model {
    * Constructor.
    *
    * @access  public
+   * @param   string    $package_name       Package name. Used for testing.
+   * @param   string    $package_version    Package version. Used for testing.
+   * @param   string    $namespace          Session namespace. Used for testing.
    * @return  void
    */
-  public function __construct()
+  public function __construct($package_name = '', $package_version = '',
+    $namespace = ''
+  )
   {
-    parent::__construct();
+    parent::__construct($package_name, $package_version, $namespace);
   }
 
 

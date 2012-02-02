@@ -12,6 +12,9 @@ require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_accessory_model.php
 
 class Test_{pkg_name_lc}_accessory_model extends Testee_unit_test_case {
 
+  private $_namespace;
+  private $_package_name;
+  private $_package_version;
   private $_subject;
 
 
@@ -28,7 +31,13 @@ class Test_{pkg_name_lc}_accessory_model extends Testee_unit_test_case {
   public function setUp()
   {
     parent::setUp();
-    $this->_subject = new {pkg_name}_accessory_model();
+
+    $this->_namespace       = 'com.google';
+    $this->_package_name    = 'Example_package';
+    $this->_package_version = '1.0.0';
+
+    $this->_subject = new {pkg_name}_accessory_model($this->_package_name,
+      $this->_package_version, $this->_namespace);
   }
 
 
