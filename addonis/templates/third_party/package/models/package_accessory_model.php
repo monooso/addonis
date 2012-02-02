@@ -8,10 +8,9 @@
  * @package         {pkg_name}
  */
 
-class {pkg_name}_accessory_model extends CI_Model {
+require_once dirname(__FILE__) .'/{pkg_name_lc}_model.php';
 
-  private $EE;
-
+class {pkg_name}_accessory_model extends {pkg_name}_model {
 
   /* --------------------------------------------------------------
   * PUBLIC METHODS
@@ -21,12 +20,16 @@ class {pkg_name}_accessory_model extends CI_Model {
    * Constructor.
    *
    * @access  public
+   * @param   string    $package_name       Package name. Used for testing.
+   * @param   string    $package_version    Package version. Used for testing.
+   * @param   string    $namespace          Session namespace. Used for testing.
    * @return  void
    */
-  public function __construct()
+  public function __construct($package_name = '', $package_version = '',
+    $namespace = ''
+  )
   {
-    parent::__construct();
-    $this->EE =& get_instance();
+    parent::__construct($package_name, $package_version, $namespace);
   }
 
 

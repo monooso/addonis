@@ -12,7 +12,6 @@ class {pkg_name}_acc {
 
   private $EE;
   private $_acc_model;
-  private $_pkg_model;
 
   public $description;
   public $id;
@@ -42,10 +41,7 @@ class {pkg_name}_acc {
     $this->EE->lang->loadfile('{pkg_name_lc}_acc', '{pkg_name_lc}');
 
     $this->EE->load->model('{pkg_name_lc}_accessory_model');
-    $this->EE->load->model('{pkg_name_lc}_model');
-
     $this->_acc_model = $this->EE->{pkg_name_lc}_accessory_model;
-    $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
 
     // Basic accessory information.
     $this->description 
@@ -56,7 +52,7 @@ class {pkg_name}_acc {
 
     $this->id       = '{pkg_name_lc}';
     $this->sections = array();
-    $this->version  = $this->_pkg_model->get_package_version();
+    $this->version  = $this->_acc_model->get_package_version();
   }
 
 

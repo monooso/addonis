@@ -37,6 +37,11 @@ class Package_model extends CI_Model {
     {
       foreach ($post_sections AS $section)
       {
+        if ( ! $section['name'] OR ! $section['title'])
+        {
+          continue;
+        }
+
         $section_name = strtolower($section['name']);
 
         $return['acc_sections'][] = array(
@@ -60,6 +65,14 @@ class Package_model extends CI_Model {
   public function get_accessory_files()
   {
     $files = array(
+      array(
+        'input' => 'themes/third_party/package/css/acc.css',
+        'output' => 'themes/third_party/package/css/acc.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/acc.js',
+        'output' => 'themes/third_party/package/js/acc.js'
+      ),
       array(
         'input' => 'third_party/package/acc.package.php',
         'output' => 'third_party/package/acc.package.php'
@@ -128,6 +141,11 @@ class Package_model extends CI_Model {
     {
       foreach ($post_hooks AS $hook)
       {
+        if ( ! $hook)
+        {
+          continue;
+        }
+
         // Single array element for now, but will grow over time.
         $data['ext_hooks'][] = array(
           'ext_hook_hook' => strtolower($hook['hook'])
@@ -152,6 +170,14 @@ class Package_model extends CI_Model {
   public function get_extension_files()
   {
     return array(
+      array(
+        'input' => 'themes/third_party/package/css/ext.css',
+        'output' => 'themes/third_party/package/css/ext.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/ext.js',
+        'output' => 'themes/third_party/package/js/ext.js'
+      ),
       array(
         'input' => 'third_party/package/ext.package.php',
         'output' => 'third_party/package/ext.package.php'
@@ -253,6 +279,9 @@ class Package_model extends CI_Model {
       'safecracker_entry_form_tagdata_start',
       'safecracker_submit_entry_end',
       'safecracker_submit_entry_start',
+      'simple_commerce_evaluate_ipn_response',
+      'simple_commerce_evaluate_perform_actions_end',
+      'simple_commerce_evaluate_perform_actions_start',
       'submit_new_entry_start',
       'typography_parse_type_end',
       'typography_parse_type_start',
@@ -331,6 +360,11 @@ class Package_model extends CI_Model {
     {
       foreach ($post_actions AS $action)
       {
+        if ( ! $action['description'] OR ! $action['method'])
+        {
+          continue;
+        }
+
         $mod_actions[] = array(
           'mod_action_description'  => $action['description'],
           'mod_action_method'       => $action['method']
@@ -350,6 +384,11 @@ class Package_model extends CI_Model {
     {
       foreach ($post_tags AS $tag)
       {
+        if ( ! $tag['description'] OR ! $tag['name'])
+        {
+          continue;
+        }
+
         $mod_tags[] = array(
           'mod_tag_description' => $tag['description'],
           'mod_tag_name'        => $tag['name']
@@ -372,6 +411,11 @@ class Package_model extends CI_Model {
     {
       foreach ($post_pages AS $page)
       {
+        if ( ! $page['name'] OR ! $page['title'])
+        {
+          continue;
+        }
+
         $page_name = strtolower($page['name']);
 
         $mod_pages[] = array(
@@ -406,6 +450,14 @@ class Package_model extends CI_Model {
   public function get_module_files()
   {
     $files = array(
+      array(
+        'input' => 'themes/third_party/package/css/mod.css',
+        'output' => 'themes/third_party/package/css/mod.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/mod.js',
+        'output' => 'themes/third_party/package/js/mod.js'
+      ),
       array(
         'input' => 'third_party/package/mcp.package.php',
         'output' => 'third_party/package/mcp.package.php'
@@ -498,6 +550,14 @@ class Package_model extends CI_Model {
         'output' => 'README.md'
       ),
       array(
+        'input' => 'themes/third_party/package/css/common.css',
+        'output' => 'themes/third_party/package/css/common.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/common.js',
+        'output' => 'themes/third_party/package/js/common.js'
+      ),
+      array(
         'input' => 'third_party/package/language/english/package_lang.php',
         'output' => 'third_party/package/language/english/package_lang.php'
       ),
@@ -546,6 +606,11 @@ class Package_model extends CI_Model {
     {
       foreach ($post_tags AS $tag)
       {
+        if ( ! $tag['description'] OR ! $tag['name'])
+        {
+          continue;
+        }
+
         $data['pi_tags'][] = array(
           'pi_tag_description'  => $tag['description'],
           'pi_tag_name'         => strtolower($tag['name'])

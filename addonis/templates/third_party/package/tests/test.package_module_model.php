@@ -28,7 +28,13 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
   public function setUp()
   {
     parent::setUp();
-    $this->_subject = new {pkg_name}_module_model();
+
+    $this->_namespace       = 'com.google';
+    $this->_package_name    = 'Example_package';
+    $this->_package_version = '1.0.0';
+
+    $this->_subject = new {pkg_name}_module_model($this->_package_name,
+      $this->_package_version, $this->_namespace);
   }
 
 

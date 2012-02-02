@@ -12,7 +12,6 @@ class {pkg_name}_ext {
 
   private $EE;
   private $_ext_model;
-  private $_pkg_model;
 
   public $description;
   public $docs_url;
@@ -44,10 +43,7 @@ class {pkg_name}_ext {
     $this->EE->lang->loadfile('{pkg_name_lc}_ext', '{pkg_name_lc}');
 
     $this->EE->load->model('{pkg_name_lc}_extension_model');
-    $this->EE->load->model('{pkg_name_lc}_model');
-
     $this->_ext_model = $this->EE->{pkg_name_lc}_extension_model;
-    $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
 
     // Set the public properties.
     $this->description = $this->EE->lang->line(
@@ -57,7 +53,7 @@ class {pkg_name}_ext {
     $this->name     = $this->EE->lang->line('{pkg_name_lc}_extension_name');
     $this->settings = $settings;
     $this->settings_exist = 'y';
-    $this->version  = $this->_pkg_model->get_package_version();
+    $this->version  = $this->_ext_model->get_package_version();
   }
 
 
@@ -97,6 +93,11 @@ class {pkg_name}_ext {
    */
   public function on_{ext_hook_hook}()
   {
+    if (($last_call = $this->EE->extensions->last_call) === FALSE)
+    {
+      // No last call data.
+    }
+
     error_log('Handling the {ext_hook_hook} extension hook.');
   }
 
@@ -112,7 +113,7 @@ class {pkg_name}_ext {
   public function update_extension($installed_version = '')
   {
     return $this->_ext_model->update(get_class($this), $installed_version,
-      $this->_pkg_model->get_package_version());
+      $this->_ext_model->get_package_version());
   }
 
 

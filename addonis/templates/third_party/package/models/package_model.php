@@ -11,28 +11,11 @@
 
 class {pkg_name}_model extends CI_Model {
 
-  private $EE;
-  private $_namespace;
-  private $_package_name;
-  private $_package_version;
-  private $_site_id;
-
-
-  /* --------------------------------------------------------------
-   * PRIVATE METHODS
-   * ------------------------------------------------------------ */
-
-  /**
-   * Returns a references to the package cache. Should be called
-   * as follows: $cache =& $this->_get_package_cache();
-   *
-   * @access  private
-   * @return  array
-   */
-  private function &_get_package_cache()
-  {
-    return $this->EE->session->cache[$this->_namespace][$this->_package_name];
-  }
+  protected $EE;
+  protected $_namespace;
+  protected $_package_name;
+  protected $_package_version;
+  protected $_site_id;
 
 
   /* --------------------------------------------------------------
@@ -100,13 +83,20 @@ class {pkg_name}_model extends CI_Model {
 
 
   /**
-   * Returns the package theme URL, appending a forward slash if required.
+   * Returns the package theme URL.
    *
    * @access    public
    * @return    string
    */
   public function get_package_theme_url()
   {
+    // Much easier as of EE 2.4.0.
+    if (defined('URL_THIRD_THEMES'))
+    {
+      return URL_THIRD_THEMES .$this->get_package_name() .'/';
+    }
+
+    // Old school.
     $theme_url = $this->EE->config->item('theme_folder_url');
     $theme_url .= substr($theme_url, -1) == '/'
       ? 'third_party/' : '/third_party/';
@@ -176,7 +166,7 @@ class {pkg_name}_model extends CI_Model {
       }
 
       $omnilog_entry = new Omnilog_entry(array(
-        'addon_name'    => '{package_short_name}',
+        'addon_name'    => '{pkg_name}',
         'date'          => time(),
         'message'       => $message,
         'notify_admin'  => $notify,
@@ -185,6 +175,23 @@ class {pkg_name}_model extends CI_Model {
 
       Omnilogger::log($omnilog_entry);
     }
+  }
+
+
+  /* --------------------------------------------------------------
+   * PRIVATE METHODS
+   * ------------------------------------------------------------ */
+
+  /**
+   * Returns a references to the package cache. Should be called
+   * as follows: $cache =& $this->_get_package_cache();
+   *
+   * @access  private
+   * @return  array
+   */
+  protected function &_get_package_cache()
+  {
+    return $this->EE->session->cache[$this->_namespace][$this->_package_name];
   }
 
 

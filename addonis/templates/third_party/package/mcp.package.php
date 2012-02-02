@@ -12,7 +12,6 @@ class {pkg_name}_mcp {
 
   private $EE;
   private $_mod_model;
-  private $_pkg_model;
   private $_theme_url;
 
 
@@ -33,10 +32,7 @@ class {pkg_name}_mcp {
     $this->EE->load->add_package_path(
       PATH_THIRD .'{pkg_name_lc}/');
 
-    $this->EE->load->model('{pkg_name_lc}_model');
     $this->EE->load->model('{pkg_name_lc}_module_model');
-
-    $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
     $this->_mod_model = $this->EE->{pkg_name_lc}_module_model;
 
     // Basic stuff required by every view.
@@ -45,18 +41,24 @@ class {pkg_name}_mcp {
       .AMP .'module={pkg_name_lc}';
 
     $this->_base_url  = BASE .AMP .$this->_base_qs;
-    $this->_theme_url = $this->_pkg_model->get_package_theme_url();
+    $this->_theme_url = $this->_mod_model->get_package_theme_url();
 
     $this->EE->load->helper('form');
     $this->EE->load->library('table');
 
     $this->EE->cp->add_to_foot('<script type="text/javascript" src="'
-      .$this->_theme_url .'js/cp.js"></script>');
+      .$this->_theme_url .'js/common.js"></script>');
+
+    $this->EE->cp->add_to_foot('<script type="text/javascript" src="'
+      .$this->_theme_url .'js/mod.js"></script>');
 
     $this->EE->javascript->compile();
 
     $this->EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="'
-      .$this->_theme_url .'css/cp.css" />');
+      .$this->_theme_url .'css/common.css" />');
+
+    $this->EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="'
+      .$this->_theme_url .'css/mod.css" />');
 
     // Set the base breadcrumb.
     $this->EE->cp->set_breadcrumb(

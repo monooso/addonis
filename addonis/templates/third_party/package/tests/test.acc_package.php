@@ -10,12 +10,10 @@
 
 require_once PATH_THIRD .'{pkg_name_lc}/acc.{pkg_name_lc}.php';
 require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_accessory_model.php';
-require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_model.php';
 
 class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
 
   private $_acc_model;
-  private $_pkg_model;
   private $_subject;
 
 
@@ -33,12 +31,9 @@ class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
   {
     parent::setUp();
 
-    // Generate the mock models.
+    // Generate the mock model.
     Mock::generate('{pkg_name}_accessory_model',
       get_class($this) .'_mock_accessory_model');
-    
-    Mock::generate('{pkg_name}_model',
-      get_class($this) .'_mock_model');
 
     /**
      * The subject loads the models using $this->EE->load->model().
@@ -49,10 +44,7 @@ class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
     $this->EE->{pkg_name_lc}_accessory_model
       = $this->_get_mock('accessory_model');
 
-    $this->EE->{pkg_name_lc}_model = $this->_get_mock('model');
-
     $this->_acc_model = $this->EE->{pkg_name_lc}_accessory_model;
-    $this->_pkg_model = $this->EE->{pkg_name_lc}_model;
     $this->_subject   = new {pkg_name}_acc();
   }
 

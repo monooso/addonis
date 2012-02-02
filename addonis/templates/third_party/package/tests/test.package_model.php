@@ -48,8 +48,13 @@ class Test_{pkg_name_lc}_model extends Testee_unit_test_case {
   }
 
 
-  public function test__get_package_theme_url__works_with_trailing_slash()
+  public function test__get_package_theme_url__pre_240_works_with_trailing_slash()
   {
+    if (defined('URL_THIRD_THEMES'))
+    {
+      return;
+    }
+
     $package    = strtolower($this->_package_name);
     $theme_url  = 'http://example.com/themes/';
     $full_url   = $theme_url .'third_party/' .$package .'/';
@@ -61,8 +66,13 @@ class Test_{pkg_name_lc}_model extends Testee_unit_test_case {
   }
 
 
-  public function test__get_package_theme_url__works_without_trailing_slash()
+  public function test__get_package_theme_url__pre_240_works_without_trailing_slash()
   {
+    if (defined('URL_THIRD_THEMES'))
+    {
+      return;
+    }
+
     $package    = strtolower($this->_package_name);
     $theme_url  = 'http://example.com/themes';
     $full_url   = $theme_url .'/third_party/' .$package .'/';
