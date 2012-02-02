@@ -48,6 +48,9 @@ class {pkg_name}_extension_model extends {pkg_name}_model {
       return;
     }
 
+    // EE is rather picky class name capitalisation.
+    $class = ucfirst(strtolower($class));
+
     $default_hook_data = array(
       'class'     => $class,
       'enabled'   => 'y',

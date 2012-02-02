@@ -34,14 +34,14 @@ class Test_{pkg_name_lc}_extension_model extends Testee_unit_test_case {
 
   public function test__install__installs_extension_hooks()
   {
-    $class    = 'Example_package_ext';
+    $class    = 'EXAMPLE_package_ext';
     $hooks    = array('hook_a', 'hook_b', 'hook_c');
     $version  = '1.2.3';
 
     $this->EE->db->expectCallCount('insert', count($hooks));
 
     $default_insert_data = array(
-      'class'     => $class,
+      'class'     => ucfirst(strtolower($class)),
       'enabled'   => 'y',
       'hook'      => '',
       'method'    => '',
