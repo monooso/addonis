@@ -1,20 +1,20 @@
 <?php if ( ! defined('EXT')) exit('Invalid file request.');
 
 /**
- * {pkg_title} extension model.
+ * {{ pkg_title }} extension model.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-require_once dirname(__FILE__) .'/{pkg_name_lc}_model.php';
+require_once dirname(__FILE__) .'/{{ pkg_name_lc }}_model.php';
 
-class {pkg_name}_extension_model extends {pkg_name}_model {
+class {{ pkg_name }}_extension_model extends {{ pkg_name }}_model {
 
   /* --------------------------------------------------------------
-  * PUBLIC METHODS
-  * ------------------------------------------------------------ */
+   * PUBLIC METHODS
+   * ------------------------------------------------------------ */
 
   /**
    * Constructor.
@@ -136,5 +136,5 @@ class {pkg_name}_extension_model extends {pkg_name}_model {
 }
 
 
-/* End of file      : {pkg_name_lc}_extension_model.php */
-/* File location    : third_party/{pkg_name_lc}/models/{pkg_name_lc}_extension_model.php */
+/* End of file      : {{ pkg_name_lc }}_extension_model.php */
+/* File location    : third_party/{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_extension_model.php */

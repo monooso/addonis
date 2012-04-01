@@ -1,17 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('Invalid file request');
 
 /**
- * {pkg_title} extension tests.
+ * {{ pkg_title }} extension tests.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-require_once PATH_THIRD .'{pkg_name_lc}/ext.{pkg_name_lc}.php';
-require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_extension_model.php';
+require_once PATH_THIRD .'{{ pkg_name_lc }}/ext.{{ pkg_name_lc }}.php';
+require_once PATH_THIRD .'{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_extension_model.php';
 
-class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
+class Test_{{ pkg_name_lc }}_ext extends Testee_unit_test_case {
 
   private $_ext_model;
   private $_pkg_version;
@@ -21,7 +21,7 @@ class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
   /* --------------------------------------------------------------
    * PUBLIC METHODS
    * ------------------------------------------------------------ */
-  
+
   /**
    * Constructor.
    *
@@ -33,7 +33,7 @@ class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
     parent::setUp();
 
     // Generate the mock model.
-    Mock::generate('{pkg_name}_extension_model',
+    Mock::generate('{{ pkg_name }}_extension_model',
       get_class($this) .'_mock_ext_model');
 
     /**
@@ -42,28 +42,25 @@ class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
      * can just assign the mock models here.
      */
 
-    $this->EE->{pkg_name_lc}_extension_model = $this->_get_mock('ext_model');
-    $this->_ext_model = $this->EE->{pkg_name_lc}_extension_model;
+    $this->EE->{{ pkg_name_lc }}_extension_model = $this->_get_mock('ext_model');
+    $this->_ext_model = $this->EE->{{ pkg_name_lc }}_extension_model;
 
     // Called in the constructor.
     $this->_pkg_version = '2.3.4';
     $this->_ext_model->setReturnValue('get_package_version',
       $this->_pkg_version);
 
-    $this->_subject = new {pkg_name}_ext();
+    $this->_subject = new {{ pkg_name }}_ext();
   }
 
 
   public function test__activate_extension__calls_model_install_method_with_correct_arguments()
   {
-    $hooks = array({ext_hooks}
-      '{ext_hook_hook}',
-    {/ext_hooks}
-    );
+    $hooks = array({% for hook in ext_hooks %}'{{ hook.hook }}'{% if not loop.last %}, {% endif %}{% endfor %});
 
     $this->_ext_model->expectOnce('install',
       array(get_class($this->_subject), $this->_pkg_version, $hooks));
-  
+
     $this->_subject->activate_extension();
   }
 
@@ -86,7 +83,7 @@ class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
       array(get_class($this->_subject), $installed, $this->_pkg_version));
 
     $this->_ext_model->setReturnValue('update', $result);
-  
+
     $this->assertIdentical($result,
       $this->_subject->update_extension($installed));
   }
@@ -95,5 +92,5 @@ class Test_{pkg_name_lc}_ext extends Testee_unit_test_case {
 }
 
 
-/* End of file      : test.ext_{pkg_name_lc}.php */
-/* File location    : third_party/{pkg_name_lc}/tests/test.ext_{pkg_name_lc}.php */
+/* End of file      : test.ext_{{ pkg_name_lc }}.php */
+/* File location    : third_party/{{ pkg_name_lc }}/tests/test.ext_{{ pkg_name_lc }}.php */

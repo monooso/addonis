@@ -93,4 +93,4 @@ if ( ! function_exists('valid_int'))
 
 
 /* End of file      : EI_number_helper.php */
-/* File location    : third_party/{pkg_name_lc}/helpers/EI_number_helper.php */
+/* File location    : third_party/{{ pkg_name_lc }}/helpers/EI_number_helper.php */

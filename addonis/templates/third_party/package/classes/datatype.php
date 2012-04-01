@@ -1,16 +1,16 @@
 <?php
 
 /**
- * {class_title} datatype.
+ * {{ dt_title }} datatype.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
 require_once dirname(__FILE__) .'/EI_datatype.php';
 
-class {class_name} extends EI_datatype
+class {{ dt_name }} extends EI_datatype
 {
 
   /* --------------------------------------------------------------
@@ -53,15 +53,17 @@ class {class_name} extends EI_datatype
    * Resets the instance properties.
    *
    * @access  public
-   * @return  {class_name}
+   * @return  {{ dt_name }}
    */
   public function reset()
   {
+    {% if dt_props %}
     $this->_props = array(
-      'age'      => 0,
-      'sex'      => '',
-      'location' => ''
+      {% for prop in dt_props %}{{ prop.name }} => {{ prop.default }},{% endfor %}
     );
+    { % else %}
+    $this->_props = array();
+    {% endif %}
 
     return $this;
   }
@@ -70,5 +72,5 @@ class {class_name} extends EI_datatype
 }
 
 
-/* End of file      : {class_name_lc}.php */
-/* File location    : third_party/{pkg_name_lc}/classes/{class_name_lc}.php */
+/* End of file      : {{ dt_name_lc }}.php */
+/* File location    : third_party/{{ pkg_name_lc }}/classes/{{ dt_name_lc }}.php */

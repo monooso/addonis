@@ -1,2 +1,2 @@
-# {pkg_title}
-{pkg_description}
+# {{ pkg_title }}
+{{ pkg_description }}

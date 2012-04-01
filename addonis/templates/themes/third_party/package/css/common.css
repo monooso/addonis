@@ -1,10 +1,10 @@
 /**
- * {pkg_title} package CSS rules.
+ * {{ pkg_title }} package CSS rules.
  *
  * @author        Stephen Lewis
- * @package       {pkg_name}
+ * @package       {{ pkg_name }}
  */
 
 
 /* End of file    : common.css */
-/* File location  : themes/third_party/{pkg_name_lc}/css/common.css */
+/* File location  : themes/third_party/{{ pkg_name_lc }}/css/common.css */

@@ -1,15 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
- * {pkg_title} 'Package' model.
+ * {{ pkg_title }} 'Package' model.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
- * @version         {pkg_version}
+ * @package         {{ pkg_name }}
+ * @version         {{ pkg_version }}
  */
 
-class {pkg_name}_model extends CI_Model {
+class {{ pkg_name }}_model extends CI_Model {
 
   protected $EE;
   protected $_namespace;
@@ -19,8 +19,8 @@ class {pkg_name}_model extends CI_Model {
 
 
   /* --------------------------------------------------------------
-  * PUBLIC METHODS
-  * ------------------------------------------------------------ */
+   * PUBLIC METHODS
+   * ------------------------------------------------------------ */
 
   /**
    * Constructor.
@@ -48,10 +48,10 @@ class {pkg_name}_model extends CI_Model {
     $this->_namespace = $namespace ? strtolower($namespace) : 'experience';
 
     $this->_package_name = $package_name
-      ? strtolower($package_name) : '{pkg_name_lc}';
+      ? strtolower($package_name) : '{{ pkg_name_lc }}';
 
     $this->_package_version = $package_version
-      ? $package_version : '{pkg_version}';
+      ? $package_version : '{{ pkg_version }}';
 
     // Initialise the add-on cache.
     if ( ! array_key_exists($this->_namespace, $this->EE->session->cache))
@@ -59,10 +59,8 @@ class {pkg_name}_model extends CI_Model {
       $this->EE->session->cache[$this->_namespace] = array();
     }
 
-    if ( ! array_key_exists(
-      $this->_package_name,
-      $this->EE->session->cache[$this->_namespace])
-    )
+    if ( ! array_key_exists($this->_package_name,
+      $this->EE->session->cache[$this->_namespace]))
     {
       $this->EE->session->cache[$this->_namespace]
         [$this->_package_name] = array();
@@ -166,7 +164,7 @@ class {pkg_name}_model extends CI_Model {
       }
 
       $omnilog_entry = new Omnilog_entry(array(
-        'addon_name'    => '{pkg_name}',
+        'addon_name'    => '{{ pkg_name }}',
         'date'          => time(),
         'message'       => $message,
         'notify_admin'  => $notify,
@@ -198,5 +196,5 @@ class {pkg_name}_model extends CI_Model {
 }
 
 
-/* End of file      : {pkg_name_lc}_model.php */
-/* File location    : third_party/{pkg_name_lc}/models/{pkg_name_lc}_model.php */
+/* End of file      : {{ pkg_name_lc }}_model.php */
+/* File location    : third_party/{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_model.php */

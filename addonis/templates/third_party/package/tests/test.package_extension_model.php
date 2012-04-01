@@ -1,16 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('Invalid file request');
 
 /**
- * {pkg_title} extension model tests.
+ * {{ pkg_title }} extension model tests.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_extension_model.php';
+require_once PATH_THIRD .'{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_extension_model.php';
 
-class Test_{pkg_name_lc}_extension_model extends Testee_unit_test_case {
+class Test_{{ pkg_name_lc }}_extension_model extends Testee_unit_test_case {
 
   private $_subject;
 
@@ -33,7 +33,7 @@ class Test_{pkg_name_lc}_extension_model extends Testee_unit_test_case {
     $this->_package_name    = 'Example_package';
     $this->_package_version = '1.0.0';
 
-    $this->_subject = new {pkg_name}_extension_model($this->_package_name,
+    $this->_subject = new {{ pkg_name }}_extension_model($this->_package_name,
       $this->_package_version, $this->_namespace);
   }
 
@@ -94,7 +94,7 @@ class Test_{pkg_name_lc}_extension_model extends Testee_unit_test_case {
 
     $this->EE->db->expectOnce('delete',
       array('extensions', array('class' => $class)));
-  
+
     $this->_subject->uninstall($class);
   }
 
@@ -102,7 +102,7 @@ class Test_{pkg_name_lc}_extension_model extends Testee_unit_test_case {
   public function test__uninstall__does_nothing_with_invalid_data()
   {
     $this->EE->db->expectNever('delete');
-  
+
     $this->_subject->uninstall('');
     $this->_subject->uninstall(new StdClass());
   }
@@ -162,5 +162,5 @@ class Test_{pkg_name_lc}_extension_model extends Testee_unit_test_case {
 }
 
 
-/* End of file      : test.{pkg_name_lc}_extension_model.php */
-/* File location    : third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_extension_model.php */
+/* End of file      : test.{{ pkg_name_lc }}_extension_model.php */
+/* File location    : third_party/{{ pkg_name_lc }}/tests/test.{{ pkg_name_lc }}_extension_model.php */

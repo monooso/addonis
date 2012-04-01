@@ -1,14 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('Invalid file request.');
 
 /**
- * {pkg_title} module installer and updater.
+ * {{ pkg_title }} module installer and updater.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-class {pkg_name}_upd {
+class {{ pkg_name }}_upd {
 
   private $EE;
   private $_mod_model;
@@ -30,11 +30,10 @@ class {pkg_name}_upd {
   {
     $this->EE =& get_instance();
 
-    $this->EE->load->add_package_path(
-      PATH_THIRD .'{pkg_name_lc}/');
+    $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
 
-    $this->EE->load->model('{pkg_name_lc}_module_model');
-    $this->_mod_model = $this->EE->{pkg_name_lc}_module_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_module_model');
+    $this->_mod_model = $this->EE->{{ pkg_name_lc }}_module_model;
 
     $this->version = $this->_mod_model->get_package_version();
   }
@@ -81,5 +80,5 @@ class {pkg_name}_upd {
 }
 
 
-/* End of file      : upd.{pkg_name_lc}.php */
-/* File location    : third_party/{pkg_name_lc}/upd.{pkg_name_lc}.php */
+/* End of file      : upd.{{ pkg_name_lc }}.php */
+/* File location    : third_party/{{ pkg_name_lc }}/upd.{{ pkg_name_lc }}.php */

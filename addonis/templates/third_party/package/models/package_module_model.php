@@ -1,20 +1,20 @@
 <?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
- * {pkg_title} module model.
+ * {{ pkg_title }} module model.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-require_once dirname(__FILE__) .'/{pkg_name_lc}_model.php';
+require_once dirname(__FILE__) .'/{{ pkg_name_lc }}_model.php';
 
-class {pkg_name}_module_model extends {pkg_name}_model {
+class {{ pkg_name }}_module_model extends {{ pkg_name }}_model {
 
   /* --------------------------------------------------------------
-  * PUBLIC METHODS
-  * ------------------------------------------------------------ */
+   * PUBLIC METHODS
+   * ------------------------------------------------------------ */
 
   /**
    * Constructor.
@@ -46,7 +46,7 @@ class {pkg_name}_module_model extends {pkg_name}_model {
     $package_name = ucfirst($package_name);
 
     $this->_install_register($package_name, $package_version);
-    $this->_install_actions($package_name);
+    {% if mod_actions %}$this->_install_actions($package_name);{% endif %}
 
     return TRUE;
   }
@@ -78,9 +78,11 @@ class {pkg_name}_module_model extends {pkg_name}_model {
     $this->EE->db->delete('modules',
       array('module_name' => $package_name));
 
+{% if mod_actions %}
     $this->EE->db->delete('actions',
       array('class' => $package_name));
 
+{% endif %}
     return TRUE;
   }
 
@@ -108,7 +110,8 @@ class {pkg_name}_module_model extends {pkg_name}_model {
   /* --------------------------------------------------------------
    * PRIVATE METHODS
    * ------------------------------------------------------------ */
-  
+{% if mod_actions %}
+
   /**
    * Register the module actions in the database.
    *
@@ -118,14 +121,20 @@ class {pkg_name}_module_model extends {pkg_name}_model {
    */
   private function _install_actions($package_name)
   {
-    {mod_actions}
-    $this->EE->db->insert('actions', array(
-      'class'   => $package_name,
-      'method'  => '{mod_action_method}'
-    ));
-    {/mod_actions}
+    $insert_data = array(
+{% for action in mod_actions %}
+      array(
+        'class'   => $package_name,
+        'method'  => '{{ action.method }}'
+      ){% if not loop.last %},
+{% endif %}
+{% endfor %}
+    );
+
+    $this->EE->db->insert_batch('actions', $insert_data);
   }
 
+{% endif %}
 
   /**
    * Registers the module in the database.
@@ -149,5 +158,5 @@ class {pkg_name}_module_model extends {pkg_name}_model {
 }
 
 
-/* End of file      : {pkg_name_lc}_module_model.php */
-/* File location    : third_party/{pkg_name_lc}/models/{pkg_name_lc}_module_model.php */
+/* End of file      : {{ pkg_name_lc }}_module_model.php */
+/* File location    : third_party/{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_module_model.php */

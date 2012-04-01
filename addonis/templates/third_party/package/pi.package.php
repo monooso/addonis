@@ -1,23 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
- * {pkg_title} plugin.
+ * {{ pkg_title }} plugin.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
 $plugin_info = array(
   'pi_author'       => 'Stephen Lewis',
   'pi_author_url'   => 'http://experienceinternet.co.uk/',
-  'pi_description'  => '{pkg_description}',
-  'pi_name'         => '{pkg_title}',
-  'pi_usage'        => {pkg_name}::usage(),
-  'pi_version'      => '{pkg_version}'
+  'pi_description'  => '{{ pkg_description }}',
+  'pi_name'         => '{{ pkg_title }}',
+  'pi_usage'        => {{ pkg_name }}::usage(),
+  'pi_version'      => '{{ pkg_version }}'
 );
 
-class {pkg_name} {
+class {{ pkg_name }} {
 
   private $EE;
   private $_pi_model;
@@ -26,9 +26,9 @@ class {pkg_name} {
 
 
   /* --------------------------------------------------------------
-   * CLASS METHODS
+   * STATIC METHODS
    * ------------------------------------------------------------ */
-  
+
   /**
    * Plugin usage information.
    *
@@ -37,14 +37,14 @@ class {pkg_name} {
    */
   public static function usage()
   {
-    return '{pkg_description}';
+    return '{{ pkg_description }}';
   }
 
 
 
   /* --------------------------------------------------------------
-  * PUBLIC METHODS
-  * ------------------------------------------------------------ */
+   * PUBLIC METHODS
+   * ------------------------------------------------------------ */
 
   /**
    * Constructor.
@@ -57,29 +57,29 @@ class {pkg_name} {
   {
     $this->EE =& get_instance();
 
-    $this->EE->load->add_package_path(
-      PATH_THIRD .'{pkg_name_lc}/');
+    $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
 
-    $this->EE->load->model('{pkg_name_lc}_plugin_model');
-    $this->_pi_model  = $this->EE->{pkg_name_lc}_plugin_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_plugin_model');
+    $this->_pi_model = $this->EE->{{ pkg_name_lc }}_plugin_model;
   }
 
-  {pi_tags}
+{% for tag in pi_tags %}
+
   /**
-   * {pi_tag_description}
+   * {{ tag.description }}
    *
    * @access  public
    * @return  string
    */
-  public function {pi_tag_name}()
+  public function {{ tag.name }}()
   {
-    return $this->return_data = 'exp:{pkg_name_lc}:{pi_tag_name} output';
+    return $this->return_data = 'exp:{{ pkg_name_lc }}:{{ tag.name }} output';
   }
 
-  {/pi_tags}
+{% endfor %}
 
 }
 
 
-/* End of file      : pi.{pkg_name_lc}.php */
-/* File location    : third_party/{pkg_name_lc}/pi.{pkg_name_lc}.php */
+/* End of file      : pi.{{ pkg_name_lc }}.php */
+/* File location    : third_party/{{ pkg_name_lc }}/pi.{{ pkg_name_lc }}.php */

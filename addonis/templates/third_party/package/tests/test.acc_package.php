@@ -1,17 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('Invalid file request');
 
 /**
- * {pkg_title} accessory tests.
+ * {{ pkg_title }} accessory tests.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-require_once PATH_THIRD .'{pkg_name_lc}/acc.{pkg_name_lc}.php';
-require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_accessory_model.php';
+require_once PATH_THIRD .'{{ pkg_name_lc }}/acc.{{ pkg_name_lc }}.php';
+require_once PATH_THIRD .'{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_accessory_model.php';
 
-class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
+class Test_{{ pkg_name_lc }}_acc extends Testee_unit_test_case {
 
   private $_acc_model;
   private $_subject;
@@ -20,7 +20,7 @@ class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
   /* --------------------------------------------------------------
    * PUBLIC METHODS
    * ------------------------------------------------------------ */
-  
+
   /**
    * Constructor.
    *
@@ -32,7 +32,7 @@ class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
     parent::setUp();
 
     // Generate the mock model.
-    Mock::generate('{pkg_name}_accessory_model',
+    Mock::generate('{{ pkg_name }}_accessory_model',
       get_class($this) .'_mock_accessory_model');
 
     /**
@@ -41,11 +41,11 @@ class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
      * can just assign the mock models here.
      */
 
-    $this->EE->{pkg_name_lc}_accessory_model
+    $this->EE->{{ pkg_name_lc }}_accessory_model
       = $this->_get_mock('accessory_model');
 
-    $this->_acc_model = $this->EE->{pkg_name_lc}_accessory_model;
-    $this->_subject   = new {pkg_name}_acc();
+    $this->_acc_model = $this->EE->{{ pkg_name_lc }}_accessory_model;
+    $this->_subject   = new {{ pkg_name }}_acc();
   }
 
 
@@ -55,25 +55,27 @@ class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
     $this->_subject->install();
   }
 
+{% if acc_sections %}
 
   public function test__set_sections__loads_a_view_file_for_each_section_and_returns_the_results()
   {
     $expected_data = array();
 
-    {acc_sections}
-    $view_name    = 'acc_{acc_section_name_lc}';
+{% for section in acc_sections %}
+    $view_name    = 'acc_{{ section.name_lc }}';
     $view_return  = 'Return value of ' .$view_name .' view.';
 
     $this->EE->load->setReturnValue('view', $view_return,
       array($view_name, array(), TRUE));
 
-    $expected_data['{acc_section_title}'] = $view_return;
-    {/acc_sections}
-  
+    $expected_data['{{ section.title }}'] = $view_return;
+{% endfor %}
+
     $this->_subject->set_sections();
     $this->assertIdentical($expected_data, $this->_subject->sections);
   }
 
+{% endif %}
 
   public function test__uninstall__calls_accessory_model_method()
   {
@@ -96,5 +98,5 @@ class Test_{pkg_name_lc}_acc extends Testee_unit_test_case {
 }
 
 
-/* End of file      : test.mod_{pkg_name_lc}.php */
-/* File location    : third_party/{pkg_name_lc}/tests/test.mod_{pkg_name_lc}.php */
+/* End of file      : test.mod_{{ pkg_name_lc }}.php */
+/* File location    : third_party/{{ pkg_name_lc }}/tests/test.mod_{{ pkg_name_lc }}.php */

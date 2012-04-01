@@ -1,1 +1,1 @@
-<p>This is an accessory section.</p>
+<p>This is a section in the {{ pkg_title }} accessory.</p>

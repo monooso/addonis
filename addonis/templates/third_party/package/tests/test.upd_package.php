@@ -1,17 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('Invalid file request');
 
 /**
- * {pkg_title} module 'update' tests.
+ * {{ pkg_title }} module 'update' tests.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-require_once PATH_THIRD .'{pkg_name_lc}/upd.{pkg_name_lc}.php';
-require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_module_model.php';
+require_once PATH_THIRD .'{{ pkg_name_lc }}/upd.{{ pkg_name_lc }}.php';
+require_once PATH_THIRD .'{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_module_model.php';
 
-class Test_{pkg_name_lc}_upd extends Testee_unit_test_case {
+class Test_{{ pkg_name_lc }}_upd extends Testee_unit_test_case {
 
   private $_mod_model;
   private $_pkg_name;
@@ -22,7 +22,7 @@ class Test_{pkg_name_lc}_upd extends Testee_unit_test_case {
   /* --------------------------------------------------------------
    * PUBLIC METHODS
    * ------------------------------------------------------------ */
-  
+
   /**
    * Constructor.
    *
@@ -34,17 +34,17 @@ class Test_{pkg_name_lc}_upd extends Testee_unit_test_case {
     parent::setUp();
 
     // Generate the mock model.
-    Mock::generate('{pkg_name}_module_model',
+    Mock::generate('{{ pkg_name }}_module_model',
       get_class($this) .'_mock_module_model');
-    
+
     /**
      * The subject loads the models using $this->EE->load->model().
      * Because the Loader class is mocked, that does nothing, so we
      * can just assign the mock models here.
      */
 
-    $this->EE->{pkg_name_lc}_module_model = $this->_get_mock('module_model');
-    $this->_mod_model = $this->EE->{pkg_name_lc}_module_model;
+    $this->EE->{{ pkg_name_lc }}_module_model = $this->_get_mock('module_model');
+    $this->_mod_model = $this->EE->{{ pkg_name_lc }}_module_model;
 
     // Some common return values.
     $this->_pkg_name    = 'Example_package';
@@ -56,7 +56,7 @@ class Test_{pkg_name_lc}_upd extends Testee_unit_test_case {
       $this->_pkg_version);
 
     // Create the test subject.
-    $this->_subject   = new {pkg_name}_upd();
+    $this->_subject = new {{ pkg_name }}_upd();
   }
 
 
@@ -78,7 +78,7 @@ class Test_{pkg_name_lc}_upd extends Testee_unit_test_case {
 
     $this->_mod_model->expectOnce('uninstall', array($this->_pkg_name));
     $this->_mod_model->setReturnValue('uninstall', $return);
-  
+
     $this->assertIdentical($return, $this->_subject->uninstall());
   }
 
@@ -87,7 +87,7 @@ class Test_{pkg_name_lc}_upd extends Testee_unit_test_case {
   {
     $installed  = '0.8.5';
     $return     = 'Shw mae?';   // Not bad.
-  
+
     $this->_mod_model->expectOnce('update',
       array($installed, $this->_pkg_version));
 
@@ -99,5 +99,5 @@ class Test_{pkg_name_lc}_upd extends Testee_unit_test_case {
 }
 
 
-/* End of file      : test.upd_{pkg_name_lc}.php */
-/* File location    : third_party/{pkg_name_lc}/tests/test.upd_{pkg_name_lc}.php */
+/* End of file      : test.upd_{{ pkg_name_lc }}.php */
+/* File location    : third_party/{{ pkg_name_lc }}/tests/test.upd_{{ pkg_name_lc }}.php */

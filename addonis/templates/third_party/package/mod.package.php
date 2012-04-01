@@ -1,14 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
- * {pkg_title} module.
+ * {{ pkg_title }} module.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-class {pkg_name} {
+class {{ pkg_name }} {
 
   private $EE;
   private $_mod_model;
@@ -17,8 +17,8 @@ class {pkg_name} {
 
 
   /* --------------------------------------------------------------
-  * PUBLIC METHODS
-  * ------------------------------------------------------------ */
+   * PUBLIC METHODS
+   * ------------------------------------------------------------ */
 
   /**
    * Constructor.
@@ -30,42 +30,54 @@ class {pkg_name} {
   {
     $this->EE =& get_instance();
 
-    $this->EE->load->add_package_path(
-      PATH_THIRD .'{pkg_name_lc}/');
+    $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
 
-    $this->EE->load->model('{pkg_name_lc}_module_model');
-    $this->_mod_model = $this->EE->{pkg_name_lc}_module_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_module_model');
+    $this->_mod_model = $this->EE->{{ pkg_name_lc }}_module_model;
   }
 
-  {mod_actions}
+
+{% if mod_actions %}
+  /* --------------------------------------------------------------
+   * ACTIONS
+   * ------------------------------------------------------------ */
+{% for action in mod_actions %}
+
   /**
-   * {mod_action_description}
+   * {{ action.description }}
    *
    * @access  public
    * @return  void
    */
-  public function {mod_action_method}()
+  public function {{ action.method }}()
   {
-    error_log('Running the {mod_action_method} action.');
+    error_log('Running the {{ action.method }} action.');
   }
 
-  {/mod_actions}
-  {mod_tags}
+{% endfor %}
+{% endif %}
+{% if mod_tags %}
+  /* --------------------------------------------------------------
+   * TEMPLATE TAGS
+   * ------------------------------------------------------------ */
+{% for tag in mod_tags %}
+
   /**
-   * {mod_tag_description}
+   * {{ tag.description }}
    *
    * @access  public
    * @return  string
    */
-  public function {mod_tag_name}()
+  public function {{ tag.name }}()
   {
-    return $this->return_data = 'exp:{pkg_name_lc}:{mod_tag_name} output';
+    return $this->return_data = 'exp:{{ pkg_name_lc }}:{{ tag.name }} output';
   }
 
-  {/mod_tags}
+{% endfor %}
+{% endif %}
 
 }
 
 
-/* End of file      : mod.{pkg_name_lc}.php */
-/* File location    : third_party/{pkg_name_lc}/mod.{pkg_name_lc}.php */
+/* End of file      : mod.{{ pkg_name_lc }}.php */
+/* File location    : third_party/{{ pkg_name_lc }}/mod.{{ pkg_name_lc }}.php */

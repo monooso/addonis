@@ -67,7 +67,7 @@ class EI_datatype
 
 
   /**
-   * Magic 'setter' method. Most datatypes will want to override this, to 
+   * Magic 'setter' method. Most datatypes will want to override this, to
    * include some form of validation.
    *
    * @access  public
@@ -118,7 +118,7 @@ class EI_datatype
    * Resets the instance properties. Sub-classes must override this.
    *
    * @access  public
-   * @return  {class_name}
+   * @return  {{ class_name }}
    */
   public function reset()
   {
@@ -187,7 +187,7 @@ class EI_datatype
 
     return $this->$prop_name;
   }
-  
+
 
 
   /**
@@ -298,4 +298,4 @@ class EI_datatype
 
 
 /* End of file      : EI_datatype.php */
-/* File location    : third_party/{pkg_name_lc}/classes/EI_datatype.php */
+/* File location    : third_party/{{ pkg_name_lc }}/classes/EI_datatype.php */

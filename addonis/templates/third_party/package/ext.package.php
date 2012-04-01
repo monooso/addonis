@@ -1,14 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
- * {pkg_title} extension.
+ * {{ pkg_title }} extension.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-class {pkg_name}_ext {
+class {{ pkg_name }}_ext {
 
   private $EE;
   private $_ext_model;
@@ -36,21 +36,20 @@ class {pkg_name}_ext {
   {
     $this->EE =& get_instance();
 
-    $this->EE->load->add_package_path(
-      PATH_THIRD .'{pkg_name_lc}/');
+    $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
 
     // Still need to specify the package...
-    $this->EE->lang->loadfile('{pkg_name_lc}_ext', '{pkg_name_lc}');
+    $this->EE->lang->loadfile('{{ pkg_name_lc }}_ext', '{{ pkg_name_lc }}');
 
-    $this->EE->load->model('{pkg_name_lc}_extension_model');
-    $this->_ext_model = $this->EE->{pkg_name_lc}_extension_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_extension_model');
+    $this->_ext_model = $this->EE->{{ pkg_name_lc }}_extension_model;
 
     // Set the public properties.
     $this->description = $this->EE->lang->line(
-      '{pkg_name_lc}_extension_description');
+      '{{ pkg_name_lc }}_extension_description');
 
     $this->docs_url = 'http://experienceinternet.co.uk/';
-    $this->name     = $this->EE->lang->line('{pkg_name_lc}_extension_name');
+    $this->name     = $this->EE->lang->line('{{ pkg_name_lc }}_extension_name');
     $this->settings = $settings;
     $this->settings_exist = 'y';
     $this->version  = $this->_ext_model->get_package_version();
@@ -65,10 +64,7 @@ class {pkg_name}_ext {
    */
   public function activate_extension()
   {
-    $hooks = array({ext_hooks}
-      '{ext_hook_hook}',{/ext_hooks}
-    );
-
+    $hooks = array({% for hook in ext_hook %}'{{ hook.hook }}', {% endfor %});
     $this->_ext_model->install(get_class($this), $this->version, $hooks);
   }
 
@@ -84,24 +80,25 @@ class {pkg_name}_ext {
     $this->_ext_model->uninstall(get_class($this));
   }
 
-  {ext_hooks}
+{% for hook in ext_hooks %}
+
   /**
-   * Handles the {ext_hook_hook} extension hook.
+   * Handles the {{ hook.hook }} extension hook.
    *
    * @access  public
    * @return  void
    */
-  public function on_{ext_hook_hook}()
+  public function on_{{ hook.hook }}()
   {
     if (($last_call = $this->EE->extensions->last_call) === FALSE)
     {
       // No last call data.
     }
 
-    error_log('Handling the {ext_hook_hook} extension hook.');
+    error_log('Handling the {{ hook.hook }} extension hook.');
   }
 
-  {/ext_hooks}
+{% endfor %}
 
   /**
    * Updates the extension.
@@ -120,5 +117,5 @@ class {pkg_name}_ext {
 }
 
 
-/* End of file      : ext.{pkg_name_lc}.php */
-/* File location    : third_party/{pkg_name_lc}/ext.{pkg_name_lc}.php */
+/* End of file      : ext.{{ pkg_name_lc }}.php */
+/* File location    : third_party/{{ pkg_name_lc }}/ext.{{ pkg_name_lc }}.php */

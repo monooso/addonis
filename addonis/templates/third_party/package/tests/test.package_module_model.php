@@ -1,16 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('Invalid file request');
 
 /**
- * {pkg_title} module model tests.
+ * {{ pkg_title }} module model tests.
  *
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
- * @package         {pkg_name}
+ * @package         {{ pkg_name }}
  */
 
-require_once PATH_THIRD .'{pkg_name_lc}/models/{pkg_name_lc}_module_model.php';
+require_once PATH_THIRD .'{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_module_model.php';
 
-class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
+class Test_{{ pkg_name_lc }}_module_model extends Testee_unit_test_case {
 
   private $_subject;
 
@@ -33,12 +33,12 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
     $this->_package_name    = 'Example_package';
     $this->_package_version = '1.0.0';
 
-    $this->_subject = new {pkg_name}_module_model($this->_package_name,
+    $this->_subject = new {{ pkg_name }}_module_model($this->_package_name,
       $this->_package_version, $this->_namespace);
   }
 
 
-  public function test__install__installs_module_and_actions()
+  public function test__install__installs_module()
   {
     $package_name     = 'example_package';
     $package_version  = '1.1.2';
@@ -51,15 +51,22 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
       'module_version'      => $package_version
     );
 
-    $this->EE->db->expectAt(0, 'insert', array('modules', $module_data));
+    $this->EE->db->expectOnce('insert', array('modules', $module_data));
 
-    {mod_actions}
-    $this->EE->db->expectAt({count} + 1, 'insert', array('actions', array(
-      'class'   => ucfirst($package_name),
-      'method'  => '{mod_action_method}'
-    )));
-    {/mod_actions}
+{% if mod_actions %}
+    $actions_data = array(
+{% for action in mod_actions %}
+      array(
+        'class'   => $package_name,
+        'method'  => '{{ action.method }}'
+      ){% if not loop.last %},
+{% endif %}
+{% endfor %}
+    );
 
+    $this->EE->db->expectOnce('insert_batch', array('actions', $actions_data));
+
+{% endif %}
     // Run the tests.
     $this->_subject->install($package_name, $package_version);
   }
@@ -68,7 +75,7 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
   public function test__uninstall__uninstalls_module_and_returns_true()
   {
     $package_name = 'example_package';
-  
+
     // Retrieve the module information.
     $db_result  = $this->_get_mock('db_query');
     $db_row     = (object) array('module_id' => '123');
@@ -90,9 +97,11 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
     $this->EE->db->expectAt(1, 'delete', array('modules',
       array('module_name' => ucfirst($package_name))));
 
+{% if mod_actions %}
     // Delete the module from the actions table.
     $this->EE->db->expectAt(2, 'delete', array('actions',
       array('class' => ucfirst($package_name))));
+{% endif %}
 
     // Run the tests.
     $this->assertIdentical(TRUE, $this->_subject->uninstall($package_name));
@@ -102,7 +111,7 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
   public function test__uninstall__returns_false_if_module_not_installed()
   {
     $package_name = 'example_package';
-  
+
     // Retrieve the module information.
     $db_result  = $this->_get_mock('db_query');
 
@@ -111,10 +120,8 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
       array('module_name' => ucfirst($package_name)), 1));
 
     $this->EE->db->setReturnReference('get_where', $db_result);
-
     $db_result->setReturnValue('num_rows', 0);
 
-    // Delete the module from the module_member_groups table.
     $this->EE->db->expectNever('delete');
 
     // Run the tests.
@@ -141,5 +148,5 @@ class Test_{pkg_name_lc}_module_model extends Testee_unit_test_case {
 }
 
 
-/* End of file      : test.{pkg_name_lc}_module_model.php */
-/* File location    : third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_module_model.php */
+/* End of file      : test.{{ pkg_name_lc }}_module_model.php */
+/* File location    : third_party/{{ pkg_name_lc }}/tests/test.{{ pkg_name_lc }}_module_model.php */
