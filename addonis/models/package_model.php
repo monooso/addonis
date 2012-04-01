@@ -30,8 +30,8 @@ class Package_model extends CI_Model {
    */
   public function get_accessory_data()
   {
-    $return = array('acc_sections' => array());
-    $post_sections = $this->input->post('acc_sections', TRUE);
+    $acc_sections   = array();
+    $post_sections  = $this->input->post('acc_sections', TRUE);
 
     if (is_array($post_sections))
     {
@@ -44,15 +44,19 @@ class Package_model extends CI_Model {
 
         $section_name = strtolower($section['name']);
 
-        $return['acc_sections'][] = array(
-          'acc_section_name'    => ucfirst($section_name),
-          'acc_section_name_lc' => $section_name,
-          'acc_section_title'   => $section['title']
+        $acc_sections[] = array(
+          'name'    => ucfirst($section_name),
+          'name_lc' => $section_name,
+          'title'   => $section['title']
         );
       }
+
+      // Alphabetise by section name.
+      usort($acc_sections, function($a, $b) {
+        return $a['name'] <= $b['name'] ? -1 : 1;});
     }
 
-    return $return;
+    return array('acc_sections' => $acc_sections);
   }
 
 
@@ -67,31 +71,31 @@ class Package_model extends CI_Model {
     $files = array(
       array(
         'input' => 'themes/third_party/package/css/acc.css',
-        'output' => 'themes/third_party/package/css/acc.css'
+        'output' => 'themes/third_party/{pkg_name_lc}/css/acc.css'
       ),
       array(
         'input' => 'themes/third_party/package/js/acc.js',
-        'output' => 'themes/third_party/package/js/acc.js'
+        'output' => 'themes/third_party/{pkg_name_lc}/js/acc.js'
       ),
       array(
         'input' => 'third_party/package/acc.package.php',
-        'output' => 'third_party/package/acc.package.php'
+        'output' => 'third_party/{pkg_name_lc}/acc.{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/language/english/package_acc_lang.php',
-        'output' => 'third_party/package/language/english/package_acc_lang.php'
+        'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_acc_lang.php'
       ),
       array(
         'input' => 'third_party/package/models/package_accessory_model.php',
-        'output' => 'third_party/package/models/package_accessory_model.php'
+        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_accessory_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.acc_package.php',
-        'output' => 'third_party/package/tests/test.acc_package.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.acc_{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.package_accessory_model.php',
-        'output' => 'third_party/package/tests/test.package_accessory_model.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_accessory_model.php'
       )
     );
 
@@ -101,7 +105,7 @@ class Package_model extends CI_Model {
     {
       foreach ($post_sections AS $section)
       {
-        $output = 'third_party/package/views/acc_'
+        $output = 'third_party/{pkg_name_lc}/views/acc_'
           .strtolower($section['name']) .'.php';
 
         $files[] = array(
@@ -116,14 +120,75 @@ class Package_model extends CI_Model {
 
 
   /**
+   * Retrieves the datatype POST data.
+   *
+   * @access  public
+   * @return  array
+   */
+  public function get_custom_datatype_data()
+  {
+    $input = $this->input;
+
+    $return = array(
+      'copyright_year'  => date('Y'),
+      'dt_name'         => ucfirst(strval($input->post('dt_name', TRUE))),
+      'dt_name_lc'      => strtolower(strval($input->post('dt_name', TRUE))),
+      'dt_props'        => array(),
+      'dt_title'        => (string) $input->post('dt_title', TRUE)
+    );
+
+
+    $post_props = $this->input->post('dt_props', TRUE);
+
+    if ( ! is_array($post_props))
+    {
+      return $return;
+    }
+
+    foreach ($post_props AS $post_prop)
+    {
+      if ( ! is_array($post_prop)
+        OR ! isset($post_prop['datatype'])
+        OR ! isset($post_prop['name'])
+        OR ! isset($post_prop['title'])
+      )
+      {
+        continue;
+      }
+
+      // @todo : type hinting.
+      // @todo : default values.
+      // @todo : convert name to lowercase.
+
+      $return['dt_props'][] = $post_prop;
+    }
+
+    // @todo : sort the properties by name.
+
+    return $return;
+  }
+
+
+  /**
    * Returns an array of Datatype files, based on the requested options.
    *
    * @access  public
    * @return  array
    */
-  public function get_datatype_files()
+  public function get_custom_datatype_files()
   {
-    return array();
+    // @todo : tests.
+
+    return array(
+      array(
+        'input' => 'third_party/package/classes/EI_datatype.php',
+        'output' => 'third_party/{pkg_name_lc}/classes/EI_datatype.php'
+      ),
+      array(
+        'input' => 'third_party/package/classes/datatype.php',
+        'output' => 'third_party/{pkg_name_lc}/classes/{dt_name_lc}.php'
+      )
+    );
   }
 
 
@@ -135,29 +200,28 @@ class Package_model extends CI_Model {
    */
   public function get_extension_data()
   {
-    $data = array('ext_hooks' => array());
+    $hooks      = array();
+    $post_hooks = $this->input->post('ext_hooks', TRUE);
 
-    if (is_array(($post_hooks = $this->input->post('ext_hooks', TRUE))))
+    if (is_array($post_hooks))
     {
-      foreach ($post_hooks AS $hook)
+      foreach ($post_hooks AS $post_hook)
       {
-        if ( ! $hook)
+        if ( ! $post_hook)
         {
           continue;
         }
 
         // Single array element for now, but will grow over time.
-        $data['ext_hooks'][] = array(
-          'ext_hook_hook' => strtolower($hook['hook'])
-        );
+        $hooks[] = array('hook' => strtolower($post_hook['hook']));
       }
+
+      // Alphabetise by hook name.
+      usort($hooks, function($a, $b) {
+        return $a['hook'] <= $b['hook'] ? -1 : 1;});
     }
 
-    // Alphabetise by hook name.
-    usort($data['ext_hooks'], function($a, $b) {
-      return $a['ext_hook_hook'] <= $b['ext_hook_hook'] ? -1 : 1;});
-
-    return $data;
+    return array('ext_hooks' => $hooks);
   }
 
 
@@ -172,31 +236,31 @@ class Package_model extends CI_Model {
     return array(
       array(
         'input' => 'themes/third_party/package/css/ext.css',
-        'output' => 'themes/third_party/package/css/ext.css'
+        'output' => 'themes/third_party/{pkg_name_lc}/css/ext.css'
       ),
       array(
         'input' => 'themes/third_party/package/js/ext.js',
-        'output' => 'themes/third_party/package/js/ext.js'
+        'output' => 'themes/third_party/{pkg_name_lc}/js/ext.js'
       ),
       array(
         'input' => 'third_party/package/ext.package.php',
-        'output' => 'third_party/package/ext.package.php'
+        'output' => 'third_party/{pkg_name_lc}/ext.{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/language/english/package_ext_lang.php',
-        'output' => 'third_party/package/language/english/package_ext_lang.php'
+        'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_ext_lang.php'
       ),
       array(
         'input' => 'third_party/package/models/package_extension_model.php',
-        'output' => 'third_party/package/models/package_extension_model.php'
+        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_extension_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.package_extension_model.php',
-        'output' => 'third_party/package/tests/test.package_extension_model.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_extension_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.ext_package.php',
-        'output' => 'third_party/package/tests/test.ext_package.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.ext_{pkg_name_lc}.php'
       )
     );
   }
@@ -306,46 +370,6 @@ class Package_model extends CI_Model {
 
 
   /**
-   * Returns an array of Helper files, based on the requested options.
-   *
-   * @access  public
-   * @return  array
-   */
-  public function get_helper_files()
-  {
-    $helpers      = array();
-    $post_helpers = $this->input->post('helpers', TRUE);
-
-    if ( ! is_array($post_helpers))
-    {
-      return $helpers;
-    }
-
-    foreach ($post_helpers AS $post_helper)
-    {
-      $helpers[] = array(
-        'input' => 'third_party/package/helpers/' .$post_helper .'.php',
-        'output' => 'third_party/package/helpers/' .$post_helper .'.php'
-      );
-    }
-
-    return $helpers;
-  }
-
-
-  /**
-   * Returns an array of Library files, based on the requested options.
-   *
-   * @access  public
-   * @return  array
-   */
-  public function get_library_files()
-  {
-    return array();
-  }
-
-
-  /**
    * Retrieves the Module POST data.
    *
    * @access  public
@@ -365,17 +389,13 @@ class Package_model extends CI_Model {
           continue;
         }
 
-        $mod_actions[] = array(
-          'mod_action_description'  => $action['description'],
-          'mod_action_method'       => $action['method']
-        );
+        $mod_actions[] = $action;
       }
     }
 
     // Alphabetise by action method.
     usort($mod_actions, function($a, $b) {
-      return $a['mod_action_method'] <= $b['mod_action_method'] ? -1 : 1;});
-
+      return $a['method'] <= $b['method'] ? -1 : 1;});
 
     // Module template tags.
     $mod_tags = array();
@@ -389,25 +409,20 @@ class Package_model extends CI_Model {
           continue;
         }
 
-        $mod_tags[] = array(
-          'mod_tag_description' => $tag['description'],
-          'mod_tag_name'        => $tag['name']
-        );
+        $mod_tags[] = $tag;
       }
     }
 
     // Alphabetise by tag name.
     usort($mod_tags, function($a, $b) {
-      return $a['mod_tag_name'] <= $b['mod_tag_name'] ? -1 : 1;});
-
+      return $a['name'] <= $b['name'] ? -1 : 1;});
 
     // Module CP pages.
     $has_cp     = ($this->input->post('mod_has_cp', TRUE) == 'y');
     $mod_pages  = array();
+    $post_pages = $this->input->post('mod_cp_pages', TRUE);
 
-    if ($has_cp
-      && is_array(($post_pages = $this->input->post('mod_cp_pages', TRUE)))
-    )
+    if ($has_cp && is_array($post_pages))
     {
       foreach ($post_pages AS $page)
       {
@@ -419,16 +434,16 @@ class Package_model extends CI_Model {
         $page_name = strtolower($page['name']);
 
         $mod_pages[] = array(
-          'mod_cp_page_name'    => ucfirst($page_name),
-          'mod_cp_page_name_lc' => $page_name,
-          'mod_cp_page_title'   => $page['title']
+          'name'    => ucfirst($page_name),
+          'name_lc' => $page_name,
+          'title'   => $page['title']
         );
       }
     }
 
     // Alphabetise by page name.
     usort($mod_pages, function($a, $b) {
-      return $a['mod_cp_page_name'] <= $b['mod_cp_page_name'] ? -1 : 1;});
+      return $a['name'] <= $b['name'] ? -1 : 1;});
 
 
     // Build the return array.
@@ -452,43 +467,43 @@ class Package_model extends CI_Model {
     $files = array(
       array(
         'input' => 'themes/third_party/package/css/mod.css',
-        'output' => 'themes/third_party/package/css/mod.css'
+        'output' => 'themes/third_party/{pkg_name_lc}/css/mod.css'
       ),
       array(
         'input' => 'themes/third_party/package/js/mod.js',
-        'output' => 'themes/third_party/package/js/mod.js'
+        'output' => 'themes/third_party/{pkg_name_lc}/js/mod.js'
       ),
       array(
         'input' => 'third_party/package/mcp.package.php',
-        'output' => 'third_party/package/mcp.package.php'
+        'output' => 'third_party/{pkg_name_lc}/mcp.{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/mod.package.php',
-        'output' => 'third_party/package/mod.package.php'
+        'output' => 'third_party/{pkg_name_lc}/mod.{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/upd.package.php',
-        'output' => 'third_party/package/upd.package.php'
+        'output' => 'third_party/{pkg_name_lc}/upd.{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/models/package_module_model.php',
-        'output' => 'third_party/package/models/package_module_model.php'
+        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_module_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.mcp_package.php',
-        'output' => 'third_party/package/tests/test.mcp_package.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.mcp_{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.mod_package.php',
-        'output' => 'third_party/package/tests/test.mod_package.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.mod_{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.package_module_model.php',
-        'output' => 'third_party/package/tests/test.package_module_model.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_module_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.upd_package.php',
-        'output' => 'third_party/package/tests/test.upd_package.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.upd_{pkg_name_lc}.php'
       )
     );
 
@@ -503,7 +518,7 @@ class Package_model extends CI_Model {
 
         $files[] = array(
           'input' => 'third_party/package/views/mod_cp.php',
-          'output' => 'third_party/package/views/mod_' .$page_name .'.php'
+          'output' => 'third_party/{pkg_name_lc}/views/mod_' .$page_name .'.php'
         );
       }
     }
@@ -551,23 +566,23 @@ class Package_model extends CI_Model {
       ),
       array(
         'input' => 'themes/third_party/package/css/common.css',
-        'output' => 'themes/third_party/package/css/common.css'
+        'output' => 'themes/third_party/{pkg_name_lc}/css/common.css'
       ),
       array(
         'input' => 'themes/third_party/package/js/common.js',
-        'output' => 'themes/third_party/package/js/common.js'
+        'output' => 'themes/third_party/{pkg_name_lc}/js/common.js'
       ),
       array(
         'input' => 'third_party/package/language/english/package_lang.php',
-        'output' => 'third_party/package/language/english/package_lang.php'
+        'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_lang.php'
       ),
       array(
         'input' => 'third_party/package/models/package_model.php',
-        'output' => 'third_party/package/models/package_model.php'
+        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.package_model.php',
-        'output' => 'third_party/package/tests/test.package_model.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_model.php'
       )
     );
 
@@ -592,6 +607,34 @@ class Package_model extends CI_Model {
 
 
   /**
+   * Returns an array of package "Helper" files, based on the requested options.
+   *
+   * @access  public
+   * @return  array
+   */
+  public function get_package_helper_files()
+  {
+    $helpers      = array();
+    $post_helpers = $this->input->post('helpers', TRUE);
+
+    if ( ! is_array($post_helpers))
+    {
+      return $helpers;
+    }
+
+    foreach ($post_helpers AS $post_helper)
+    {
+      $helpers[] = array(
+        'input' => 'third_party/package/helpers/' .$post_helper .'.php',
+        'output' => 'third_party/{pkg_name_lc}/helpers/' .$post_helper .'.php'
+      );
+    }
+
+    return $helpers;
+  }
+
+
+  /**
    * Retrieves the Plugin POST data.
    *
    * @access  public
@@ -599,30 +642,28 @@ class Package_model extends CI_Model {
    */
   public function get_plugin_data()
   {
-    // Plugin template tags.
-    $data = array('pi_tags' => array());
+    $tags = array();
+    $post_tags = $this->input->post('pi_tags', TRUE);
 
-    if (is_array(($post_tags = $this->input->post('pi_tags', TRUE))))
+    if (is_array($post_tags))
     {
-      foreach ($post_tags AS $tag)
+      foreach ($post_tags AS $post_tag)
       {
-        if ( ! $tag['description'] OR ! $tag['name'])
+        if ( ! $post_tag['description'] OR ! $post_tag['name'])
         {
           continue;
         }
 
-        $data['pi_tags'][] = array(
-          'pi_tag_description'  => $tag['description'],
-          'pi_tag_name'         => strtolower($tag['name'])
-        );
+        $post_tag['name'] = strtolower($post_tag['name']);
+        $tags[] = $post_tag;
       }
+
+      // Alphabetise by tag name.
+      usort($tags, function($a, $b) {
+        return $a['name'] <= $b['name'] ? -1 : 1;});
     }
 
-    // Alphabetise by tag name.
-    usort($data['pi_tags'], function($a, $b) {
-      return $a['pi_tag_name'] <= $b['pi_tag_name'] ? -1 : 1;});
-
-    return $data;
+    return array('pi_tags' => $tags);
   }
 
 
@@ -637,19 +678,19 @@ class Package_model extends CI_Model {
     return array(
       array(
         'input' => 'third_party/package/pi.package.php',
-        'output' => 'third_party/package/pi.package.php'
+        'output' => 'third_party/{pkg_name_lc}/pi.{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/models/package_plugin_model.php',
-        'output' => 'third_party/package/models/package_plugin_model.php'
+        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_plugin_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.package_plugin_model.php',
-        'output' => 'third_party/package/tests/test.package_plugin_model.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_plugin_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.pi_package.php',
-        'output' => 'third_party/package/tests/test.pi_package.php'
+        'output' => 'third_party/{pkg_name_lc}/tests/test.pi_{pkg_name_lc}.php'
       )
     );
   }
