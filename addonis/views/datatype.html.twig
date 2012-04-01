@@ -1,0 +1,91 @@
+{% extends 'layout.html.twig' %}
+
+{% block metadata %}
+<title>Datatype Builder</title>
+<meta content="ExpressionEngine 2 datatype builder" name="description" />
+{% endblock metadata %}
+
+{% block content %}
+<h1>Datatype Builder</h1>
+
+<form accept-charset="{{ form.charset }}" action="{{ form.action }}"
+  method="{{ form.method }}">
+
+<div class="row">
+
+    <!-- Package Information -->
+    <fieldset class="span5">
+      <h2>Package Information</h2>
+
+      <div class="clearfix">
+        <label for="pkg_title">Title</label>
+        <input id="pkg_title" name="pkg_title" type="text" />
+      </div>
+
+      <div class="clearfix">
+        <label for="pkg_name">Short Name</label>
+        <input id="pkg_name" name="pkg_name" type="text" />
+      </div>
+    </fieldset>
+
+    <!-- Datatype Information -->
+    <fieldset class="span5 offset2">
+      <h2>Datatype Information</h2>
+
+      <div class="clearfix">
+        <label for="dt_title">Title</label>
+        <input id="dt_title" name="dt_title" type="text" />
+      </div>
+
+      <div class="clearfix">
+        <label for="dt_name">Short Name</label>
+        <input id="dt_name" name="dt_name" type="text" />
+      </div>
+    </fieldset>
+
+  </div><!-- /.row -->
+
+  <!-- Datatype Properties -->
+  <fieldset>
+    <h2>Datatype Properties</h2>
+
+    <table class="table table-bordered table-condensed table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Short Name</th>
+          <th scope="col">Datatype</th>
+          <th scope="col">Default Value</th>
+          <th class="roland_actions" scope="col">&nbsp;</th>
+        </tr>
+      </thead>
+
+      <tbody class="roland">
+        <tr class="roland_row">
+          <td><input name="dt_props[0][title]" type="text" /></td>
+          <td><input name="dt_props[0][name]" type="text" /></td>
+          <td><input class="input-medium" name="dt_props[0][datatype]" type="text" /></td>
+          <td><input class="input-medium" name="dt_props[0][default]" type="text" /></td>
+          <td>
+            <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+            <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </fieldset>
+
+  <!-- All done -->
+  <div class="form-actions well">
+    <button class="btn btn-large btn-primary">
+      <i class="icon-ok icon-white"></i> Create Datatype
+    </button>
+
+    &nbsp;or&nbsp;
+
+    <button class="btn">
+      <i class="icon-exclamation-sign"></i> Reset the form
+    </button>
+  </div>
+</form>
+{% endblock content %}

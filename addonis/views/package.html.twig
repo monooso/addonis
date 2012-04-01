@@ -1,0 +1,304 @@
+{% extends 'layout.html.twig' %}
+
+{% block metadata %}
+<title>Package Builder</title>
+<meta content="ExpressionEngine 2 package builder" name="description" />
+{% endblock metadata %}
+
+{% block content %}
+<h1>Package Builder</h1>
+
+<form accept-charset="{{ form.charset }}" action="{{ form.action }}"
+  method="{{ form.method }}">
+
+  <!-- Package Information -->
+  <fieldset>
+    <h2>Package Information</h2>
+
+    <div class="row">
+      <div class="span6">
+        <div class="clearfix">
+          <label for="pkg_title">Title</label>
+          <input id="pkg_title" name="pkg_title" type="text" />
+        </div>
+
+        <div class="clearfix">
+          <label for="pkg_name">Short Name</label>
+          <input id="pkg_name" name="pkg_name" type="text" />
+        </div>
+
+        <div class="clearfix">
+          <label for="pkg_description">Description</label>
+          <input id="pkg_description" name="pkg_description" type="text" />
+        </div>
+
+        <div class="clearfix">
+          <label for="pkg_version">Version</label>
+          <input id="pkg_version" name="pkg_version" type="text" value="0.1.0" />
+        </div>
+
+        <div class="clearfix">
+          <label for="pkg_license">License</label>
+          <select id="pkg_license" name="pkg_license">
+            <option value="client">Client</option>
+            <option value="commercial">Commercial</option>
+            <option value="free">Free</option>
+          </select>
+        </div>
+      </div><!-- /.span6 -->
+
+      <div class="span4 offset2">
+        <div class="clearfix">
+          <label for="pkg_include_acc">Include Accessory?</label>
+          <select id="pkg_include_acc" name="pkg_include_acc">
+            <option value="y">Yes</option>
+            <option selected="selected" value="n">No</option>
+          </select>
+        </div>
+
+        <div class="clearfix">
+          <label for="pkg_include_ext">Include Extension?</label>
+          <select id="pkg_include_ext" name="pkg_include_ext">
+            <option value="y">Yes</option>
+            <option selected="selected" value="n">No</option>
+          </select>
+        </div>
+
+        <div class="clearfix">
+          <label for="pkg_include_ft">Include Fieldtype?</label>
+          <select id="pkg_include_ft" name="pkg_include_ft">
+            <option value="y">Yes</option>
+            <option selected="selected" value="n">No</option>
+          </select>
+        </div>
+
+        <div class="clearfix">
+          <label for="pkg_include_mod">Include Module?</label>
+          <select id="pkg_include_mod" name="pkg_include_mod">
+            <option value="y">Yes</option>
+            <option selected="selected" value="n">No</option>
+          </select>
+        </div>
+
+        <div class="clearfix">
+          <label for="pkg_include_pi">Include Plugin?</label>
+          <select id="pkg_include_pi" name="pkg_include_pi">
+            <option value="y">Yes</option>
+            <option selected="selected" value="n">No</option>
+          </select>
+        </div>
+      </div><!-- /.span4 -->
+    </div><!-- /.row -->
+  </fieldset>
+
+  <!-- Accessory -->
+  <fieldset class="addon_type" id="acc_details">
+    <h2>Accessory Information</h2>
+
+    <!-- Accessory : Sections -->
+    <div class="clearfix">
+      <h3>Sections</h3>
+      <table class="table table-bordered table-condensed table-striped">
+        <thead>
+          <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Short Name</th>
+          <th class="roland_actions" scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+
+        <tbody class="roland">
+          <tr class="roland_row">
+            <td><input name="acc_sections[0][title]" type="text" /></td>
+            <td><input name="acc_sections[0][name]" type="text" /></td>
+            <td>
+              <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+              <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </fieldset>
+
+  <!-- Extension -->
+  <fieldset class="addon_type" id="ext_details">
+    <h2>Extension Information</h2>
+
+    <!-- Extension : Hooks -->
+    <div class="clearfix">
+      <h3>Hooks</h3>
+      <table class="table table-bordered table-condensed table-striped">
+        <thead>
+          <tr>
+          <th scope="col">Hook</th>
+          <th class="roland_actions" scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+
+        <tbody class="roland">
+          <tr class="roland_row">
+            <td>
+              <select name="ext_hooks[0][hook]">
+{% for hook in extension_hooks %}
+                <option value="{{ hook }}">{{ hook }}</option>
+{% endfor %}
+              </select>
+            </td>
+            <td>
+              <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+              <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </fieldset>
+
+  <!-- Fieldtype -->
+  <fieldset class="addon_type" id="ft_details">
+    <h2>Fieldtype Information</h2>
+  </fieldset>
+
+  <!-- Module -->
+  <fieldset class="addon_type" id="mod_details">
+    <h2>Module Information</h2>
+
+    <div class="clearfix">
+      <label for="mod_has_cp">Has Control Panel?</label>
+      <select id="mod_has_cp" name="mod_has_cp">
+        <option selected="selected" value="y">Yes</option>
+        <option value="n">No</option>
+      </select>
+    </div>
+
+    <!-- Module : Actions -->
+    <div class="clearfix">
+      <h3>Actions</h3>
+      <table class="table table-bordered table-condensed table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Description</th>
+            <th class="roland_actions" scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+
+        <tbody class="roland">
+          <tr class="roland_row">
+            <td><input name="mod_actions[0][method]" type="text" /></td>
+            <td><input name="mod_actions[0][description]" type="text" /></td>
+            <td>
+              <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+              <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Module : Template Tags -->
+    <div class="clearfix">
+      <h3>Template Tags</h3>
+      <table class="table table-bordered table-condensed table-striped">
+        <thead>
+          <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th class="roland_actions" scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+
+        <tbody class="roland">
+          <tr class="roland_row">
+            <td><input name="mod_tags[0][name]" type="text" /></td>
+            <td><input name="mod_tags[0][description]" type="text" /></td>
+            <td>
+              <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+              <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Module : CP Pages -->
+    <div class="clearfix">
+      <h3>Control Panel Pages</h3>
+      <table class="table table-bordered table-condensed table-striped">
+        <thead>
+          <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Short Name</th>
+          <th class="roland_actions" scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+
+        <tbody class="roland">
+          <tr class="roland_row">
+            <td><input name="mod_cp_pages[0][title]" type="text" /></td>
+            <td><input name="mod_cp_pages[0][name]" type="text" /></td>
+            <td>
+              <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+              <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </fieldset>
+
+  <!-- Plugin -->
+  <fieldset class="addon_type" id="pi_details">
+    <h2>Plugin Information</h2>
+
+    <!-- Plugin : Template Tags -->
+    <h3>Template Tags</h3>
+    <table class="table table-bordered table-condensed table-striped">
+      <thead>
+        <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th class="roland_actions" scope="col">&nbsp;</th>
+        </tr>
+      </thead>
+
+      <tbody class="roland">
+        <tr class="roland_row">
+          <td><input name="pi_tags[0][name]" type="text" /></td>
+          <td><input name="pi_tags[0][description]" type="text" /></td>
+          <td>
+            <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+            <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </fieldset>
+
+  <!-- Extras -->
+  <fieldset>
+    <h2>Extras</h2>
+
+    <!-- Extras : Helpers -->
+    <h3>Helpers</h3>
+    <label class="checkbox">
+      <input name="helpers[]" type="checkbox" value="EI_number_helper" />
+      EI Number Helper
+    </label>
+  </fieldset>
+
+  <!-- All done -->
+  <div class="form-actions well">
+    <button class="btn btn-large btn-primary">
+      <i class="icon-ok icon-white"></i> Create Package
+    </button>
+
+    &nbsp;or&nbsp;
+
+    <button class="btn">
+      <i class="icon-exclamation-sign"></i> Reset the form
+    </button>
+  </div>
+</form>
+{% endblock content %}
