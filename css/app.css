@@ -1,21 +1,32 @@
-/* Foundation v2.1.4 http://foundation.zurb.com */
-/* Artfully masterminded by ZURB  */
-
-/* -------------------------------------------------- 
-   Table of Contents
------------------------------------------------------
-:: Shared Styles
-:: Page Name 1
-:: Page Name 2
-*/
-
 body {
   padding-top : 60px;     /* Accommodate the topbar */
 }
 
-fieldset {
-  border-bottom : 1px solid rgb(238, 238, 238);
-  padding-top : 19px;
+/* =brand
+ * ------------------------------------------------------------ */
+.navbar-fixed-top .brand {
+  -webkit-transition : all 0.2s linear;
+  color             : rgb(0, 0, 0);
+  float             : right;
+  font-weight       : bold;
+  margin-left       : 20px;
+  padding-left      : 0;
+  padding-right     : 0;
+  text-shadow       : 0 1px 0 rgba(255, 255, 255, 0.1),
+                      0 0 30px rgba(255, 255, 255, 0.125);
+  transition        : all 0.2s linear;
+}
+
+/* =forms
+ * ------------------------------------------------------------ */
+fieldset > h2 {
+  margin-bottom : 0.5em;
+  margin-top    : 1em;
+}
+
+fieldset h3 {
+  margin-bottom : 0.25em;
+  margin-top    : 0.75em;
 }
 
 /* =roland
