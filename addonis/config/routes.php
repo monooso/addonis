@@ -38,8 +38,8 @@
 |
 */
 
-$route['default_controller']  = 'build/view';
-$route['(:any)']              = 'build/view/$1';
+$route['default_controller']  = 'build/package';
+$route['(:any)']              = 'build/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
