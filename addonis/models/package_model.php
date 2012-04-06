@@ -643,6 +643,10 @@ class Package_model extends CI_Model {
         'output' => 'themes/third_party/{pkg_name_lc}/js/common.js'
       ),
       array(
+        'input' => 'third_party/package/config.php',
+        'output' => 'third_party/{pkg_name_lc}/config.php'
+      ),
+      array(
         'input' => 'third_party/package/language/english/package_lang.php',
         'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_lang.php'
       ),

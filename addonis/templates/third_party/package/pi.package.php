@@ -8,13 +8,15 @@
  * @package         {{ pkg_name }}
  */
 
+require_once dirname(__FILE__) .'/config.php';
+
 $plugin_info = array(
   'pi_author'       => 'Stephen Lewis',
   'pi_author_url'   => 'http://experienceinternet.co.uk/',
   'pi_description'  => '{{ pkg_description }}',
-  'pi_name'         => '{{ pkg_title }}',
+  'pi_name'         => {{ pkg_name|upper }}_TITLE,
   'pi_usage'        => {{ pkg_name }}::usage(),
-  'pi_version'      => '{{ pkg_version }}'
+  'pi_version'      => {{ pkg_name|upper }}_VERSION
 );
 
 class {{ pkg_name }} {

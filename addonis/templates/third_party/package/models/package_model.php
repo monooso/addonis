@@ -6,8 +6,9 @@
  * @author          Stephen Lewis (http://github.com/experience/)
  * @copyright       Experience Internet
  * @package         {{ pkg_name }}
- * @version         {{ pkg_version }}
  */
+
+require_once dirname(__FILE__) .'/../config.php';
 
 class {{ pkg_name }}_model extends CI_Model {
 
@@ -50,13 +51,13 @@ class {{ pkg_name }}_model extends CI_Model {
     $this->_namespace = $namespace ? strtolower($namespace) : 'experience';
 
     $this->_package_name = $package_name
-      ? strtolower($package_name) : '{{ pkg_name_lc }}';
+      ? strtolower($package_name) : strtolower({{ pkg_name|upper }}_NAME);
 
     $this->_package_title = $package_title
-      ? $package_title : '{{ pkg_title }}';
+      ? $package_title : {{ pkg_name|upper}}_TITLE;
 
     $this->_package_version = $package_version
-      ? $package_version : '{{ pkg_version }}';
+      ? $package_version : {{ pkg_name|upper }}_VERSION;
 
     // Initialise the add-on cache.
     if ( ! array_key_exists($this->_namespace, $this->EE->session->cache))
