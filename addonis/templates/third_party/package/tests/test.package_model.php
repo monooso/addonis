@@ -14,6 +14,7 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
 
   private $_namespace;
   private $_package_name;
+  private $_package_title;
   private $_package_version;
   private $_subject;
 
@@ -34,10 +35,11 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
 
     $this->_namespace       = 'com.google';
     $this->_package_name    = 'Example_package';
+    $this->_package_title   = 'Example Package';
     $this->_package_version = '1.0.0';
 
     $this->_subject = new {{ pkg_name }}_model($this->_package_name,
-      $this->_package_version, $this->_namespace);
+      $this->_package_title, $this->_package_version, $this->_namespace);
   }
 
 
@@ -53,6 +55,7 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     if (defined('URL_THIRD_THEMES'))
     {
       $this->pass();
+      return;
     }
 
     $package    = strtolower($this->_package_name);
@@ -71,6 +74,7 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     if (defined('URL_THIRD_THEMES'))
     {
       $this->pass();
+      return;
     }
 
     $package    = strtolower($this->_package_name);
@@ -81,6 +85,13 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     $this->EE->config->setReturnValue('item', $theme_url);
 
     $this->assertIdentical($full_url, $this->_subject->get_package_theme_url());
+  }
+
+
+  public function test__get_package_title__returns_correct_package_title()
+  {
+    $this->assertIdentical($this->_package_title,
+      $this->_subject->get_package_title());
   }
 
 

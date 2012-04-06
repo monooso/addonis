@@ -93,12 +93,12 @@ class Build extends MY_Controller {
   private function _build_datatype()
   {
     // Retrieve the Datatype data files.
-    $template_files = $this->package_model->get_datatype_files();
+    $template_files = $this->package_model->get_custom_datatype_files();
 
     // Retrieve the Package and Datatype data.
     $template_data = array_merge(
       $this->package_model->get_package_data(),
-      $this->package_model->get_datatype_data()
+      $this->package_model->get_custom_datatype_data()
     );
 
     // Construct the ZIP filename.
@@ -146,6 +146,9 @@ class Build extends MY_Controller {
     {
       $template_data = array_merge($template_data,
         $this->package_model->get_fieldtype_data());
+
+      $template_files = array_merge($template_files,
+        $this->package_model->get_fieldtype_files());
     }
 
     // Retrieve the Module data.

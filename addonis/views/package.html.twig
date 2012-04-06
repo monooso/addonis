@@ -158,6 +158,67 @@
   <!-- Fieldtype -->
   <fieldset class="addon_type" id="ft_details">
     <h2>Fieldtype Information</h2>
+
+    <div class="row">
+      <div class="span4">
+        <h3>Settings</h3>
+        <label class="checkbox">
+          <input name="ft_global_settings" type="checkbox" value="y" />
+          Include global settings?</label>
+
+        <label class="checkbox">
+          <input name="ft_field_settings" type="checkbox" value="y" />
+          Include field settings?</label>
+      </div>
+
+      <div class="span4">
+        <h3>Additional Processing</h3>
+        <label class="checkbox">
+          <input name="ft_post_save" type="checkbox" value="y" />
+          Include post save processing?</label>
+
+        <label class="checkbox">
+          <input name="ft_post_save_settings" type="checkbox" value="y" />
+          Include post save settings processing?</label>
+
+        <label class="checkbox">
+          <input name="ft_cutom_columns" type="checkbox" value="y" />
+          Include custom columns?</label>
+      </div>
+
+      <div class="span4">
+        <h3>Third-Party Support</h3>
+        <label class="checkbox">
+          <input name="ft_low_variables" type="checkbox" value="y" />
+          Include Low Variables support?</label>
+
+        <label class="checkbox">
+          <input name="ft_matrix" type="checkbox" value="y" />
+          Include Matrix support?</label>
+      </div>
+    </div><!-- /.row -->
+
+    <h3>Custom Template Tags</h3>
+    <table class="table table-bordered table-condensed table-striped">
+      <thead>
+        <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th class="roland_actions" scope="col">&nbsp;</th>
+        </tr>
+      </thead>
+
+      <tbody class="roland">
+        <tr class="roland_row">
+          <td><input name="ft_tags[0][name]" type="text" /></td>
+          <td><input name="ft_tags[0][description]" type="text" /></td>
+          <td>
+            <a class="add_row" title="Add row"><img src="/img/plus.png" /></a>
+            <a class="remove_row" title="Remove row"><img src="/img/minus.png" /></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </fieldset>
 
   <!-- Module -->

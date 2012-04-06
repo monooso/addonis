@@ -12,6 +12,10 @@ require_once PATH_THIRD .'{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_plugin_mode
 
 class Test_{{ pkg_name_lc }}_plugin_model extends Testee_unit_test_case {
 
+  private $_namespace;
+  private $_package_name;
+  private $_package_title;
+  private $_package_version;
   private $_subject;
 
 
@@ -31,10 +35,11 @@ class Test_{{ pkg_name_lc }}_plugin_model extends Testee_unit_test_case {
 
     $this->_namespace       = 'com.google';
     $this->_package_name    = 'Example_package';
+    $this->_package_title   = 'Example Package';
     $this->_package_version = '1.0.0';
 
     $this->_subject = new {{ pkg_name }}_plugin_model($this->_package_name,
-      $this->_package_version, $this->_namespace);
+      $this->_package_title, $this->_package_version, $this->_namespace);
   }
 
 

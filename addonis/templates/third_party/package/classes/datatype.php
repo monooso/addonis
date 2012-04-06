@@ -31,25 +31,6 @@ class {{ dt_name }} extends EI_datatype
 
 
   /**
-   * Magic 'setter' method.
-   *
-   * @access  public
-   * @param   string    $prop_name    The property to set.
-   * @param   mixed     $prop_value   The new property value.
-   * @return  void
-   */
-  public function __set($prop_name, $prop_value)
-  {
-    if ( ! $this->_is_valid_property($prop_name))
-    {
-      return;
-    }
-
-    $this->_props[$prop_name] = $prop_value;
-  }
-
-
-  /**
    * Resets the instance properties.
    *
    * @access  public
@@ -57,13 +38,16 @@ class {{ dt_name }} extends EI_datatype
    */
   public function reset()
   {
-    {% if dt_props %}
+{% if dt_props %}
     $this->_props = array(
-      {% for prop in dt_props %}{{ prop.name }} => {{ prop.default }},{% endfor %}
+{% for prop in dt_props %}
+      '{{ prop.name }}' => {{ prop.default }}{% if not loop.last %},
+{% endif %}
+{% endfor %}
     );
-    { % else %}
+{% else %}
     $this->_props = array();
-    {% endif %}
+{% endif %}
 
     return $this;
   }

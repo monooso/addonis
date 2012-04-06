@@ -365,7 +365,77 @@ class Package_model extends CI_Model {
    */
   public function get_fieldtype_data()
   {
-    return array();
+    $ft_data = array();
+
+    // Yes / No fields.
+    $boolean_fields = array(
+      'ft_custom_columns', 'ft_field_settings',
+      'ft_global_settings', 'ft_low_variables',
+      'ft_matrix', 'ft_post_save',
+      'ft_post_save_settings'
+    );
+
+    foreach ($boolean_fields AS $field_name)
+    {
+      $ft_data[$field_name] = ($this->input->post($field_name, TRUE) == 'y');
+    }
+
+    // Template tags.
+    $ft_data['ft_tags'] = array();
+
+    if (is_array(($post_tags = $this->input->post('ft_tags', TRUE))))
+    {
+      foreach ($post_tags AS $tag)
+      {
+        if ( ! $tag['description'] OR ! $tag['name'])
+        {
+          continue;
+        }
+
+        $ft_data['ft_tags'][] = $tag;
+      }
+
+      // Alphabetise by tag name.
+      usort($ft_data['ft_tags'], function($a, $b) {
+        return $a['name'] <= $b['name'] ? -1 : 1;});
+    }
+
+    return $ft_data;
+  }
+
+
+  public function get_fieldtype_files()
+  {
+    return array(
+      array(
+        'input' => 'themes/third_party/package/css/ft.css',
+        'output' => 'themes/third_party/{pkg_name_lc}/css/ft.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/ft.js',
+        'output' => 'themes/third_party/{pkg_name_lc}/js/ft.js'
+      ),
+      array(
+        'input' => 'third_party/package/ft.package.php',
+        'output' => 'third_party/{pkg_name_lc}/ft.{pkg_name_lc}.php'
+      ),
+      array(
+        'input' => 'third_party/package/language/english/package_ft_lang.php',
+        'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_ft_lang.php'
+      ),
+      array(
+        'input' => 'third_party/package/models/package_fieldtype_model.php',
+        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_fieldtype_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.package_fieldtype_model.php',
+        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_fieldtype_model.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.ft_package.php',
+        'output' => 'third_party/{pkg_name_lc}/tests/test.ft_{pkg_name_lc}.php'
+      )
+    );
   }
 
 
@@ -411,11 +481,11 @@ class Package_model extends CI_Model {
 
         $mod_tags[] = $tag;
       }
-    }
 
-    // Alphabetise by tag name.
-    usort($mod_tags, function($a, $b) {
-      return $a['name'] <= $b['name'] ? -1 : 1;});
+      // Alphabetise by tag name.
+      usort($mod_tags, function($a, $b) {
+        return $a['name'] <= $b['name'] ? -1 : 1;});
+    }
 
     // Module CP pages.
     $has_cp     = ($this->input->post('mod_has_cp', TRUE) == 'y');

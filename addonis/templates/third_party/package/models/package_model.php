@@ -14,6 +14,7 @@ class {{ pkg_name }}_model extends CI_Model {
   protected $EE;
   protected $_namespace;
   protected $_package_name;
+  protected $_package_title;
   protected $_package_version;
   protected $_site_id;
 
@@ -27,12 +28,13 @@ class {{ pkg_name }}_model extends CI_Model {
    *
    * @access  public
    * @param   string    $package_name       Package name. Used for testing.
+   * @param   string    $package_title      Package title. Used for testing.
    * @param   string    $package_version    Package version. Used for testing.
    * @param   string    $namespace          Session namespace. Used for testing.
    * @return  void
    */
-  public function __construct($package_name = '', $package_version = '',
-    $namespace = ''
+  public function __construct($package_name = '', $package_title = '',
+    $package_version = '', $namespace = ''
   )
   {
     parent::__construct();
@@ -49,6 +51,9 @@ class {{ pkg_name }}_model extends CI_Model {
 
     $this->_package_name = $package_name
       ? strtolower($package_name) : '{{ pkg_name_lc }}';
+
+    $this->_package_title = $package_title
+      ? $package_title : '{{ pkg_title }}';
 
     $this->_package_version = $package_version
       ? $package_version : '{{ pkg_version }}';
@@ -83,8 +88,8 @@ class {{ pkg_name }}_model extends CI_Model {
   /**
    * Returns the package theme URL.
    *
-   * @access    public
-   * @return    string
+   * @access  public
+   * @return  string
    */
   public function get_package_theme_url()
   {
@@ -100,6 +105,18 @@ class {{ pkg_name }}_model extends CI_Model {
       ? 'third_party/' : '/third_party/';
 
     return $theme_url .$this->get_package_name() .'/';
+  }
+
+
+  /**
+   * Returns the package title.
+   *
+   * @access  public
+   * @return  string
+   */
+  public function get_package_title()
+  {
+    return $this->_package_title;
   }
 
 

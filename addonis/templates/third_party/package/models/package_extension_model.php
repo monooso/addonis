@@ -1,4 +1,4 @@
-<?php if ( ! defined('EXT')) exit('Invalid file request.');
+<?php if ( ! defined('BASEPATH')) exit('Direct script access not allowed');
 
 /**
  * {{ pkg_title }} extension model.
@@ -20,16 +20,18 @@ class {{ pkg_name }}_extension_model extends {{ pkg_name }}_model {
    * Constructor.
    *
    * @access  public
-   * @param   string    $package_name       Package name. Used for testing.
-   * @param   string    $package_version    Package version. Used for testing.
-   * @param   string    $namespace          Session namespace. Used for testing.
+   * @param   string  $package_name     Package name. Used for testing.
+   * @param   string  $package_title    Package title. Used for testing.
+   * @param   string  $package_version  Package version. Used for testing.
+   * @param   string  $namespace        Session namespace. Used for testing.
    * @return  void
    */
-  public function __construct($package_name = '', $package_version = '',
-    $namespace = ''
+  public function __construct($package_name = '', $package_title = '',
+    $package_version = '', $namespace = ''
   )
   {
-    parent::__construct($package_name, $package_version, $namespace);
+    parent::__construct($package_name, $package_title, $package_version,
+      $namespace);
   }
 
 
