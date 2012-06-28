@@ -51,7 +51,7 @@ class {{ pkg_name }}_ext {
     $this->docs_url = 'http://experienceinternet.co.uk/';
     $this->name     = $this->EE->lang->line('{{ pkg_name_lc }}_extension_name');
     $this->settings = $settings;
-    $this->settings_exist = 'y';
+    $this->settings_exist = {% if ext_has_cp %}'y'{% else %}'n'{% endif %};
     $this->version  = $this->_ext_model->get_package_version();
   }
 
@@ -64,7 +64,7 @@ class {{ pkg_name }}_ext {
    */
   public function activate_extension()
   {
-    $hooks = array({% for hook in ext_hook %}'{{ hook.hook }}', {% endfor %});
+    $hooks = array({% for hook in ext_hooks %}'{{ hook.hook }}', {% endfor %});
     $this->_ext_model->install(get_class($this), $this->version, $hooks);
   }
 

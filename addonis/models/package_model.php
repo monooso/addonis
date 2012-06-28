@@ -137,7 +137,6 @@ class Package_model extends CI_Model {
       'dt_title'        => (string) $input->post('dt_title', TRUE)
     );
 
-
     $post_props = $this->input->post('dt_props', TRUE);
 
     if ( ! is_array($post_props))
@@ -200,28 +199,36 @@ class Package_model extends CI_Model {
    */
   public function get_extension_data()
   {
-    $hooks      = array();
-    $post_hooks = $this->input->post('ext_hooks', TRUE);
+    $input = $this->input;
 
-    if (is_array($post_hooks))
+    $return = array(
+      'ext_has_cp'  => ($input->post('ext_has_cp', TRUE) == 'y'),
+      'ext_hooks'   => array()
+    );
+
+    $post_hooks = $input->post('ext_hooks', TRUE);
+
+    if ( ! is_array($post_hooks))
     {
-      foreach ($post_hooks AS $post_hook)
-      {
-        if ( ! $post_hook)
-        {
-          continue;
-        }
-
-        // Single array element for now, but will grow over time.
-        $hooks[] = array('hook' => strtolower($post_hook['hook']));
-      }
-
-      // Alphabetise by hook name.
-      usort($hooks, function($a, $b) {
-        return $a['hook'] <= $b['hook'] ? -1 : 1;});
+      return $return;
     }
 
-    return array('ext_hooks' => $hooks);
+    foreach ($post_hooks AS $post_hook)
+    {
+      if ( ! $post_hook)
+      {
+        continue;
+      }
+
+      // Single array element for now, but will grow over time.
+      $return['ext_hooks'][] = array('hook' => strtolower($post_hook['hook']));
+    }
+
+    // Alphabetise by hook name.
+    usort($return['ext_hooks'], function($a, $b) {
+      return $a['hook'] <= $b['hook'] ? -1 : 1;});
+
+    return $return;
   }
 
 
