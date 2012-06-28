@@ -122,7 +122,7 @@ class Build extends MY_Controller {
     $template_files = $this->package_model->get_package_files();
 
     // Retrieve the Accessory data.
-    if ($this->input->post('pkg_include_acc') == 'y')
+    if ($template_data['pkg_include_acc'])
     {
       $template_data = array_merge($template_data,
         $this->package_model->get_accessory_data());
@@ -132,7 +132,7 @@ class Build extends MY_Controller {
     }
 
     // Retrieve the Extension data.
-    if ($this->input->post('pkg_include_ext') == 'y')
+    if ($template_data['pkg_include_ext'])
     {
       $template_data = array_merge($template_data,
         $this->package_model->get_extension_data());
@@ -142,7 +142,7 @@ class Build extends MY_Controller {
     }
 
     // Retrieve the Fieldtype data.
-    if ($this->input->post('pkg_include_ft') == 'y')
+    if ($template_data['pkg_include_ft'])
     {
       $template_data = array_merge($template_data,
         $this->package_model->get_fieldtype_data());
@@ -152,7 +152,7 @@ class Build extends MY_Controller {
     }
 
     // Retrieve the Module data.
-    if ($this->input->post('pkg_include_mod') == 'y')
+    if ($template_data['pkg_include_mod'])
     {
       $template_data = array_merge($template_data,
         $this->package_model->get_module_data());
@@ -162,7 +162,7 @@ class Build extends MY_Controller {
     }
 
     // Retrieve the Plugin data.
-    if ($this->input->post('pkg_include_pi') == 'y')
+    if ($template_data['pkg_include_pi'])
     {
       $template_data = array_merge($template_data,
         $this->package_model->get_plugin_data());
