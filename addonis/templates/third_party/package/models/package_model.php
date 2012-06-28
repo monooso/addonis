@@ -17,8 +17,10 @@ class {{ pkg_name }}_model extends CI_Model {
   protected $_package_name;
   protected $_package_title;
   protected $_package_version;
-  protected $_sanitized_extension_class;
-  protected $_sanitized_module_class;
+  {% if pkg_include_ext %}protected $_sanitized_extension_class;
+{% endif %}
+  {% if pkg_include_mod %}protected $_sanitized_module_class;
+{% endif %}
   protected $_site_id;
 
 
@@ -62,8 +64,10 @@ class {{ pkg_name }}_model extends CI_Model {
       ? $package_version : {{ pkg_name|upper }}_VERSION;
 
     // ExpressionEngine is very picky about capitalisation.
-    {% if pkg_include_mod %}$this->_sanitized_module_class = ucfirst(strtolower($this->_package_name));{% endif %}
-    {% if pkg_include_ext %}$this->_sanitized_extension_class = $this->_sanitized_module_class .'_ext';{% endif %}
+    {% if pkg_include_mod %}$this->_sanitized_module_class = ucfirst(strtolower($this->_package_name));
+{% endif %}
+    {% if pkg_include_ext %}$this->_sanitized_extension_class = $this->_sanitized_module_class .'_ext';
+{% endif %}
 
     // Initialise the add-on cache.
     if ( ! array_key_exists($this->_namespace, $this->EE->session->cache))
@@ -247,6 +251,7 @@ class {{ pkg_name }}_model extends CI_Model {
     {
       return FALSE;
     }
+
 {% if pkg_include_ext %}
     // Update the extension version number in the database.
     $this->EE->db->update('extensions', array('version' => $package_version),
@@ -376,7 +381,8 @@ class {{ pkg_name }}_model extends CI_Model {
     $mod_class = $this->get_sanitized_module_class();
 
     $this->_register_module($mod_class, $package_version);
-    {% if mod_actions %}$this->_register_module_actions($mod_class);{% endif %}
+    {% if mod_actions %}$this->_register_module_actions($mod_class);
+{% endif %}
     $this->_create_module_tables();
 
     return TRUE;
@@ -406,7 +412,8 @@ class {{ pkg_name }}_model extends CI_Model {
       array('module_id' => $db_module->row()->module_id));
 
     $this->EE->db->delete('modules', array('module_name' => $mod_class));
-    {% if mod_actions %}$this->EE->db->delete('actions', array('class' => $mod_class));{% endif %}
+    {% if mod_actions %}$this->EE->db->delete('actions', array('class' => $mod_class));
+{% endif %}
 
     // Drop the module tables.
     $this->EE->load->dbforge();

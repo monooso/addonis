@@ -123,7 +123,7 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     $this->EE->db->expectCallCount('insert', count($hooks));
 
     $default_insert_data = array(
-      'class'     => $this->_extension_class
+      'class'     => $this->_extension_class,
       'enabled'   => 'y',
       'hook'      => '',
       'method'    => '',
@@ -153,12 +153,10 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     $this->EE->db->expectNever('insert');
 
     // Missing data.
-    $this->_subject->install_extension($version, $hooks);
     $this->_subject->install_extension('', $hooks);
     $this->_subject->install_extension($version, array());
 
     // Invalid data.
-    $this->_subject->install_extension($version, $hooks);
     $this->_subject->install_extension(new StdClass(), $hooks);
   }
 
