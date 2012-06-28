@@ -8,12 +8,22 @@
  * @package         {{ pkg_name }}
  */
 
+// Thanks to the  public $info property, we need to load the config here. Bah.
+require_once dirname(__FILE__) .'/config.php';
+
 class {{ pkg_name }}_ft extends EE_Fieldtype {
 
-  private $EE;
   private $_ft_model;
 
-  public $info;
+  /**
+   * Stupid EE forces us to do this here, rather than calling the appropriate
+   * model methods from the Constructor.
+   */
+
+  public $info = array(
+    'name'    => OPTIONS_TITLE,
+    'version' => OPTIONS_VERSION
+  );
 
 
   /* --------------------------------------------------------------
@@ -32,18 +42,11 @@ class {{ pkg_name }}_ft extends EE_Fieldtype {
     $this->EE =& get_instance();
 
     $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
-
-    // Still need to specify the package...
     $this->EE->lang->loadfile('{{ pkg_name_lc }}_ft', '{{ pkg_name_lc }}');
 
+    // Load the model.
     $this->EE->load->model('{{ pkg_name_lc }}_fieldtype_model');
     $this->_ft_model = $this->EE->{{ pkg_name_lc }}_fieldtype_model;
-
-    // Set the fieldtype info.
-    $this->info = array(
-      'name'    => $this->_ft_model->get_package_title(),
-      'version' => $this->_ft_model->get_package_version()
-    );
   }
 
 
@@ -93,10 +96,10 @@ class {{ pkg_name }}_ft extends EE_Fieldtype {
    * Displays the fieldtype settings form.
    *
    * @access public
-   * @param  string $settings Previously-saved settings.
+   * @param  array $settings Previously-saved settings.
    * @return string
    */
-  public function display_settings($settings = '')
+  public function display_settings(Array $settings = array())
   {
 
   }
@@ -226,10 +229,10 @@ class {{ pkg_name }}_ft extends EE_Fieldtype {
    * Saves the fieldtype settings.
    *
    * @access public
-   * @param  string $settings The submitted settings.
-   * @return void
+   * @param  array $settings The submitted settings.
+   * @return array
    */
-  public function save_settings($settings)
+  public function save_settings(Array $settings = array())
   {
 
   }
