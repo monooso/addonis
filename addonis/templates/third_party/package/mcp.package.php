@@ -11,7 +11,7 @@
 class {{ pkg_name }}_mcp {
 
   private $EE;
-  private $_mod_model;
+  private $_model;
   private $_theme_url;
 
 
@@ -31,8 +31,8 @@ class {{ pkg_name }}_mcp {
 
     $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
 
-    $this->EE->load->model('{{ pkg_name_lc }}_module_model');
-    $this->_mod_model = $this->EE->{{ pkg_name_lc }}_module_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_model');
+    $this->_model = $this->EE->{{ pkg_name_lc }}_model;
 
     // Basic stuff required by every view.
     $this->_base_qs = 'C=addons_modules'
@@ -40,7 +40,7 @@ class {{ pkg_name }}_mcp {
       .AMP .'module={{ pkg_name_lc }}';
 
     $this->_base_url  = BASE .AMP .$this->_base_qs;
-    $this->_theme_url = $this->_mod_model->get_package_theme_url();
+    $this->_theme_url = $this->_model->get_package_theme_url();
 
     $this->EE->load->helper('form');
     $this->EE->load->library('table');

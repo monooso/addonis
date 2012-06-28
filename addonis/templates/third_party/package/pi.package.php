@@ -22,7 +22,7 @@ $plugin_info = array(
 class {{ pkg_name }} {
 
   private $EE;
-  private $_pi_model;
+  private $_model;
 
   public $return_data = '';
 
@@ -61,8 +61,8 @@ class {{ pkg_name }} {
 
     $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
 
-    $this->EE->load->model('{{ pkg_name_lc }}_plugin_model');
-    $this->_pi_model = $this->EE->{{ pkg_name_lc }}_plugin_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_model');
+    $this->_model = $this->EE->{{ pkg_name_lc }}_model;
   }
 
 {% for tag in pi_tags %}
