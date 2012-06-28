@@ -100,12 +100,8 @@ class {{ pkg_name }}_model extends CI_Model {
       return URL_THIRD_THEMES .$this->get_package_name() .'/';
     }
 
-    // Old school.
-    $theme_url = $this->EE->config->item('theme_folder_url');
-    $theme_url .= substr($theme_url, -1) == '/'
-      ? 'third_party/' : '/third_party/';
-
-    return $theme_url .$this->get_package_name() .'/';
+    return $this->EE->config->slash_item('theme_folder_url')
+      .'third_party/' .$this->get_package_name() .'/';
   }
 
 
@@ -192,6 +188,30 @@ class {{ pkg_name }}_model extends CI_Model {
       Omnilogger::log($omnilog_entry);
     }
   }
+
+
+  /**
+   * Updates a 'base' array with data contained in an 'update' array. Both
+   * arrays are assumed to be associative.
+   *
+   * - Elements that exist in both the base array and the update array are
+   *   updated to use the 'update' data.
+   * - Elements that exist in the update array but not the base array are
+   *   ignored.
+   * - Elements that exist in the base array but not the update array are
+   *   preserved.
+   *
+   * @access public
+   * @param  array  $base   The 'base' array.
+   * @param  array  $update The 'update' array.
+   * @return array
+   */
+  public function update_array_from_input(Array $base, Array $update)
+  {
+    return array_merge($base, array_intersect_key($update, $base));
+  }
+
+
 
 
   /* --------------------------------------------------------------
