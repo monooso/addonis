@@ -50,7 +50,7 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
   }
 
 
-  public function test__get_package_theme_url__pre_240_works_with_trailing_slash()
+  public function test__get_package_theme_url__pre_240_works()
   {
     if (defined('URL_THIRD_THEMES'))
     {
@@ -62,27 +62,8 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     $theme_url  = 'http://example.com/themes/';
     $full_url   = $theme_url .'third_party/' .$package .'/';
 
-    $this->EE->config->expectOnce('item', array('theme_folder_url'));
-    $this->EE->config->setReturnValue('item', $theme_url);
-
-    $this->assertIdentical($full_url, $this->_subject->get_package_theme_url());
-  }
-
-
-  public function test__get_package_theme_url__pre_240_works_without_trailing_slash()
-  {
-    if (defined('URL_THIRD_THEMES'))
-    {
-      $this->pass();
-      return;
-    }
-
-    $package    = strtolower($this->_package_name);
-    $theme_url  = 'http://example.com/themes';
-    $full_url   = $theme_url .'/third_party/' .$package .'/';
-
-    $this->EE->config->expectOnce('item', array('theme_folder_url'));
-    $this->EE->config->setReturnValue('item', $theme_url);
+    $this->EE->config->expectOnce('slash_item', array('theme_folder_url'));
+    $this->EE->config->setReturnValue('slash_item', $theme_url);
 
     $this->assertIdentical($full_url, $this->_subject->get_package_theme_url());
   }
@@ -110,6 +91,34 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     $this->EE->config->setReturnValue('item', $site_id);
 
     $this->assertIdentical((int) $site_id, $this->_subject->get_site_id());
+  }
+
+
+  public function test__update_array_from_input__ignores_unknown_keys_and_updates_known_keys_and_preserves_unaltered_keys()
+  {
+    $base_array = array(
+      'first_name'  => 'John',
+      'last_name'   => 'Doe',
+      'gender'      => 'Male',
+      'occupation'  => 'Unknown'
+    );
+
+    $update_array = array(
+      'dob'         => '1941-05-24',
+      'first_name'  => 'Bob',
+      'last_name'   => 'Dylan',
+      'occupation'  => 'Writer'
+    );
+
+    $expected_result = array(
+      'first_name'  => 'Bob',
+      'last_name'   => 'Dylan',
+      'gender'      => 'Male',
+      'occupation'  => 'Writer'
+    );
+
+    $this->assertIdentical($expected_result,
+      $this->_subject->update_array_from_input($base_array, $update_array));
   }
 
 

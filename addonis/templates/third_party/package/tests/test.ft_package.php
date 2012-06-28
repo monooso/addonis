@@ -8,6 +8,7 @@
  * @package         {{ pkg_name }}
  */
 
+require_once PATH_FT .'EE_Fieldtype.php';
 require_once PATH_THIRD .'{{ pkg_name_lc }}/ft.{{ pkg_name_lc }}.php';
 require_once PATH_THIRD .'{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_fieldtype_model.php';
 
@@ -45,7 +46,7 @@ class Test_{{ pkg_name_lc }}_ft extends Testee_unit_test_case {
       = $this->_get_mock('fieldtype_model');
 
     $this->_ft_model  = $this->EE->{{ pkg_name_lc }}_fieldtype_model;
-    $this->_subject   = new {{ pkg_name }}();
+    $this->_subject   = new {{ pkg_name }}_ft();
   }
 
 
