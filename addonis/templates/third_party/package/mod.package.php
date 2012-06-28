@@ -11,7 +11,7 @@
 class {{ pkg_name }} {
 
   private $EE;
-  private $_mod_model;
+  private $_model;
 
   public $return_data = '';
 
@@ -32,8 +32,8 @@ class {{ pkg_name }} {
 
     $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
 
-    $this->EE->load->model('{{ pkg_name_lc }}_module_model');
-    $this->_mod_model = $this->EE->{{ pkg_name_lc }}_module_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_model');
+    $this->_model = $this->EE->{{ pkg_name_lc }}_model;
   }
 
 

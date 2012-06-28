@@ -13,7 +13,7 @@ require_once dirname(__FILE__) .'/config.php';
 
 class {{ pkg_name }}_ft extends EE_Fieldtype {
 
-  private $_ft_model;
+  private $_model;
 
   /**
    * Stupid EE forces us to do this here, rather than calling the appropriate
@@ -45,8 +45,8 @@ class {{ pkg_name }}_ft extends EE_Fieldtype {
     $this->EE->lang->loadfile('{{ pkg_name_lc }}_ft', '{{ pkg_name_lc }}');
 
     // Load the model.
-    $this->EE->load->model('{{ pkg_name_lc }}_fieldtype_model');
-    $this->_ft_model = $this->EE->{{ pkg_name_lc }}_fieldtype_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_model');
+    $this->_model = $this->EE->{{ pkg_name_lc }}_model;
   }
 
 
@@ -114,7 +114,7 @@ class {{ pkg_name }}_ft extends EE_Fieldtype {
    */
   public function install()
   {
-
+    return $this->_model->install_fieldtype();
   }
 
 {% if ft_post_save %}
@@ -264,7 +264,7 @@ class {{ pkg_name }}_ft extends EE_Fieldtype {
    */
   public function uninstall()
   {
-
+    $this->_model->uninstall_fieldtype();
   }
 
 

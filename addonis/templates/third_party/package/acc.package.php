@@ -11,7 +11,7 @@
 class {{ pkg_name }}_acc {
 
   private $EE;
-  private $_acc_model;
+  private $_model;
 
   public $description;
   public $id;
@@ -40,8 +40,8 @@ class {{ pkg_name }}_acc {
     // Still need to specify the package...
     $this->EE->lang->loadfile('{{ pkg_name_lc }}_acc', '{{ pkg_name_lc }}');
 
-    $this->EE->load->model('{{ pkg_name_lc }}_accessory_model');
-    $this->_acc_model = $this->EE->{{ pkg_name_lc }}_accessory_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_model');
+    $this->_model = $this->EE->{{ pkg_name_lc }}_model;
 
     // Basic accessory information.
     $this->description = $this->EE->lang
@@ -52,7 +52,7 @@ class {{ pkg_name }}_acc {
 
     $this->id       = '{{ pkg_name_lc }}';
     $this->sections = array();
-    $this->version  = $this->_acc_model->get_package_version();
+    $this->version  = $this->_model->get_package_version();
   }
 
 
@@ -64,7 +64,7 @@ class {{ pkg_name }}_acc {
    */
   public function install()
   {
-    $this->_acc_model->install();
+    $this->_model->install_accessory();
   }
 
 {% if acc_sections %}
@@ -94,7 +94,7 @@ class {{ pkg_name }}_acc {
    */
   public function uninstall()
   {
-    $this->_acc_model->uninstall();
+    $this->_model->uninstall_accessory();
   }
 
 
@@ -106,7 +106,7 @@ class {{ pkg_name }}_acc {
    */
   public function update()
   {
-    return $this->_acc_model->update();
+    return $this->_model->update_package();
   }
 
 

@@ -86,16 +86,8 @@ class Package_model extends CI_Model {
         'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_acc_lang.php'
       ),
       array(
-        'input' => 'third_party/package/models/package_accessory_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_accessory_model.php'
-      ),
-      array(
         'input' => 'third_party/package/tests/test.acc_package.php',
         'output' => 'third_party/{pkg_name_lc}/tests/test.acc_{pkg_name_lc}.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_accessory_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_accessory_model.php'
       )
     );
 
@@ -258,14 +250,6 @@ class Package_model extends CI_Model {
         'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_ext_lang.php'
       ),
       array(
-        'input' => 'third_party/package/models/package_extension_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_extension_model.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_extension_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_extension_model.php'
-      ),
-      array(
         'input' => 'third_party/package/tests/test.ext_package.php',
         'output' => 'third_party/{pkg_name_lc}/tests/test.ext_{pkg_name_lc}.php'
       )
@@ -338,8 +322,6 @@ class Package_model extends CI_Model {
       'member_member_login_start',
       'member_member_logout',
       'member_member_register',
-      'member_member_register',
-      'member_member_register_start',
       'member_member_register_start',
       'member_register_validate_members',
       'member_update_preferences',
@@ -429,14 +411,6 @@ class Package_model extends CI_Model {
       array(
         'input' => 'third_party/package/language/english/package_ft_lang.php',
         'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_ft_lang.php'
-      ),
-      array(
-        'input' => 'third_party/package/models/package_fieldtype_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_fieldtype_model.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_fieldtype_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_fieldtype_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.ft_package.php',
@@ -563,20 +537,12 @@ class Package_model extends CI_Model {
         'output' => 'third_party/{pkg_name_lc}/upd.{pkg_name_lc}.php'
       ),
       array(
-        'input' => 'third_party/package/models/package_module_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_module_model.php'
-      ),
-      array(
         'input' => 'third_party/package/tests/test.mcp_package.php',
         'output' => 'third_party/{pkg_name_lc}/tests/test.mcp_{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.mod_package.php',
         'output' => 'third_party/{pkg_name_lc}/tests/test.mod_{pkg_name_lc}.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_module_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_module_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.upd_package.php',
@@ -620,6 +586,11 @@ class Package_model extends CI_Model {
       'copyright_year'  => date('Y'),
       'pkg_description' => (string) $input->post('pkg_description', TRUE),
       'pkg_license'     => (string) $input->post('pkg_license', TRUE),
+      'pkg_include_acc' => ($input->post('pkg_include_acc', TRUE) == 'y'),
+      'pkg_include_ext' => ($input->post('pkg_include_ext', TRUE) == 'y'),
+      'pkg_include_ft'  => ($input->post('pkg_include_ft', TRUE) == 'y'),
+      'pkg_include_mod' => ($input->post('pkg_include_mod', TRUE) == 'y'),
+      'pkg_include_pi'  => ($input->post('pkg_include_pi', TRUE) == 'y'),
       'pkg_name'        => ucfirst(strval($input->post('pkg_name', TRUE))),
       'pkg_name_lc'     => strtolower(strval($input->post('pkg_name', TRUE))),
       'pkg_title'       => (string) $input->post('pkg_title', TRUE),
@@ -760,14 +731,6 @@ class Package_model extends CI_Model {
       array(
         'input' => 'third_party/package/pi.package.php',
         'output' => 'third_party/{pkg_name_lc}/pi.{pkg_name_lc}.php'
-      ),
-      array(
-        'input' => 'third_party/package/models/package_plugin_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_plugin_model.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_plugin_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_plugin_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.pi_package.php',
