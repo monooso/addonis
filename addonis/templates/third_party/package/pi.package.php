@@ -8,19 +8,21 @@
  * @package         {{ pkg_name }}
  */
 
+require_once dirname(__FILE__) .'/config.php';
+
 $plugin_info = array(
   'pi_author'       => 'Stephen Lewis',
   'pi_author_url'   => 'http://experienceinternet.co.uk/',
   'pi_description'  => '{{ pkg_description }}',
-  'pi_name'         => '{{ pkg_title }}',
+  'pi_name'         => {{ pkg_name|upper }}_TITLE,
   'pi_usage'        => {{ pkg_name }}::usage(),
-  'pi_version'      => '{{ pkg_version }}'
+  'pi_version'      => {{ pkg_name|upper }}_VERSION
 );
 
 class {{ pkg_name }} {
 
   private $EE;
-  private $_pi_model;
+  private $_model;
 
   public $return_data = '';
 
@@ -59,8 +61,8 @@ class {{ pkg_name }} {
 
     $this->EE->load->add_package_path(PATH_THIRD .'{{ pkg_name_lc }}/');
 
-    $this->EE->load->model('{{ pkg_name_lc }}_plugin_model');
-    $this->_pi_model = $this->EE->{{ pkg_name_lc }}_plugin_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_model');
+    $this->_model = $this->EE->{{ pkg_name_lc }}_model;
   }
 
 {% for tag in pi_tags %}

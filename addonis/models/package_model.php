@@ -86,16 +86,8 @@ class Package_model extends CI_Model {
         'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_acc_lang.php'
       ),
       array(
-        'input' => 'third_party/package/models/package_accessory_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_accessory_model.php'
-      ),
-      array(
         'input' => 'third_party/package/tests/test.acc_package.php',
         'output' => 'third_party/{pkg_name_lc}/tests/test.acc_{pkg_name_lc}.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_accessory_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_accessory_model.php'
       )
     );
 
@@ -136,7 +128,6 @@ class Package_model extends CI_Model {
       'dt_props'        => array(),
       'dt_title'        => (string) $input->post('dt_title', TRUE)
     );
-
 
     $post_props = $this->input->post('dt_props', TRUE);
 
@@ -200,28 +191,36 @@ class Package_model extends CI_Model {
    */
   public function get_extension_data()
   {
-    $hooks      = array();
-    $post_hooks = $this->input->post('ext_hooks', TRUE);
+    $input = $this->input;
 
-    if (is_array($post_hooks))
+    $return = array(
+      'ext_has_cp'  => ($input->post('ext_has_cp', TRUE) == 'y'),
+      'ext_hooks'   => array()
+    );
+
+    $post_hooks = $input->post('ext_hooks', TRUE);
+
+    if ( ! is_array($post_hooks))
     {
-      foreach ($post_hooks AS $post_hook)
-      {
-        if ( ! $post_hook)
-        {
-          continue;
-        }
-
-        // Single array element for now, but will grow over time.
-        $hooks[] = array('hook' => strtolower($post_hook['hook']));
-      }
-
-      // Alphabetise by hook name.
-      usort($hooks, function($a, $b) {
-        return $a['hook'] <= $b['hook'] ? -1 : 1;});
+      return $return;
     }
 
-    return array('ext_hooks' => $hooks);
+    foreach ($post_hooks AS $post_hook)
+    {
+      if ( ! $post_hook)
+      {
+        continue;
+      }
+
+      // Single array element for now, but will grow over time.
+      $return['ext_hooks'][] = array('hook' => strtolower($post_hook['hook']));
+    }
+
+    // Alphabetise by hook name.
+    usort($return['ext_hooks'], function($a, $b) {
+      return $a['hook'] <= $b['hook'] ? -1 : 1;});
+
+    return $return;
   }
 
 
@@ -249,14 +248,6 @@ class Package_model extends CI_Model {
       array(
         'input' => 'third_party/package/language/english/package_ext_lang.php',
         'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_ext_lang.php'
-      ),
-      array(
-        'input' => 'third_party/package/models/package_extension_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_extension_model.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_extension_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_extension_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.ext_package.php',
@@ -331,8 +322,6 @@ class Package_model extends CI_Model {
       'member_member_login_start',
       'member_member_logout',
       'member_member_register',
-      'member_member_register',
-      'member_member_register_start',
       'member_member_register_start',
       'member_register_validate_members',
       'member_update_preferences',
@@ -365,7 +354,69 @@ class Package_model extends CI_Model {
    */
   public function get_fieldtype_data()
   {
-    return array();
+    $ft_data = array();
+
+    // Yes / No fields.
+    $boolean_fields = array(
+      'ft_custom_columns', 'ft_field_settings',
+      'ft_global_settings', 'ft_low_variables',
+      'ft_matrix', 'ft_post_save',
+      'ft_post_save_settings'
+    );
+
+    foreach ($boolean_fields AS $field_name)
+    {
+      $ft_data[$field_name] = ($this->input->post($field_name, TRUE) == 'y');
+    }
+
+    // Template tags.
+    $ft_data['ft_tags'] = array();
+
+    if (is_array(($post_tags = $this->input->post('ft_tags', TRUE))))
+    {
+      foreach ($post_tags AS $tag)
+      {
+        if ( ! $tag['description'] OR ! $tag['name'])
+        {
+          continue;
+        }
+
+        $ft_data['ft_tags'][] = $tag;
+      }
+
+      // Alphabetise by tag name.
+      usort($ft_data['ft_tags'], function($a, $b) {
+        return $a['name'] <= $b['name'] ? -1 : 1;});
+    }
+
+    return $ft_data;
+  }
+
+
+  public function get_fieldtype_files()
+  {
+    return array(
+      array(
+        'input' => 'themes/third_party/package/css/ft.css',
+        'output' => 'themes/third_party/{pkg_name_lc}/css/ft.css'
+      ),
+      array(
+        'input' => 'themes/third_party/package/js/ft.js',
+        'output' => 'themes/third_party/{pkg_name_lc}/js/ft.js'
+      ),
+      array(
+        'input' => 'third_party/package/ft.package.php',
+        'output' => 'third_party/{pkg_name_lc}/ft.{pkg_name_lc}.php'
+      ),
+      array(
+        'input' => 'third_party/package/language/english/package_ft_lang.php',
+        'output' => 'third_party/{pkg_name_lc}/language/english/{pkg_name_lc}_ft_lang.php'
+      ),
+      array(
+        'input' => 'third_party/package/tests/test.ft_package.php',
+        'output' => 'third_party/{pkg_name_lc}/tests/test.ft_{pkg_name_lc}.php'
+      )
+    );
   }
 
 
@@ -411,11 +462,11 @@ class Package_model extends CI_Model {
 
         $mod_tags[] = $tag;
       }
-    }
 
-    // Alphabetise by tag name.
-    usort($mod_tags, function($a, $b) {
-      return $a['name'] <= $b['name'] ? -1 : 1;});
+      // Alphabetise by tag name.
+      usort($mod_tags, function($a, $b) {
+        return $a['name'] <= $b['name'] ? -1 : 1;});
+    }
 
     // Module CP pages.
     $has_cp     = ($this->input->post('mod_has_cp', TRUE) == 'y');
@@ -486,20 +537,12 @@ class Package_model extends CI_Model {
         'output' => 'third_party/{pkg_name_lc}/upd.{pkg_name_lc}.php'
       ),
       array(
-        'input' => 'third_party/package/models/package_module_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_module_model.php'
-      ),
-      array(
         'input' => 'third_party/package/tests/test.mcp_package.php',
         'output' => 'third_party/{pkg_name_lc}/tests/test.mcp_{pkg_name_lc}.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.mod_package.php',
         'output' => 'third_party/{pkg_name_lc}/tests/test.mod_{pkg_name_lc}.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_module_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_module_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.upd_package.php',
@@ -543,6 +586,11 @@ class Package_model extends CI_Model {
       'copyright_year'  => date('Y'),
       'pkg_description' => (string) $input->post('pkg_description', TRUE),
       'pkg_license'     => (string) $input->post('pkg_license', TRUE),
+      'pkg_include_acc' => ($input->post('pkg_include_acc', TRUE) == 'y'),
+      'pkg_include_ext' => ($input->post('pkg_include_ext', TRUE) == 'y'),
+      'pkg_include_ft'  => ($input->post('pkg_include_ft', TRUE) == 'y'),
+      'pkg_include_mod' => ($input->post('pkg_include_mod', TRUE) == 'y'),
+      'pkg_include_pi'  => ($input->post('pkg_include_pi', TRUE) == 'y'),
       'pkg_name'        => ucfirst(strval($input->post('pkg_name', TRUE))),
       'pkg_name_lc'     => strtolower(strval($input->post('pkg_name', TRUE))),
       'pkg_title'       => (string) $input->post('pkg_title', TRUE),
@@ -571,6 +619,10 @@ class Package_model extends CI_Model {
       array(
         'input' => 'themes/third_party/package/js/common.js',
         'output' => 'themes/third_party/{pkg_name_lc}/js/common.js'
+      ),
+      array(
+        'input' => 'third_party/package/config.php',
+        'output' => 'third_party/{pkg_name_lc}/config.php'
       ),
       array(
         'input' => 'third_party/package/language/english/package_lang.php',
@@ -679,14 +731,6 @@ class Package_model extends CI_Model {
       array(
         'input' => 'third_party/package/pi.package.php',
         'output' => 'third_party/{pkg_name_lc}/pi.{pkg_name_lc}.php'
-      ),
-      array(
-        'input' => 'third_party/package/models/package_plugin_model.php',
-        'output' => 'third_party/{pkg_name_lc}/models/{pkg_name_lc}_plugin_model.php'
-      ),
-      array(
-        'input' => 'third_party/package/tests/test.package_plugin_model.php',
-        'output' => 'third_party/{pkg_name_lc}/tests/test.{pkg_name_lc}_plugin_model.php'
       ),
       array(
         'input' => 'third_party/package/tests/test.pi_package.php',

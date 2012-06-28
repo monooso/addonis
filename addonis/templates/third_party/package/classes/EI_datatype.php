@@ -28,7 +28,6 @@ class EI_datatype
    */
   public function __construct(Array $props = array())
   {
-    $this->_define_constants();
     $this->reset();
 
     foreach ($props AS $prop_name => $prop_value)
@@ -48,8 +47,7 @@ class EI_datatype
   public function __get($prop_name)
   {
     return $this->_is_valid_property($prop_name)
-      ? $this->_props[$prop_name]
-      : NULL;
+      ? $this->_props[$prop_name] : NULL;
   }
 
 
@@ -118,7 +116,7 @@ class EI_datatype
    * Resets the instance properties. Sub-classes must override this.
    *
    * @access  public
-   * @return  {{ class_name }}
+   * @return  EI_datatype
    */
   public function reset()
   {
@@ -131,11 +129,23 @@ class EI_datatype
    * Returns the class instance as an associative array.
    *
    * @access  public
+   * @param   string  $prefix   Optional key prefix.
    * @return  array
    */
-  public function to_array()
+  public function to_array($prefix = '')
   {
-    return $this->_props;
+    $prefix = ($prefix && is_string($prefix))
+      ? rtrim($prefix, ':') .':'
+      : '';
+
+    $return = array();
+
+    foreach ($this->_props AS $key => $val)
+    {
+      $return[$prefix .$key] = $val;
+    }
+
+    return $return;
   }
 
 
@@ -144,19 +154,6 @@ class EI_datatype
    * PROTECTED METHODS
    * ------------------------------------------------------------ */
 
-  /**
-   * Defines any useful constants.
-   *
-   * @access  protected
-   * @return  void
-   */
-  protected function _define_constants()
-  {
-    if ( ! defined('PHP_INT_MIN'))
-    {
-      define('PHP_INT_MIN', ~PHP_INT_MAX);
-    }
-  }
   /**
    * Determines whether the given property name is valid.
    *
@@ -198,7 +195,7 @@ class EI_datatype
    * @param   mixed     $prop_value   The property value.
    * @return  bool
    */
-  protected function _set_boolean_property($prop_name, $prop_value)
+  protected function _set_bool_property($prop_name, $prop_value)
   {
     if (is_bool($prop_value))
     {

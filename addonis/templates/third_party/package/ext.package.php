@@ -11,7 +11,7 @@
 class {{ pkg_name }}_ext {
 
   private $EE;
-  private $_ext_model;
+  private $_model;
 
   public $description;
   public $docs_url;
@@ -22,8 +22,8 @@ class {{ pkg_name }}_ext {
 
 
   /* --------------------------------------------------------------
-  * PUBLIC METHODS
-  * ------------------------------------------------------------ */
+   * PUBLIC METHODS
+   * ------------------------------------------------------------ */
 
   /**
    * Constructor.
@@ -41,8 +41,8 @@ class {{ pkg_name }}_ext {
     // Still need to specify the package...
     $this->EE->lang->loadfile('{{ pkg_name_lc }}_ext', '{{ pkg_name_lc }}');
 
-    $this->EE->load->model('{{ pkg_name_lc }}_extension_model');
-    $this->_ext_model = $this->EE->{{ pkg_name_lc }}_extension_model;
+    $this->EE->load->model('{{ pkg_name_lc }}_model');
+    $this->_model = $this->EE->{{ pkg_name_lc }}_model;
 
     // Set the public properties.
     $this->description = $this->EE->lang->line(
@@ -51,8 +51,8 @@ class {{ pkg_name }}_ext {
     $this->docs_url = 'http://experienceinternet.co.uk/';
     $this->name     = $this->EE->lang->line('{{ pkg_name_lc }}_extension_name');
     $this->settings = $settings;
-    $this->settings_exist = 'y';
-    $this->version  = $this->_ext_model->get_package_version();
+    $this->settings_exist = {% if ext_has_cp %}'y'{% else %}'n'{% endif %};
+    $this->version  = $this->_model->get_package_version();
   }
 
 
@@ -64,8 +64,8 @@ class {{ pkg_name }}_ext {
    */
   public function activate_extension()
   {
-    $hooks = array({% for hook in ext_hook %}'{{ hook.hook }}', {% endfor %});
-    $this->_ext_model->install(get_class($this), $this->version, $hooks);
+    $hooks = array({% for hook in ext_hooks %}'{{ hook.hook }}', {% endfor %});
+    $this->_model->install_extension($this->version, $hooks);
   }
 
 
@@ -77,7 +77,7 @@ class {{ pkg_name }}_ext {
    */
   public function disable_extension()
   {
-    $this->_ext_model->uninstall(get_class($this));
+    $this->_model->uninstall_extension();
   }
 
 {% for hook in ext_hooks %}
@@ -109,8 +109,7 @@ class {{ pkg_name }}_ext {
    */
   public function update_extension($installed_version = '')
   {
-    return $this->_ext_model->update(get_class($this), $installed_version,
-      $this->_ext_model->get_package_version());
+    return $this->_model->update_package($installed_version);
   }
 
 
