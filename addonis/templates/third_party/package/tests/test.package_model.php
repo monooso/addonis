@@ -172,6 +172,96 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
   }
 
 
+  /* --------------------------------------------------------------
+   * MODULE TESTS
+   * ------------------------------------------------------------ */
+  
+  public function test__install_module__installs_module()
+  {
+    $package_version  = '1.1.2';
+
+    // Register the module.
+    $module_data = array(
+      'has_cp_backend'      => 'y',
+      'has_publish_fields'  => 'n',
+      'module_name'         => $this->_module_class,
+      'module_version'      => $package_version
+    );
+
+    $this->EE->db->expectOnce('insert', array('modules', $module_data));
+
+{% if mod_actions %}
+    $actions_data = array(
+{% for action in mod_actions %}
+      array(
+        'class'   => $this->_module_class,
+        'method'  => '{{ action.method }}'
+      ){% if not loop.last %},
+{% endif %}
+{% endfor %}
+    );
+
+    $this->EE->db->expectOnce('insert_batch', array('actions', $actions_data));
+
+{% endif %}
+    // Run the tests.
+    $this->_subject->install_module($package_version);
+  }
+
+
+  public function test__uninstall_module__uninstalls_module_and_returns_true()
+  {
+    // Retrieve the module information.
+    $db_result  = $this->_get_mock('db_query');
+    $db_row     = (object) array('module_id' => '123');
+
+    $this->EE->db->expectOnce('select', array('module_id'));
+    $this->EE->db->expectOnce('get_where', array('modules',
+      array('module_name' => $this->_module_class), 1));
+
+    $this->EE->db->setReturnReference('get_where', $db_result);
+
+    $db_result->setReturnValue('num_rows', 1);
+    $db_result->setReturnValue('row', $db_row);
+
+    // Delete the module from the module_member_groups table.
+    $this->EE->db->expectAt(0, 'delete', array('module_member_groups',
+      array('module_id' => $db_row->module_id)));
+
+    // Delete the module from the modules table.
+    $this->EE->db->expectAt(1, 'delete', array('modules',
+      array('module_name' => $this->_module_class)));
+
+{% if mod_actions %}
+    // Delete the module from the actions table.
+    $this->EE->db->expectAt(2, 'delete', array('actions',
+      array('class' => $this->_module_class)));
+{% endif %}
+
+    // Run the tests.
+    $this->assertIdentical(TRUE, $this->_subject->uninstall_module());
+  }
+
+
+  public function test__uninstall_module__returns_false_if_module_not_installed()
+  {
+    // Retrieve the module information.
+    $db_result  = $this->_get_mock('db_query');
+
+    $this->EE->db->expectOnce('select', array('module_id'));
+    $this->EE->db->expectOnce('get_where', array('modules',
+      array('module_name' => $this->_module_class), 1));
+
+    $this->EE->db->setReturnReference('get_where', $db_result);
+    $db_result->setReturnValue('num_rows', 0);
+
+    $this->EE->db->expectNever('delete');
+
+    // Run the tests.
+    $this->assertIdentical(FALSE, $this->_subject->uninstall_module());
+  }
+
+
 }
 
 
