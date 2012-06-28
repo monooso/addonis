@@ -12,6 +12,8 @@ require_once PATH_THIRD .'{{ pkg_name_lc }}/models/{{ pkg_name_lc }}_model.php';
 
 class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
 
+  private $_extension_class;
+  private $_module_class;
   private $_namespace;
   private $_package_name;
   private $_package_title;
@@ -33,23 +35,23 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
   {
     parent::setUp();
 
-    $this->_namespace       = 'com.google';
-    $this->_package_name    = 'Example_package';
-    $this->_package_title   = 'Example Package';
+    $this->_namespace       = 'com.example';
+    $this->_package_name    = 'MY_package';
+    $this->_package_title   = 'My Package';
     $this->_package_version = '1.0.0';
+
+    $this->_extension_class = 'My_package_ext';
+    $this->_module_class    = 'My_package';
 
     $this->_subject = new {{ pkg_name }}_model($this->_package_name,
       $this->_package_title, $this->_package_version, $this->_namespace);
   }
 
 
-  public function test__get_package_name__returns_correct_package_name_converted_to_lowercase()
-  {
-    $this->assertIdentical(strtolower($this->_package_name),
-      $this->_subject->get_package_name());
-  }
-
-
+  /* --------------------------------------------------------------
+   * PACKAGE TESTS
+   * ------------------------------------------------------------ */
+  
   public function test__get_package_theme_url__pre_240_works()
   {
     if (defined('URL_THIRD_THEMES'))
@@ -66,20 +68,6 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     $this->EE->config->setReturnValue('slash_item', $theme_url);
 
     $this->assertIdentical($full_url, $this->_subject->get_package_theme_url());
-  }
-
-
-  public function test__get_package_title__returns_correct_package_title()
-  {
-    $this->assertIdentical($this->_package_title,
-      $this->_subject->get_package_title());
-  }
-
-
-  public function test__get_package_version__returns_correct_package_version()
-  {
-    $this->assertIdentical($this->_package_version,
-      $this->_subject->get_package_version());
   }
 
 
@@ -119,6 +107,68 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
 
     $this->assertIdentical($expected_result,
       $this->_subject->update_array_from_input($base_array, $update_array));
+  }
+
+
+  
+  /* --------------------------------------------------------------
+   * EXTENSION TESTS
+   * ------------------------------------------------------------ */
+  
+  public function test__install_extension__installs_extension_hooks()
+  {
+    $hooks    = array('hook_a', 'hook_b', 'hook_c');
+    $version  = '1.2.3';
+
+    $this->EE->db->expectCallCount('insert', count($hooks));
+
+    $default_insert_data = array(
+      'class'     => $this->_extension_class
+      'enabled'   => 'y',
+      'hook'      => '',
+      'method'    => '',
+      'priority'  => '5',
+      'settings'  => '',
+      'version'   => $version
+    );
+
+    for ($count = 0, $length = count($hooks); $count < $length; $count++)
+    {
+      $insert_data = array_merge($default_insert_data,
+        array('hook' => $hooks[$count], 'method' => 'on_' .$hooks[$count]));
+
+      $this->EE->db->expectAt($count, 'insert',
+        array('extensions', $insert_data));
+    }
+
+    $this->_subject->install_extension($version, $hooks);
+  }
+
+
+  public function test__install_extension__does_nothing_with_invalid_data()
+  {
+    $hooks    = array('hook_a', 'hook_b', 'hook_c');
+    $version  = '1.2.3';
+
+    $this->EE->db->expectNever('insert');
+
+    // Missing data.
+    $this->_subject->install_extension($version, $hooks);
+    $this->_subject->install_extension('', $hooks);
+    $this->_subject->install_extension($version, array());
+
+    // Invalid data.
+    $this->_subject->install_extension($version, $hooks);
+    $this->_subject->install_extension(new StdClass(), $hooks);
+  }
+
+
+  public function test__uninstall_extension__deletes_extension_from_database()
+  {
+    $this->EE->db->expectOnce('delete',
+      array('extensions', array('class' => $this->_extension_class)));
+
+    $this->_subject->uninstall_extension();
   }
 
 
