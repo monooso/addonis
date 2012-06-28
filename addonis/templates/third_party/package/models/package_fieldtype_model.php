@@ -10,7 +10,7 @@
 
 require_once dirname(__FILE__) .'/{{ pkg_name_lc }}_model.php';
 
-class {{ pkg_name }}_extension_model extends {{ pkg_name }}_model {
+class {{ pkg_name }}_fieldtype_model extends {{ pkg_name }}_model {
 
   /* --------------------------------------------------------------
    * PUBLIC METHODS
