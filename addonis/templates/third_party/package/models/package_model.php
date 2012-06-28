@@ -62,8 +62,8 @@ class {{ pkg_name }}_model extends CI_Model {
       ? $package_version : {{ pkg_name|upper }}_VERSION;
 
     // ExpressionEngine is very picky about capitalisation.
-    $this->_sanitized_module_class = ucfirst(strtolower($this->_package_name));
-    $this->_sanitized_extension_class = $this->_sanitized_module_class .'_ext';
+    {% if pkg_include_mod %}$this->_sanitized_module_class = ucfirst(strtolower($this->_package_name));{% endif %}
+    {% if pkg_include_ext %}$this->_sanitized_extension_class = $this->_sanitized_module_class .'_ext';{% endif %}
 
     // Initialise the add-on cache.
     if ( ! array_key_exists($this->_namespace, $this->EE->session->cache))
@@ -240,8 +240,6 @@ class {{ pkg_name }}_model extends CI_Model {
       return FALSE;
     }
 
-    $ext_class       = $this->get_sanitized_extension_class();
-    $mod_class       = $this->get_sanitized_module_class();
     $package_version = $this->get_package_version();
 
     // Up to date?
@@ -249,11 +247,13 @@ class {{ pkg_name }}_model extends CI_Model {
     {
       return FALSE;
     }
-
+{% if pkg_include_ext %}
     // Update the extension version number in the database.
     $this->EE->db->update('extensions', array('version' => $package_version),
-      array('class' => $ext_class));
+      array('class' => $this->get_sanitized_extension_class()));
 
+{% endif %}
+{% if pkg_include_mod %}
     /**
      * Update the module version number in the database. EE takes care of this 
      * if the module is being updated from the Modules page, but not if this 
@@ -263,12 +263,13 @@ class {{ pkg_name }}_model extends CI_Model {
 
     $this->EE->db->update('modules',
       array('module_version' => $package_version),
-      array('module_name' => $mod_class));
+      array('module_name'    => $this->get_sanitized_module_class()));
 
+{% endif %}
     return TRUE;
   }
 
-
+{% if pkg_include_ext %}
 
   /* --------------------------------------------------------------
    * PUBLIC EXTENSION METHODS
@@ -339,7 +340,8 @@ class {{ pkg_name }}_model extends CI_Model {
       array('class' => $this->get_sanitized_extension_class()));
   }
 
-
+{% endif %}
+{% if pkg_include_mod %}
 
   /* --------------------------------------------------------------
    * PUBLIC MODULE METHODS
@@ -413,7 +415,7 @@ class {{ pkg_name }}_model extends CI_Model {
     return TRUE;
   }
 
-
+{% endif %}
   
   /* --------------------------------------------------------------
    * PUBLIC ADD-ON SPECIFIC METHODS
@@ -437,7 +439,7 @@ class {{ pkg_name }}_model extends CI_Model {
     return $this->EE->session->cache[$this->_namespace][$this->_package_name];
   }
 
-
+{% if pkg_include_mod %}
 
   /* --------------------------------------------------------------
    * PROTECTED MODULE METHODS
@@ -474,7 +476,6 @@ class {{ pkg_name }}_model extends CI_Model {
     $this->EE->dbforge->create_table('example_table', TRUE);
   }
 
-{% if mod_actions %}
 
   /**
    * Registers the module in the database.
@@ -489,7 +490,7 @@ class {{ pkg_name }}_model extends CI_Model {
     $this->EE->db->insert('modules', array(
       'has_cp_backend'      => 'y',
       'has_publish_fields'  => 'n',
-      'module_name'         => $package_name,
+      'module_name'         => $module_class,
       'module_version'      => $package_version
     ));
   }
@@ -518,6 +519,7 @@ class {{ pkg_name }}_model extends CI_Model {
     $this->EE->db->insert_batch('actions', $insert_data);
   }
 
+{% endif %}
 {% endif %}
 
 }
