@@ -64,7 +64,10 @@ class {{ pkg_name }}_ext {
    */
   public function activate_extension()
   {
-    $hooks = array({% for hook in ext_hooks %}'{{ hook.hook }}', {% endfor %});
+    $hooks = array({% for hook in ext_hooks %}
+      '{{ hook.hook }}'{% if not loop.last %}, {% endif %}{% endfor %}
+    );
+
     $this->_model->install_extension($this->version, $hooks);
   }
 
@@ -90,9 +93,9 @@ class {{ pkg_name }}_ext {
    */
   public function on_{{ hook.hook }}()
   {
-    if (($last_call = $this->EE->extensions->last_call) === FALSE)
+    if (($last_call = $this->EE->extensions->last_call) !== FALSE)
     {
-      // No last call data.
+      // Retrieve last call data.
     }
 
     error_log('Handling the {{ hook.hook }} extension hook.');

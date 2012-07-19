@@ -109,8 +109,8 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
       $this->_subject->update_array_from_input($base_array, $update_array));
   }
 
+{% if pkg_include_ext %}
 
-  
   /* --------------------------------------------------------------
    * EXTENSION TESTS
    * ------------------------------------------------------------ */
@@ -169,6 +169,8 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     $this->_subject->uninstall_extension();
   }
 
+{% endif %}
+{% if pkg_include_mod %}
 
   /* --------------------------------------------------------------
    * MODULE TESTS
@@ -259,6 +261,7 @@ class Test_{{ pkg_name_lc }}_model extends Testee_unit_test_case {
     $this->assertIdentical(FALSE, $this->_subject->uninstall_module());
   }
 
+{% endif %}
 
 }
 
