@@ -64,9 +64,11 @@ class {{ pkg_name }}_model extends CI_Model {
       ? $package_version : {{ pkg_name|upper }}_VERSION;
 
     // ExpressionEngine is very picky about capitalisation.
-    {% if pkg_include_mod %}$this->_sanitized_module_class = ucfirst(strtolower($this->_package_name));
+    {% if pkg_include_mod %}$this->_sanitized_module_class
+      = ucfirst(strtolower($this->_package_name));
 {% endif %}
-    {% if pkg_include_ext %}$this->_sanitized_extension_class = $this->_sanitized_module_class .'_ext';
+{% if pkg_include_ext %}$this->_sanitized_extension_class
+      = ucfirst(strtolower($this->_package_name)) .'_ext';
 {% endif %}
 
     // Initialise the add-on cache.
