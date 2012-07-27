@@ -8,7 +8,10 @@
  * @package         {{ pkg_name }}
  */
 
-require_once dirname(__FILE__) .'/EI_datatype.php';
+if ( ! class_exists('EI_datatype'))
+{
+  require_once dirname(__FILE__) .'/EI_datatype.php';
+}
 
 class {{ dt_name }} extends EI_datatype
 {
